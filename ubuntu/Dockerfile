@@ -1,7 +1,6 @@
 FROM ubuntu:wily
 MAINTAINER Xiekers <im@xieke.org>
 
-
 # Ensure UTF-8
 RUN locale-gen en_US.UTF-8
 ENV LANG       en_US.UTF-8
@@ -18,5 +17,5 @@ RUN chmod +x /*.sh
 ENV AUTHORIZED_KEYS **None**
 ENV ROOT_PASS docker123
 
-EXPOSE 22
+EXPOSE 22 80 666 888 8888
 CMD ["/run.sh"]
