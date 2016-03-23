@@ -7,8 +7,8 @@ ENV LANG       en_US.UTF-8
 ENV LC_ALL     en_US.UTF-8
 
 #Replace Sources.list
-RUN mv /etc/apt/sources.list /etc/apt/sources.list.bak
-ADD sources.list /etc/apt/sources.list
+#RUN mv /etc/apt/sources.list /etc/apt/sources.list.bak
+ADD sources.list /etc/apt/sources.list.bak
 
 # Install packages
 RUN apt-get update -y && apt-get -y upgrade && DEBIAN_FRONTEND=noninteractive apt-get -y install openssh-server ca-certificates pwgen supervisor git tar vim-nox vim-syntax-go wget  --no-install-recommends && apt-get clean  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
