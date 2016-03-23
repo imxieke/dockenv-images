@@ -7,7 +7,7 @@ ENV LANG       en_US.UTF-8
 ENV LC_ALL     en_US.UTF-8
 
 #Replace Sources.list
-RUN mv /etc/apt/ssources.list /etc/apt/ssources.list.bak
+RUN mv /etc/apt/sources.list /etc/apt/sources.list.bak
 ADD sources.list /etc/apt/sources.list
 
 # Install packages
