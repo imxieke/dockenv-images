@@ -1,4 +1,4 @@
-FROM ubuntu:wily
+FROM ubuntu:xenial
 MAINTAINER Xiekers <im@xieke.org>
 
 # Ensure UTF-8
