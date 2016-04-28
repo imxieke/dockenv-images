@@ -1,4 +1,4 @@
-FROM ubutnu:latest
+FROM ubuntu:latest
 MAINTAINER Xiekers <im@xieke.org>
 
 RUN apt-get update && apt-get install nginx -y
