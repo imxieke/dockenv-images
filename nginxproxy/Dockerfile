@@ -1,4 +1,4 @@
-FROM ubutnu:xenial
+FROM ubutnu/trusty
 MAINTAINER Xiekers <im@xieke.org>
 
 RUN apt-get update && apt-get install nginx -y
