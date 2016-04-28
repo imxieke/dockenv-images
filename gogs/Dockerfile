@@ -2,8 +2,8 @@ FROM ubuntu:trusty
 MAINTAINER Xiekers <im@xieke.org>
 
 #Replace Sources.list To Ustc mirrors
-RUN mv /etc/apt/sources.list /etc/apt/sources.list.bak
-ADD https://coding.net/u/imxieke/p/Tools/git/raw/master/Sources/sources.list /etc/apt/sources.list
+#RUN mv /etc/apt/sources.list /etc/apt/sources.list.bak
+#ADD https://coding.net/u/imxieke/p/Tools/git/raw/master/Sources/sources.list /etc/apt/sources.list
 
 #SET SYSTEM VARIABLE
 ENV GOGS gogs_v0.9.13_linux_amd64.zip
