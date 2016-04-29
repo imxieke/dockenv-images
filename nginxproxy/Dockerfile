@@ -22,8 +22,8 @@ RUN ln -sf /dev/stdout /var/log/nginx/access.log \
 	
 RUN ls /etc/nginx/conf.d && mv /etc/nginx/conf.d/default.conf /etc/nginx/conf.d/default.conf.bak
 ADD https://raw.githubusercontent.com/imxieke/Dockerfile/master/nginxproxy/dr.xieke.org.conf /etc/nginx/conf.d/default.conf
-ADD https://raw.githubusercontent.com/imxieke/Dockerfile/master/nginxproxy/r.npm.xieke.org.conf /etc/nginx/conf.d/r.npm.xieke.org.conf
+#ADD https://raw.githubusercontent.com/imxieke/Dockerfile/master/nginxproxy/r.npm.xieke.org.conf /etc/nginx/conf.d/r.npm.xieke.org.conf
 
-EXPOSE 80 81 82 83 443
+EXPOSE 80 443
 
 CMD ["nginx", "-g", "daemon off;"]
