@@ -20,7 +20,7 @@ RUN apt-key adv --keyserver hkp://pgp.mit.edu:80 --recv-keys 573BFD6B3D8FBC64107
 RUN ln -sf /dev/stdout /var/log/nginx/access.log \
 	&& ln -sf /dev/stderr /var/log/nginx/error.log
 	
-RUN ls etc/nginx && ls /etc/nginx/sites-enabled && mkdir -p /etc/nginx/conf.d
+RUN ls etc/nginx && mkdir -p /etc/nginx/conf.d
 RUN mv /etc/nginx/sites-available/default /etc/nginx/sites-available/default.bak
 ADD https://raw.githubusercontent.com/imxieke/Dockerfile/master/nginxproxy/dr.xieke.org.conf /etc/nginx/sites-available/default
 ADD https://raw.githubusercontent.com/imxieke/Dockerfile/master/nginxproxy/r.npm.xieke.org.conf /etc/nginx/conf.d/r.npm.xieke.org.conf
