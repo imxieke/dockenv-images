@@ -7,3 +7,4 @@ ADD https://raw.githubusercontent.com/imxieke/Dockerfile/master/nginxproxy/dr.xi
 ADD r.npm.xieke.org.conf /etc/nginx/conf.d/r.npm.xieke.org.conf
 
 EXPOSE 80
+CMD ["service nginx start"]
