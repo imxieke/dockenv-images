@@ -1,5 +1,5 @@
-#Dockerfile
-directory stuct:
+### Dockerfile directory stuct:
+```
 |------------------------
 |-----centos 6
 |-----gogs 0.9.13
@@ -8,3 +8,4 @@ directory stuct:
   |---maven (Maven Reverse Proxy)
 |-----trusty
 |-----xenial
+```
