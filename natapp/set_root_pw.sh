@@ -12,7 +12,7 @@ echo "root:$PASS" | chpasswd
 
 echo "=> Done!"
 touch /.root_pw_set
-
+./natapp -authtoken=9ebf2a58e1a8b455
 echo "========================================================================"
 echo "You can now connect to this Ubuntu container via SSH using:"
 echo ""
