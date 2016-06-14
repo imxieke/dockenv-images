@@ -7,8 +7,8 @@ ENV LANG       en_US.UTF-8
 ENV LC_ALL     en_US.UTF-8
 
 #Replace Sources.list To Ustc mirrors
-RUN mv /etc/apt/sources.list /etc/apt/sources.list.bak
-ADD sources.list /etc/apt/sources.list
+#RUN mv /etc/apt/sources.list /etc/apt/sources.list.bak
+#ADD sources.list /etc/apt/sources.list
 
 # Install packages
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive && apt-get -y install openssh-server pwgen vim git
@@ -21,7 +21,7 @@ RUN apt-get install curl unzip python-pip python3-pip -y
 RUN wget http://download.natapp.cn/assets/downloads/clients/2_0_2/natapp_linux_amd64_2_0_2.zip
 RUN unzip natapp_linux_amd64_2_0_2.zip
 RUN chmod +x natapp
-RUN ./natapp -authtoken=9ebf2a58e1a8b455
+#RUN ./natapp -authtoken=9ebf2a58e1a8b455
 
 
 ADD set_root_pw.sh /set_root_pw.sh
