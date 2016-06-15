@@ -10,7 +10,7 @@ RUN apt-get update && \
       DEBIAN_FRONTEND=noninteractive apt-get -y install \
       apache2 \
       libapache2-mod-php5 \
-      php5 php-gd php-curl && \
+      php5 php5-curl php5-gd && \
     apt-get clean && rm -r /var/lib/apt/lists/*
 
 # Apache + PHP requires preforking Apache for best results & enable Apache SSL
