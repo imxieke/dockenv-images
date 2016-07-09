@@ -12,8 +12,8 @@ RUN apt-key adv --keyserver hkp://pgp.mit.edu:80 --recv-keys 573BFD6B3D8FBC64107
 						nginx-module-image-filter \
 						nginx-module-perl \
 						nginx-module-njs \
-						gettext-base && \
-	apt-get clean all && rm -rf /var/lib/apt/lists/*
+						gettext-base \
+	&& apt-get clean all && rm -Rf /var/lib/apt/lists/*
 
 # forward request and error logs to docker log collector
 RUN ln -sf /dev/stdout /var/log/nginx/access.log && \
