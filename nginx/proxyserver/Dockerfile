@@ -20,7 +20,7 @@ RUN ln -sf /dev/stdout /var/log/nginx/access.log && \
 	  ln -sf /dev/stderr /var/log/nginx/error.log
 RUN ls /etc/nginx/conf.d && \
     mv /etc/nginx/conf.d/default.conf /etc/nginx/conf.d/default.conf.bak
-ADD http://dl.xieke.org/conf/maven.conf /etc/nginx/conf.d/default.conf
+ADD proxyserver.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80 443
 CMD ["nginx", "-g", "daemon off;"]
