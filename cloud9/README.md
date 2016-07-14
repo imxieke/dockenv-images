@@ -10,7 +10,7 @@ This repository contains Dockerfile of Cloud9 IDE with some usefull features for
 - Optimized build process (please suggest if any idea to make it better)
 
 # Base Docker Image
-[tutum/ubuntu:trusty](https://registry.hub.docker.com/u/tutum/ubuntu/)
+[imxieke/ubuntu:trusty](https://registry.hub.docker.com/u/imxieke/ubuntu/)
 
 # Installation
 
@@ -18,16 +18,16 @@ This repository contains Dockerfile of Cloud9 IDE with some usefull features for
 
 Download automated build from public Docker Hub Registry: 
 
-    docker pull agungf/cloud9-ide
+    docker pull imxieke/cloud9
 
 alternatively, you can build an image from Dockerfile:
 
-    docker build -t="$USER/cloud9-ide" github.com/agungf/cloud9-ide
+    docker build -t="$USER/cloud9" github.com/imxieke/cloud9
     
     
 ## Basic Usage
 
-    docker run -it -d -p 8181:8181 -p 2222:22 agungf/cloud9-ide
+    docker run -it -d -p 8181:8181 -p 2222:22 imxieke/cloud9
     
 It will take care all the defaults to:
 
@@ -44,8 +44,8 @@ You can add a workspace as a volume directory with the argument *-v /your-path/w
 
 Get the latest version from github
 
-    git clone https://github.com/agungf/cloud9-ide
-    cd cloud9-ide/
+    git clone https://github.com/imxieke/cloud9
+    cd cloud9/
 
 Run with docker compose:
 
@@ -64,7 +64,7 @@ Example docker-compose.yml:
         - 8181:8181
         - 22
     data
-        image:tutum/ubuntu
+        image:imxieke/ubuntu
         volumes:
         - /data/workspace
 
