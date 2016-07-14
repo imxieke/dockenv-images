@@ -2,7 +2,7 @@ FROM imxieke/ubuntu:trusty
 MAINTAINER Xiekers <imxieke@qq.com>
 
 ENV C9_WORKSPACE /cloud9/workspace
-ENV ROOT_PASS xiaoke
+ENV ROOT_PASS xiaoke666
 RUN apt-get update && \
     apt-get -y install git curl build-essential supervisor
     
