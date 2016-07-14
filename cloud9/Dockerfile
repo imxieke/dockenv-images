@@ -1,6 +1,8 @@
 FROM imxieke/ubuntu:trusty
 MAINTAINER Xiekers <imxieke@qq.com>
 
+ENV C9_WORKSPACE /cloud9/workspace
+ENV ROOT_PASS xiaoke
 RUN apt-get update && \
     apt-get -y install git curl build-essential supervisor
     
@@ -14,8 +16,6 @@ WORKDIR /cloud9
 
 RUN mkdir /cloud9/workspace
 VOLUME /cloud9/workspace
-
-ENV C9_WORKSPACE /cloud9/workspace
 
 ADD supervisord.conf /etc/supervisor/conf.d/
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
