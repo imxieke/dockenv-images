@@ -1,4 +1,4 @@
-## shadowsocks for Docker
+## shadowsocks v2.8.2 for Docker
 ==================
 
 This Dockerfile builds an image with the Python implementation of [shadowsocks](https://github.com/shadowsocks/shadowsocks). Based on Ubuntu 14.04 image.
