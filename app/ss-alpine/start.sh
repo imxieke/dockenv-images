@@ -1,10 +1,10 @@
 echo "========================================================================"
 echo " You can now connect to this ShadowSocks server:"
 echo ""
-echo " port: 666 password: xiaoke  "
-echo " timeout: 300  encryption method: aes-256-cfb "
+echo " server: $SS_SERVER_ADDR  port: $SS_SERVER_PORT password: $SS_PASSWORD  "
+echo " timeout: $SS_TIMEOUT  encryption method: $SS_METHOD "
 echo ""
 echo " Please remember the password!"
 echo "========================================================================"
 
-ssserver -c /etc/shadowsocks.json
+ssserver -s $SS_SERVER_ADDR -p $SS_SERVER_PORT -k $SS_PASSWORD -m $SS_METHOD -t $SS_TIMEOUT
