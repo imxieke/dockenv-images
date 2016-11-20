@@ -8,7 +8,7 @@ RUN set -ex \
             && pip install shadowsocks && apk del curl \
             && rm -rf /var/cache/apk/*
             
-ADD shadowsocks.json /etc/
+ADD shadowsocks.json /etc/shadowsocks.json
 USER nobody
 EXPOSE 666
 CMD ["ssserver","-c","/etc/shadowsocks.json"]
