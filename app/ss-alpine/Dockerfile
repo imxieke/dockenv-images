@@ -1,4 +1,4 @@
-FROM alpine:v3.4
+FROM alpine:3.4
 MAINTAINER Xiekers <imxieke@qq.com>
 
 RUN set -ex \
