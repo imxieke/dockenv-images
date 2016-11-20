@@ -13,6 +13,6 @@ RUN apt-get update && \
 
 ADD shadowsocks.json /etc/
 
-EXPOSE 8989
+EXPOSE 8388
 USER nobody
 CMD /usr/local/bin/ssserver -c /etc/shadowsocks.json
