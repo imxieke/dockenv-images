@@ -7,4 +7,4 @@ echo ""
 echo " Please remember the password!"
 echo "========================================================================"
 
-/usr/local/bin/ssserver -c /etc/shadowsocks.json
+ssserver -c /etc/shadowsocks.json
