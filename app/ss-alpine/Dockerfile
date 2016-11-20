@@ -8,9 +8,19 @@ RUN set -ex \
             && pip install shadowsocks && apk del curl \
             && rm -rf /var/cache/apk/*
 
-ADD shadowsocks.json /etc/
+# Shadowsocks Configure:
+ENV SS_SERVER_ADDR 0.0.0.0
+ENV SS_SERVER_PORT 666
+ENV SS_PASSWORD password
+ENV SS_METHOD aes-256-cfb
+ENV SS_TIMEOUT 300
+ENV SS_USER nobody
+
+# Default Shadowsocks configure file
+#ADD shadowsocks.json /etc/
+
 ADD start.sh /start.sh
 RUN chmod +x /start.sh
-EXPOSE 666
-USER nobody
+USER $SS_USER
+EXPOSE $SS_SERVER_PORT
 CMD ["sh", "-c", "/start.sh"]
