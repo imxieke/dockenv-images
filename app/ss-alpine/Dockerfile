@@ -11,4 +11,4 @@ RUN set -ex \
 ADD shadowsocks.json /etc/shadowsocks.json
 USER nobody
 EXPOSE 666
-CMD ["ssserver","-c","/etc/shadowsocks.json"]
+ENTRYPOINT ["ssserver"]
