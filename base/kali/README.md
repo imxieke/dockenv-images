@@ -13,7 +13,8 @@ zsh git vim curl screen pip nginx php  htop nmap fping
 ### Run a Docker instance:
 
 `docker run -d --name=kali -p 22:22 -p 80:80  -e PASS_ROOT=password imxieke/base:kali`
-Option:
+
+#### Option:
 ```
 -v /volume:/data
 ```
