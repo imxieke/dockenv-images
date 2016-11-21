@@ -1,3 +1,3 @@
-FROM centos:7.1
+FROM centos:7
 MAINTAINER Xiekers <im@xieke.org>
-CDM ['/etc/bash']
+CMD ['/bin/bash']
