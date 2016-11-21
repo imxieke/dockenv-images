@@ -2,7 +2,7 @@ FROM ubuntu:xenial
 MAINTAINER Xiekers <imxieke@qq.com>
 
 # Config Development Environment
-RUN apt-get update && apt upgrade -y DEBIAN_FRONTEND=noninteractive && \ 
+RUN apt-get update && apt upgrade -y && DEBIAN_FRONTEND=noninteractive && \ 
      apt-get -y install openssh-server pwgen curl unzip screen zsh vim git nginx php automake python  python-pip \
      htop nmap fping apt-transport-https ca-certificates  && pip install -U pip && \
      sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" && \
