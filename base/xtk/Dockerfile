@@ -4,10 +4,8 @@ MAINTAINER Xiekers <imxieke@qq.com>
 # Config Development Environment
 RUN apt-get update && apt upgrade -y && DEBIAN_FRONTEND=noninteractive && \ 
      apt-get -y install openssh-server pwgen curl unzip screen zsh vim git nginx php automake python  python-pip \
-     htop nmap fping apt-transport-https ca-certificates  && pip install -U pip && \
-     sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" && \
-     #apt-get remove python3 --purge -y && apt-get autoremove -y --purge && \
-     apt-get clean all && rm -r /var/lib/apt/lists/*
+     nodejs npm apt-utils htop nmap fping apt-transport-https ca-certificates  && pip install -U pip && \
+     apt-get autoremove -y --purge && apt-get clean all && rm -r /var/lib/apt/lists/*
 
 RUN mkdir -p /var/run/sshd && sed -i "s/UsePrivilegeSeparation.*/UsePrivilegeSeparation no/g" /etc/ssh/sshd_config && \
     sed -i "s/UsePAM.*/UsePAM no/g" /etc/ssh/sshd_config && \
@@ -20,5 +18,5 @@ RUN chmod +x /*.sh
 ENV AUTHORIZED_KEYS **None**
 ENV PAAS_ROOT password
 
-EXPOSE 22 80
+EXPOSE 22 80 8080 
 CMD ["/run.sh"]
