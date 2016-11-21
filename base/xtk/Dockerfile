@@ -6,7 +6,7 @@ RUN apt-get update && apt upgrade -y && DEBIAN_FRONTEND=noninteractive && \
      apt-get -y install openssh-server pwgen curl unzip screen zsh vim git nginx php automake python  python-pip \
      htop nmap fping apt-transport-https ca-certificates  && pip install -U pip && \
      sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" && \
-     apt-get remove python3 --purge -y && apt-get autoremove -y --purge && \
+     #apt-get remove python3 --purge -y && apt-get autoremove -y --purge && \
      apt-get clean all && rm -r /var/lib/apt/lists/*
 
 RUN mkdir -p /var/run/sshd && sed -i "s/UsePrivilegeSeparation.*/UsePrivilegeSeparation no/g" /etc/ssh/sshd_config && \
