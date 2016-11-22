@@ -1,4 +1,4 @@
-FROM php:5.6-apache
+FROM debian:jessie
 MAINTAINER Xiekers <imxieke@qq.com>
 
 RUN apt-get update && \
