@@ -1,8 +1,9 @@
 FROM debian:jessie
 MAINTAINER Xiekers <imxieke@qq.com>
 
-RUN apt-get update && DEBIAN_FRONTEND=noninteractive　＼
-      apt-get -y install apache2 libapache2-mod-php5 php5 php5-curl php5-gd　php5-mysql php5-mysqlnd php5-odbc ＼
+RUN apt-get update && \
+      DEBIAN_FRONTEND=noninteractive apt-get -y install \
+      apache2 libapache2-mod-php5 php5 php5-curl php5-gd　php5-mysql php5-mysqlnd php5-odbc ＼
       php5-xcache php5-imap php5-smtp && \
       apt-get clean && rm -r /var/lib/apt/lists/*
 
