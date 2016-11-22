@@ -1,12 +1,20 @@
-#latest ownCloud in Docker!
+#latest XCloud KODExplorer in Docker!
 FROM php:5.6-apache
 MAINTAINER Xiekers <im@xieke.org>
+ENV BRANCH master
+ENV PKG_NAME KODExplorer
+ENV DL_URL https://github.com/kalcaddle/KODExplorer/archive/master.zip
 
 RUN apt-get update &&apt-get install wget unzip -y && \
-    wget https://download.owncloud.org/download/community/owncloud-latest.zip -O /tmp/owncloud-latest.zip && \
-    unzip /tmp/owncloud-latest.zip -d /tmp/ && mv /tmp/owncloud/* /var/www/html/  && \
-    rm -fr /tmp/owncloud  && rm -fr /tmp/owncloud-latest.zip && chmod 777 -R /var/www/ && \
-    apt-get remove wget unzip -y && apt-get clean all && rm -r /var/lib/apt/lists/*
+    wget $DL_URL -O /tmp/$PKG_NAME && \
+    unzip /tmp/$PKG_NAME -d /tmp/ && \
+    mv /tmp/$PKG_NAME-$BRANCH/* /var/www/html/  && \
+    rm -fr /tmp/$PKG_NAME-$BRANCH  && \
+    rm -fr /tmp/$PKG_NAME && \
+    chmod 777 -R /var/www/ && \
+    apt-get remove wget unzip -y --purge && \
+    apt-get clean all && \
+    rm -r /var/lib/apt/lists/*
 
 EXPOSE 80
 CMD ["apache2-foreground"]
