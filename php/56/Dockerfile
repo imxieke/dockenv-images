@@ -6,9 +6,7 @@ RUN apt-get update && \
       apache2 libapache2-mod-php5 php5 php5-mysql php5-odbc php5-xcache && \
       apt-get clean && rm -r /var/lib/apt/lists/*
 
-RUN a2dismod mpm_event rewrite && \
-      ln -sf /dev/stdout /var/log/apache2/access.log && \
-    　ln -sf /dev/stderr /var/log/apache2/error.log
+RUN a2dismod mpm_event rewrite
 
 COPY apache2-foreground /usr/local/bin/
 EXPOSE 80 443
