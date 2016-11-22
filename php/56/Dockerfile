@@ -1,4 +1,4 @@
-FROM debian:jessie
+FROM imxieke/base:xenial
 MAINTAINER Xiekers <imxieke@qq.com>
 
 RUN apt-get update && \
