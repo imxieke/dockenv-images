@@ -1,10 +1,10 @@
 # Xiekers ToolKit Base Kali (for china)
-FROM daocloud.io/imxieke/kali
+FROM  registry.cn-hangzhou.aliyuncs.com/imxieke/kali
 MAINTAINER imxieke <imxieke@qq.com>
 
 #Install Tools
-RUN echo "deb http://mirrors.ustc.edu.cn/kali kali-rolling main non-free contrib" > /etc/apt/sources.list && \
-    echo "deb-src http://mirrors.ustc.edu.cn/kali kali-rolling main contrib non-free" >> /etc/apt/sources.list && \
+RUN echo "deb http://mirrors.aliyun.com/kali kali-rolling main non-free contrib" > /etc/apt/sources.list && \
+    echo "deb-src http://mirrors.aliyun.com/kali kali-rolling main contrib non-free" >> /etc/apt/sources.list && \
     apt-get update && apt upgrade -y && DEBIAN_FRONTEND=noninteractive && apt-get -y install \
     openssh-server pwgen curl unzip wget zsh vim git apt-utils apt-transport-https ca-certificates && \
     apt-get clean all && rm -fr /var/lib/apt/lists/*
