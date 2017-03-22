@@ -1,4 +1,4 @@
-FROM daocloud.io/imxieke/archlinux:latest
+FROM registry.cn-hangzhou.aliyuncs.com/imxieke/archlinux:latest
 MAINTAINER imxieke <imxieke@qq.com>
 
 RUN echo "Server = http://mirrors.ustc.edu.cn/archlinux/\$repo/os/\$arch" >/etc/pacman.d/mirrorlist
