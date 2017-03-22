@@ -2,7 +2,7 @@
 
 PASS=${ROOT_PASS}
 USER=${USERNAME}
-useradd -d /home/imxieke -m imxieke -s /bin/bash
+useradd -d /home/$USERNAME -m $USERNAME -s /bin/bash
 echo "$USERNAME:$PASS" |chpasswd
 echo "root:$PASS" | chpasswd
 echo "$USERNAME ALL=NOPASSWD: ALL" >>/etc/sudoers
