@@ -1,4 +1,4 @@
-FROM registry.us-west-1.aliyuncs.com/imxieke/archbase:base
+FROM registry.us-west-1.aliyuncs.com/imxieke/archbase:latest
 MAINTAINER imxieke <imxieke@qq.com>
 
 ENV PATH="/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin"
