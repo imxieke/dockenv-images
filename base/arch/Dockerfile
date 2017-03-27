@@ -3,7 +3,7 @@ FROM nfnty/arch-mini:latest
 MAINTAINER imxieke <imxieke@qq.com>
 
 #RUN echo "Server = http://mirrors.ustc.edu.cn/archlinux/\$repo/os/\$arch" >/etc/pacman.d/mirrorlist
-
+ENV PATH="/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin"
 RUN pacman --noconfirm --force -Syyu
 RUN pacman -S  --noconfirm openssh sudo which tar curl grep && \
 	rm -fr /var/cache/pacman/pkg/* && pacman -Scc --noconfirm
@@ -17,5 +17,5 @@ RUN mkdir -p /var/run/sshd && \
 ADD run.sh /run.sh
 RUN chmod +x /*.sh
 
-EXPOSE 22
+EXPOSE 22 80 443 666 3000
 CMD /run.sh
