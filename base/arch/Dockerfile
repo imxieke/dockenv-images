@@ -1,8 +1,6 @@
 FROM registry.us-west-1.aliyuncs.com/imxieke/arch:latest
-#FROM registry.cn-hangzhou.aliyuncs.com/imxieke/archlinux:latest
 MAINTAINER imxieke <imxieke@qq.com>
 
-#RUN echo "Server = http://mirrors.ustc.edu.cn/archlinux/\$repo/os/\$arch" >/etc/pacman.d/mirrorlist
 ENV PATH="/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin"
 RUN pacman --noconfirm --force -Syyu && \
 	rm -fr /var/cache/pacman/pkg/* && pacman -Scc --noconfirm
