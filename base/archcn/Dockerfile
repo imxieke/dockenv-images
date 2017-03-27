@@ -1,4 +1,4 @@
-FROM registry.cn-hangzhou.aliyuncs.com/imxieke/archlinux:latest
+FROM registry.cn-hangzhou.aliyuncs.com/imxieke/arch:latest
 MAINTAINER imxieke <imxieke@qq.com>
 
 ENV PATH="/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin"
