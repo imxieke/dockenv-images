@@ -1,5 +1,5 @@
 # Xiekers ToolKit Base Kali (for china)
-FROM  registry.cn-hangzhou.aliyuncs.com/imxieke/kali
+FROM  registry.cn-hangzhou.aliyuncs.com/imxieke/kali:latest
 MAINTAINER imxieke <imxieke@qq.com>
 
 #Install Tools
