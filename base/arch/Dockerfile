@@ -1,4 +1,4 @@
-FROM nfnty/arch-mini:latest
+FROM registry.us-west-1.aliyuncs.com/imxieke/archbase:latest
 #FROM registry.cn-hangzhou.aliyuncs.com/imxieke/archlinux:latest
 MAINTAINER imxieke <imxieke@qq.com>
 
