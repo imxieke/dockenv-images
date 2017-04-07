@@ -3,6 +3,7 @@
 Usage:
 
     docker run -d --name mysql \
+        -p 3306:3306 \
         -v /path/to/mysql:/var/lib/mysql \
         -e MYSQL_ROOT_PASSWORD=your_passwd \
         daocloud.io/mysql:5.6.23
