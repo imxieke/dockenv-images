@@ -2,9 +2,9 @@ ide:
   build: .
   environment:
     - C9_WORKSPACE=/cloud9/workspace
-    - ROOT_PASS=xiaoke
+    - ROOT_PASS=passwd
   volumes:
     - /data/workspace:/cloud9/workspace
   ports:
     - 8181:8181
-    - 22
+    - 22:22

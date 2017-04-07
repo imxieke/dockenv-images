@@ -1,4 +1,4 @@
-FROM ubuntu:xenial
+FROM ubuntu:trusty
 MAINTAINER imxieke <imxieke@qq.com>
 
 # Install packages

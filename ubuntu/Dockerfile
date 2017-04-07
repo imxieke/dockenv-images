@@ -1,4 +1,4 @@
-FROM ubuntu:xenial
+FROM ubuntu:trusty
 MAINTAINER imxieke <imxieke@qq.com>
 
 RUN apt-get update -y && apt-get upgrade -y && \
