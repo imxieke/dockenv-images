@@ -1,4 +1,4 @@
-FROM registry.cn-hangzhou.aliyuncs.com/imxieke/trusty:latest
+FROM ubuntu:trusty
 MAINTAINER imxieke <imxieke@qq.com>
 
 RUN   apt-get update \
