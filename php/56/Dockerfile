@@ -1,7 +1,7 @@
 FROM ubuntu:trusty
 MAINTAINER imxieke <imxieke@qq.com>
 
-RUN   apt-get update \
+RUN   apt-get update -y && apt upgrade -y\
       && apt-get -y install apache2 php5 php5-gd php5-mysql php5-mysqlnd php5-odbc php5-curl php5-sqlite php5-mssql php5-pgsql php5-mcrypt php5-imap php5-ldap \ 
       && apt-get clean \
       && rm -r /var/lib/apt/lists/* \
