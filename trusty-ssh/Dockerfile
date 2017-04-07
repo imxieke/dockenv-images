@@ -1,4 +1,4 @@
-FROM ubuntu:trusty
+FROM registry.cn-hangzhou.aliyuncs.com/imxieke/trusty:base
 MAINTAINER imxieke <imxieke@qq.com>
 
 # Install packages
