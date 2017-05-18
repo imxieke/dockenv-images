@@ -1,8 +1,10 @@
 FROM registry.cn-hangzhou.aliyuncs.com/imxieke/arch:latest
 MAINTAINER imxieke <imxieke@qq.com>
 
+RUN mv /etc/pacman.conf /etc/pacman.conf.bak
+ADD pacman.conf /etc/pacman.conf
 ENV PATH="/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin"
-RUN echo "Server = http://mirrors.ustc.edu.cn/archlinux/\$repo/os/\$arch" >/etc/pacman.d/mirrorlist \
+RUN echo "Server = http://mirrors.aliyun.com/archlinux/\$repo/os/\$arch" >/etc/pacman.d/mirrorlist \
 	&& pacman --noconfirm --force -Syyu \
 	&& pacman -S --noconfirm openssh sudo which tar curl grep \
 	&& rm -fr /var/cache/pacman/pkg/* && pacman -Scc --noconfirm
