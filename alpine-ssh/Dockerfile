@@ -13,6 +13,7 @@ RUN apk add openssh openssh-sftp-server && \
     echo "source /etc/profile.d/color_prompt" > /root/.bashrc
 
 ADD sshd.sh /
+RUN chmod +x /*.sh
 
 # expose ports for ssh
 EXPOSE 22
