@@ -1,0 +1,9 @@
+FROM registry.cn-hongkong.aliyuncs.com/imxieke/alpine:latest
+LABEL MAINTAINER="Cloudflying" \
+        MAIL="oss@live.hk"
+
+RUN apk --no-cache add bash neovim git curl wget zsh \
+	gcc g++ make cmake automake autoconf luajit-dev libc-dev pcre pcre-dev \
+	readline-dev openssl openssl-dev musl musl-dev 
+
+CMD /bin/bash

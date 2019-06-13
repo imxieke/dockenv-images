@@ -1,0 +1,11 @@
+# The black/white grid as background doesn't suit my taste.
+xsetroot -solid black &
+# Ratpoison is compatible with xcompmgr! now you can have real transparency
+#fire up ratpoison!
+#exec /usr/bin/ratpoison
+XAUTHORITY=$HOME/.Xauthority
+export XAUTHORITY
+LANG=en_US.UTF-8
+export LANG
+echo $$ > /tmp/xsession.pid
+. $HOME/.xsession

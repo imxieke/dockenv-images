@@ -1,0 +1,11 @@
+FROM registry.cn-hongkong.aliyuncs.com/imxieke/debian:9.9
+LABEL MAINTAINER="Cloudflying" \
+        MAIL="oss@live.hk"
+
+RUN apt update -y && \
+	apt install -y build-essential git curl wget jq make gcc g++ perl libperl-dev libtool
+
+USER ${USER}
+WORKDIR ${HOME}
+EXPOSE 80
+CMD ["/bin/sh"]

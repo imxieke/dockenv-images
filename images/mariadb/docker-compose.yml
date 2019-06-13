@@ -1,0 +1,14 @@
+version: '2'
+services:
+  database:
+    image: mariadb:10.3.8
+    ports:
+      - "3306:3306"
+    expose:
+      - "3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=19960318
+      # - MYSQL_DATABASE=web
+      # - MYSQL_USER=root
+    volumes:
+      - /Volumes/MacData/Code/Devenv/Volumes/mariadb:/var/lib/mysql

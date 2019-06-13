@@ -1,0 +1,18 @@
+FROM registry.cn-hongkong.aliyuncs.com/imxieke/archlinux:latest
+LABEL MAINTAINER="Cloudflying" \
+        MAIL="<oss@live.hk>"
+
+RUN pacman --noconfirm --force -Syy \
+    && pacman -S --noconfirm  --force archlinux-keyring \
+	&& pacman -S --noconfirm  --force openssh sudo supervisor xorg xfce4 x11vnc xterm \
+        xorg-twm xorg-xclock expect ratpoison ttf-droid ttf-dejavu \
+	&& rm -fr /var/cache/pacman/pkg/* \
+	&& pacman -Scc --noconfirm \
+	&& rm -fr /var/lib/pacman/* \
+    && mkdir -p /var/run/sshd \
+    && mkdir -p /root/.vnc \
+	&& sed -i "s/UsePrivilegeSeparation.*/UsePrivilegeSeparation no/g" /etc/ssh/sshd_config \
+    && sed -i "s/UsePAM.*/UsePAM no/g" /etc/ssh/sshd_config \
+    && sed -i "s/PermitRootLogin.*/PermitRootLogin yes/g" /etc/ssh/sshd_config \
+    && ssh-keygen -A
+CMD ['bash']

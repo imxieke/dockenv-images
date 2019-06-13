@@ -1,0 +1,8 @@
+*.tar
+*.tgz
+*.tar.*
+*.tgz.*
+*.zip
+.DS_Store
+*.log
+/conf.ini

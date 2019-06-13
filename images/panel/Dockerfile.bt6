@@ -1,0 +1,12 @@
+FROM registry.cn-hongkong.aliyuncs.com/imxieke/debian:9.9
+LABEL MAINTAINER="Cloudflying" \
+        MAIL="oss@live.hk"
+
+ADD scripts/bt6.sh /tmp/build.sh
+
+RUN chmod +x /tmp/build.sh \
+	&& bash /tmp/build.sh \
+	&& rm -fr /tmp/*
+
+EXPOSE 8888
+CMD ["/bin/bash"]

@@ -1,0 +1,12 @@
+# Debian Jessie (8)
+FROM debian:9.9
+LABEL MAINTAINER="Cloudflying" \
+        MAIL="oss@live.hk"
+
+ENV DEBIAN_FRONTEND noninteractive \
+	PATH="/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin"
+
+RUN sed -i 's/deb.debian.org/mirrors.ustc.edu.cn/g' /etc/apt/sources.list \
+	&& sed -i 's/security.debian.org/mirrors.ustc.edu.cn/g' /etc/apt/sources.list
+
+CMD ['/bin/bash']

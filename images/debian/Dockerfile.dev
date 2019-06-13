@@ -1,0 +1,17 @@
+FROM debian:buster
+LABEL MAINTAINER=Sky \
+        MAIL=<Sky@gfw.party>
+
+ENV DEBIAN_FRONTEND noninteractive \
+	PATH="/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin"
+
+RUN sed -i 's/deb.debian.org/mirrors.aliyun.com/g' /etc/apt/sources.list \
+	&& sed -i 's/deb\ http:\/\/security/#deb\ http:\/\/security/g' /etc/apt/sources.list \
+	&& apt update \
+	&& apt upgrade -y \
+	&& apt install -y gcc git neovim make cmake autoconf automake python python3 python-pip python3-pip \
+	&& apt autoremove -y \
+	&& apt-get clean all \
+	&& rm -fr /var/lib/apt/lists/*
+
+CMD ['/bin/bash']

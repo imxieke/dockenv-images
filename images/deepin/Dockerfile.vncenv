@@ -1,0 +1,18 @@
+# Deepin panda Latest
+FROM reg.qiniu.com/imxieke/deepin:panda
+
+LABEL MAINTAINER="Cloudflying" \
+        MAIL="oss@live.hk"
+
+ENV DEBIAN_FRONTEND noninteractive \
+	PATH="/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin"
+
+RUN apt update -y --fix-missing \
+	&& apt upgrade -y \
+	&& apt install -y sudo apt-utils zsh vim git wget net-tools locales bzip2 python-numpy supervisor \
+			xterm xfce4 xfce4-terminal libnss-wrapper gettext ttf-wqy-zenhei chromium chromium-l10n \
+	&& apt autoremove -y \
+	&& apt-get clean all \
+	&& rm -fr /var/lib/apt/lists/*
+
+CMD ['/bin/bash']

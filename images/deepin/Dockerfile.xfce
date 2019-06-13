@@ -1,0 +1,30 @@
+# Deepin panda Latest
+FROM reg.qiniu.com/imxieke/deepin:vncenv
+ENV DEBIAN_FRONTEND noninteractive
+ENV HOME=/home/ubuntu \
+    TERM=xterm \
+    STARTUPDIR=/startup \
+    INST_SCRIPTS=/home/ubuntu/install \
+    NO_VNC_HOME=/home/ubuntu/.noVNC \
+    VNC_COL_DEPTH=24 \
+    VNC_RESOLUTION=1360x768 \
+    VNC_PW=ubuntu \
+    VNC_VIEW_ONLY=false \
+    DISPLAY=:1 \
+    VNC_PORT=5901 \
+    NO_VNC_PORT=6901 \
+    USER=ubuntu \
+    PASSWD=ubuntu
+
+ADD ./xfce/ $HOME/
+ADD ./script $STARTUPDIR
+
+RUN chmod +x ${STARTUPDIR}/*.sh \
+    && ${STARTUPDIR}/build.sh
+
+USER ${USER}
+WORKDIR $HOME
+
+EXPOSE $VNC_PORT $NO_VNC_PORT
+ENTRYPOINT ["/startup/startup.sh"]
+CMD ["--wait"]
