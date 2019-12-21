@@ -39,7 +39,10 @@ swoole()
 		echo "Linux Aio Not Avaiable in Alpine Linux"
 		sed -i 's/#define\ HAVE_LINUX_AIO/\/\/#define\ HAVE_LINUX_AIO/g' swoole_config.h
 	#fi
-	build
+	# build
+	phpize
+	./configure --with-php-config=/usr/bin/php-config7 --enable-sockets=yes --enable-openssl=yes --enable-http2=yes --enable-mysqlnd=yes
+	make -j8 && make install
 	echo "extension=${name}.so" > /etc/php7/conf.d/${name}.ini
 }
 

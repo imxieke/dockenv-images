@@ -1,6 +1,6 @@
 FROM alpine:edge
 LABEL MAINTAINER="Cloudflying" \
-        MAIL="<oss@live.hk>"
+        MAIL="<im@xie.ke>"
 
 ENV PATH="/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin"
 RUN echo "http://mirrors.aliyun.com/alpine/edge/main"  >/etc/apk/repositories \

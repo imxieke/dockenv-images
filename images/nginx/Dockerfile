@@ -1,4 +1,4 @@
-FROM imxieke/alpine:latest
+FROM registry.cn-hongkong.aliyuncs.com/imxieke/alpine:latest
 LABEL MAINTAINER="Cloudflying" \
         MAIL="<oss@live.hk>"
 

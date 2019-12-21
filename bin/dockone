@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
+# Dockone
 # Author: Cloudflying
 # Desc:   Push to Docker Registry
 # Mirros : https://22bvsrc3.mirror.aliyuncs.com
 # docker login --username=xxx@aliyun.com registry.cn-hongkong.aliyuncs.com
 
 IMG_DIR="`pwd`/images"
-
+USERHOME=${HOME}
 # Push to DaoCloud Registry
 # PREFIX:="daocloud.io/imxieke"
 
@@ -16,13 +17,37 @@ action=$1
 image=$2
 tag=$3
 
-if [[ $(curl -s https://api.ip.sb/geoip | grep Alibaba) != '' ]]; then
+if [[ ! -d ${USERHOME}/.dockone ]]; then
+	mkdir -p ${USERHOME}/.dockone
+fi
+
+# Check Alibaba Cloud Hongkong Server
+if [[ -f ${USERHOME}/.dockone/location ]] ; then
+	LOCATION=$(cat ${USERHOME}/.dockone/location)
+else
+	IPINFO=$(curl -s https://api.ip.sb/geoip)
+	ISCN=$(echo ${IPINFO} | grep '"country_code":"CN"')
+	ISALI=$(echo ${IPINFO} | grep 'Alibaba (US)')
+
+	if [[ -n ${ISCN} ]]; then
+		echo "CN" > ${USERHOME}/.dockone/location
+	else
+		echo "US" > ${USERHOME}/.dockone/location
+	fi
+
+	if [[ -n ${ISALI} ]]; then
+		echo "Alihk" >> ${USERHOME}/.dockone/location
+	fi
+fi
+
+if [[ $(cat ${USERHOME}/.dockone/location | grep Alibaba) != '' ]]; then
 	PREFIX="registry-vpc.cn-hongkong.aliyuncs.com/imxieke"
-elif [[ $(curl -s https://api.ip.sb/geoip | grep CN) != '' ]]; then
+elif [[ $(cat ${USERHOME}/.dockone/location | grep CN) != '' ]]; then
 	PREFIX="registry.cn-hongkong.aliyuncs.com/imxieke"
-elif [[ $(curl -s https://api.ip.sb/geoip | grep US) != '' ]]; then
+elif [[ $(cat ${USERHOME}/.dockone/location | grep US) != '' ]]; then
 	# Offcial Registry
-	PREFIX="imxieke"
+	# PREFIX="imxieke"
+	PREFIX="registry.cn-hongkong.aliyuncs.com/imxieke"
 fi
 
 function usage()
@@ -82,24 +107,19 @@ function pull()
 	fi
 }
 
-mariadb_all()
-{
-	echo ""
-}
-
 case $1 in
-	build | -build | --build )
+	build)
 		build $1 $2 $3 $4 $5 $6
 		;;
 
-	push | -push | --push )
+	push)
 		push $1 $2 $3 $4 $5 $6
 		;;
 
-	pull | -pull | --pull )
+	pull)
 		pull $1 $2 $3 $4 $5 $6
 		;;
-	-prefix | --prefix)
+	prefix | -prefix | --prefix)
 		echo ${PREFIX}
 		;;
 	help | -help | --help )
