@@ -1,4 +1,5 @@
-FROM registry.cn-hongkong.aliyuncs.com/imxieke/alpine:latest
+# FROM registry.cn-hongkong.aliyuncs.com/imxieke/alpine:latest
+FROM alpine:edge
 
 LABEL MAINTAINER="Cloudflying" \
         MAIL="im@xie.ke"
@@ -7,7 +8,7 @@ ADD alpine/scripts/alpine.sh /bin/build
 ADD alpine/scripts/start /bin/start
 RUN apk update && \
     mkdir -p /run/openrc /run/nginx && touch /run/openrc/softlevel && \
-    apk add --no-cache gcc g++ make automake autoconf libc-dev imagemagick-dev openrc && \
+    apk add --no-cache libc-dev imagemagick-dev openrc && \
     apk add --no-cache nginx php7 php7-bcmath php7-bz2 php7-calendar php7-common php7-ctype php7-curl php7-dba \
     php7-dev php7-dom php7-embed php7-enchant php7-exif php7-fileinfo php7-fpm php7-ftp php7-gd \
     php7-gettext php7-gmp php7-iconv php7-imap php7-intl php7-json php7-ldap php7-litespeed php7-mbstring php7-mysqli \
@@ -18,7 +19,7 @@ RUN apk update && \
     php7-pecl-xdebug php7-pecl-xhprof php7-pecl-yaml php7-pecl-zmq php7-pgsql php7-phalcon php7-phar php7-phpdbg \
     php7-posix php7-pspell php7-recode php7-session php7-shmop php7-simplexml php7-snmp php7-soap php7-sockets \
     php7-sodium php7-sqlite3 php7-static php7-sysvmsg php7-sysvsem php7-sysvshm php7-tidy php7-tokenizer \
-    php7-wddx php7-xml php7-xmlreader php7-xmlrpc php7-xmlwriter php7-xsl php7-zip php7-pecl-mailparse && \
+    php7-wddx php7-xml php7-xmlreader php7-xmlrpc php7-xmlwriter php7-xsl php7-zip php7-pecl-mailparse \
     && rm -fr /etc/nginx/nginx.conf \
     && rm -fr /etc/nginx/conf.d/* \
     && touch /run/nginx/nginx.pid \
@@ -26,9 +27,10 @@ RUN apk update && \
     && rm -fr /etc/php7/php.ini \
     && chmod +x /bin/build \
     && chmod +x /bin/start \
-    && /bin/build \
-    && apk del gcc g++ make automake autoconf libc-dev \
     && rm -fr /var/cache/apk/*
+    # apk add --no-cache gcc g++ make automake autoconf libc-dev imagemagick-dev openrc && \
+    # && /bin/build \
+    # && apk del gcc g++ make automake autoconf libc-dev \
 
 ADD alpine/conf.d/nginx.conf /etc/nginx/
 ADD alpine/conf.d/default.conf /etc/nginx/conf.d/
