@@ -1,0 +1,32 @@
+version: '2'
+
+services:
+
+    ganache:
+        container_name: ganache
+        image: gengxiankun/ganache
+        expose:
+            - "7454"
+        ports: 
+            - "7454:7454"
+        environment:
+            - NETWORKID=6
+            - PORT=7454
+        restart: always
+
+    truffle:
+        container_name: truffle
+        image: gengxiankun/truffle
+        volumes:
+            - ../docker-compose_data/ethereum/:/data/
+        working_dir: /data
+        links:
+            - ganache:ganache
+        restart: always
+
+    geth:
+        container_name: geth
+        image: gengxiankun/geth
+        restart: always
+        links:
+            - ganache:ganache

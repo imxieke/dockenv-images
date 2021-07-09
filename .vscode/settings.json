@@ -1,0 +1,16 @@
+{
+    "files.associations": {
+        "env-example": "dotenv",
+        "Dockerfile-*": "dockerfile",
+        "Dockerfile.*": "dockerfile",
+        "*.ign": "json",
+        "*.fcc": "yaml",
+        ".ini*": "ini",
+    },
+    "files.autoSave": "onFocusChange",
+    "editor.fontSize": 18,
+    "gitlens.advanced.fileHistoryFollowsRenames": true,
+    "gitlens.advanced.fileHistoryShowAllBranches": true,
+    "gitlens.blame.heatmap.location": "left"
+}
+

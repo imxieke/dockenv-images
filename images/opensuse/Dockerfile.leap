@@ -1,3 +1,0 @@
-FROM opensuse:leap
-
-CMD ["/bin/sh"]

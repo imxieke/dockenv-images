@@ -1,0 +1,87 @@
+#!/usr/bin/env php
+<?php
+
+phpinfo();
+
+/*
+try{
+ $con =new PDO("mysql:host=mysql;dbname=test","root","123456");
+ echo"ok...";
+
+}catch(PDOException $e){
+
+  echo $e->getMessage();
+}
+*/
+
+  $con = new mysqli("mysql","root","123456");
+
+  if($con->connect_error){
+      die("connect fail".$con->connect_error);
+  }else{
+      echo "connect success!";
+  }
+
+$redis = new Redis();
+$redis->connect('redis',6379);
+$redis->set('test','hello world!');
+echo $redis->get('test');
+
+
+try {
+  echo ini_get('memory_limit') . '<br>';
+
+  $dbname = 'performance_schema';
+  $username = 'root';
+  $password = '123456';
+
+  $conn = new PDO('mysql:host=mysql:3306;dbname=' . $dbname, $username, $password);
+
+  echo '已連接資料庫<br>';
+
+  $stmt = $conn->prepare('SELECT * FROM accounts');
+  $stmt->execute();
+  $stmt->setFetchMode(PDO::FETCH_ASSOC);
+  $result = $stmt->fetchAll();
+
+  foreach ($result as $key => $value) {
+    echo $value['USER'] . '<br>';
+  }
+} catch (PDOException $e) {
+  echo $e->getMessage();
+}
+
+
+$manager = new MongoDB\Driver\Manager("mongodb://root:123456@mongo:27017");
+
+// 插入数据
+$bulk = new MongoDB\Driver\BulkWrite;
+$bulk->insert(['x' => 1, 'name' => '菜鸟教程', 'url' => 'http://www.runoob.com']);
+$bulk->insert(['x' => 2, 'name' => 'Google', 'url' => 'http://www.google.com']);
+$bulk->insert(['x' => 3, 'name' => 'taobao', 'url' => 'http://www.taobao.com']);
+$result = $manager->executeBulkWrite('test-db.test-sites', $bulk);
+var_dump($result);
+
+$pdo = new PDO('mysql:host=mysql;dbname=mysql', 'root', '123456');
+var_dump($pdo);
+
+
+$redis = new Redis();
+$redis->connect('redis', 6379); //连接Redis
+//$redis->auth('mypasswords123sdfeak'); //密码验证
+$redis->select(0); //选择数据库2
+//$redis->set( "testKey" , "Hello Redis"); //设置测试key
+echo $redis->get("name"); //输出value
+
+
+try {
+  $conn = new PDO('mysql:host=mysql;port=3306;dbname=mysql;charset=utf8', 'root', '123456');
+} catch (PDOException $e) {
+  echo 'Connection failed: ' . $e->getMessage();
+}
+//$conn->exec('set names utf8');
+$sql = "SELECT * FROM `user` WHERE 1";
+$result = $conn->query($sql);
+while ($rows = $result->fetch(PDO::FETCH_ASSOC)) {
+  echo $rows['Host'] . ' ' . $rows['User'] . "<br />\n";
+}

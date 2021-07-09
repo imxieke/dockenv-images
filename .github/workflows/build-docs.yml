@@ -1,0 +1,46 @@
+# https://help.github.com/en/articles/workflow-syntax-for-github-actions
+
+# build when commit message include [Docs]
+
+on:
+  push:
+    paths:
+      - '**'
+      - 'docs/**'
+    tags:
+      - '*'
+    branches:
+      - "20.10"
+  workflow_dispatch:
+
+name: Build Docs
+
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+    if: |
+      contains( github.ref, 'refs/tags/' )
+      || contains( github.event.head_commit.message, '[Docs]')
+      || github.event_name == 'workflow_dispatch'
+    steps:
+    - uses: actions/checkout@main
+      with:
+        fetch-depth: 2
+    - name: docs-build
+      uses: docker://pcit/vuepress
+      env:
+        PCIT_LOCAL_DIR: docs
+      with:
+        args: build
+        dir: docs
+    - name: sync-docs
+      uses: docker://pcit/pages
+      env:
+        PCIT_EMAIL: khs1994@khs1994.com
+        PCIT_GIT_TOKEN: ${{ secrets.PCIT_GIT_TOKEN }}
+        PCIT_GIT_URL: github.com/khs1994-docker/lnmp-docs
+        PCIT_KEEP_HISTORY: "true"
+        PCIT_LOCAL_DIR: docs/.vuepress/dist
+        PCIT_MESSAGE: Build docs by vuepress, Upload docs by PCIT
+        PCIT_TARGET_BRANCH: master
+        PCIT_USERNAME: khs1994

@@ -1,0 +1,50 @@
+version: '2'
+
+services:
+
+    mysql:
+        container_name: mysql
+        image: daocloud.io/library/mysql
+        restart: always
+        expose:
+            - "3306"
+        ports: 
+            - "3306:3306"
+        volumes:
+            - ../docker-compose_data/mysql/data:/data
+            - ../docker-compose_data/mysql/var-lib-mysql:/var/lib/mysql
+        working_dir: /data
+        environment:
+            - MYSQL_ROOT_PASSWORD=root
+            - TZ=Asia/Shanghai
+        restart: always
+
+    redis:
+        container_name: redis
+        image: daocloud.io/library/redis
+        restart: always
+        expose:
+          - "6379"
+        ports:
+          - "6379:6379"
+        volumes:
+          - ../docker-compose_data/redis/var_lib_redis:/data
+          - ../docker-compose_data/redis/data:/data
+        command: redis-server --appendonly yes
+
+    nginx:
+        container_name: nginx
+        build: ../openresty/
+        restart: always
+        ports:
+            - "80:80"
+            - "443:443"
+        volumes:
+            - ../docker-compose_data/nginx/conf.d:/etc/nginx/conf.d
+            - ../docker-compose_data/nginx/library:/opt/openresty/library
+        working_dir: /etc/nginx/conf.d
+        environment:
+            - TZ=Asia/Shanghai
+        links:
+            - mysql:mysql
+            - redis:redis

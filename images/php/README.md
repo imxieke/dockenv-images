@@ -17,6 +17,9 @@ Ubuntu:
 
  # PHP 7.2
 
+# php 7.3
+php 7.3 + composer
+
 #feature
 
 * swoole

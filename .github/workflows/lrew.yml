@@ -1,0 +1,56 @@
+name: LREW
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  skip:
+    runs-on: ubuntu-latest
+    if: |
+      (! (contains( github.event.head_commit.message, '[skip ci]')
+      || contains( github.event.head_commit.message, '[skip action]')
+      || contains( github.event.head_commit.message, '[skip actions]')
+      || contains( github.event.head_commit.message, '[ci skip]')
+      || contains( github.event.head_commit.message, '[actions skip]')
+      || contains( github.event.head_commit.message, '[action skip]')))
+    steps:
+      - run: echo "build continue !"
+  CI:
+    runs-on: windows-latest
+    needs: skip
+    env:
+      LNMP_CN_ENV: "false"
+    steps:
+    - uses: actions/checkout@main
+      with:
+        fetch-depth: 2
+    - name: Set ENV
+      shell: pwsh
+      run: |
+        echo "$(pwd)" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+        echo "$(pwd)\windows" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+        #echo "LNMP_PATH=$(pwd)" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+    - name: lrew-init-test
+      shell: powershell
+      run: lnmp-docker.ps1 lrew-init test
+    - name: lrew-init-test2-quite
+      shell: powershell
+      run: |
+        $QUITE=$true
+        lnmp-docker.ps1 lrew-init test2
+    - name: lrew-add-etcd
+      shell: pwsh
+      run: |
+        lnmp-docker.ps1 lrew-add etcd
+    - name: lrew-add-smee
+      shell: pwsh
+      run: |
+        ./lrew/lrew.ps1 add smee
+    - name: lrew-add-not-exists-pkg
+      shell: pwsh
+      run: |
+        ./lrew/lrew.ps1 add ooooo
+    - name: list vendor
+      run: |
+        ls -r vendor

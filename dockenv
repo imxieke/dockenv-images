@@ -1,0 +1,243 @@
+#!/usr/bin/env bash
+# Docker Env
+START_TIME=$(date +%s)
+# https://www.docker.com/increase-rate-limits
+# due to Docker rate limit , mirrors recommended
+# Docker Pull Mirrors
+# https://registry-1.docker.io
+# index.docker.io/library/alpine
+# http://f1361db2.m.daocloud.io
+# https://22bvsrc3.mirror.aliyuncs.com
+# https://2h3po24q.mirror.aliyuncs.com
+# https://3laho3y3.mirror.aliyuncs.com
+# https://3wky8dz8.mirror.aliyuncs.com
+# https://ustc-edu-cn.mirror.aliyuncs.com
+# http://hub-mirror.c.163.com
+# docker.mirrors.ustc.edu.cn
+# https://mirror.baidubce.com
+
+# lnmp
+# php 5.6 7.2 7.3 7.4 8
+# mysql 5.7 8
+# nginx 1.18
+# groupadd www
+# useradd -m -s /sbin/nologin -g www www
+# mkdir -p /home/{wwwroot,userdata}
+# chown -R www:www /home/wwwroot
+# gcr.io/google_containers/pause-amd64:3.0
+
+# sed -i 's/archive.ubuntu.com/mirrors.aliyun.com/g' /etc/apt/sources.list
+
+PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
+export PATH
+
+export PATH="/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:/root/bin"
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
+export LANGUAGE=en_US.UTF-8
+export LC_CTYPE=en_US.UTF-8
+
+CUR_PATH=$(cd $(dirname "${BASH_SOURCE[0]}") && pwd)
+IMAGE_PATH=${CUR_PATH}/images
+
+# url -sS https://getcomposer.org/installer |php7
+
+# /etc/php7/conf.d/20_xdebug.ini
+# echo "xdebug.remote_host = ${LOCAL_IP_ADD}" >> /etc/php7/conf.d/20_xdebug.ini
+# echo "xdebug.idekey = PHPSTORM" >> /etc/php7/conf.d/20_xdebug.ini
+# echo "xdebug.remote_autostart = off" >> /etc/php7/conf.d/20_xdebug.ini
+
+# addgroup -S topone4tvs && adduser -S -G topone4tvs topone4tvs
+# chown -R topone4tvs:topone4tvs /var/www/
+
+# apk add openssh
+# ssh-keygen -t rsa -b 2048 -f /etc/ssh/ssh_host_rsa_key
+# sed -i -e "s/#HostKey \/etc\/ssh\/ssh_host_rsa_key/HostKey \/etc\/ssh\/ssh_host_rsa_key/g" /etc/ssh/sshd_config
+# ssh-keygen -t rsa
+# touch ~/.ssh/authorized_keys
+
+source .env
+
+_red() {
+    printf '\033[1;31;31m%b\033[0m' "$1"
+}
+
+_green() {
+    printf '\033[1;31;32m%b\033[0m' "$1"
+}
+
+_yellow() {
+    printf '\033[1;31;33m%b\033[0m' "$1"
+}
+
+_info() {
+    _green "[Info] "
+    printf -- "%s" "$1"
+    printf "\n"
+}
+
+_warn() {
+    _yellow "[Warning] "
+    printf -- "%s" "$1"
+    printf "\n"
+}
+
+_error() {
+    _red "[Error] "
+    printf -- "%s" "$1"
+    printf "\n"
+    exit 1
+}
+
+# Build Images
+do_build()
+{
+    NAME=$2
+    VERSION=$3
+    cd ${IMAGE_PATH}
+    if [[ -d "$NAME" ]]; then
+        if [[ -z "${VERSION}" ]]; then
+            cd ${NAME}
+            DOCKER_BUILDKIT=0
+            CMD="docker build --progress plain --no-cache -t ${DOCKER_REGISTRY_PREFIX}/${NAME}:latest ."
+            ${CMD}
+        else
+            cd ${NAME}/${VERSION}
+            DOCKER_BUILDKIT=0
+            CMD="docker build --progress plain --no-cache -t ${DOCKER_REGISTRY_PREFIX}/${NAME}:$VERSION ."
+            ${CMD}
+        fi
+    fi
+}
+
+# 批量构建
+do_builds()
+{
+    NAME=$2
+    VERSION=$3
+    cd ${IMAGE_PATH}
+    if [[ -d "$NAME" ]]; then
+        cd ${NAME}
+        for ver in $(ls); do
+            VERSION="${ver}"
+            cd "${IMAGE_PATH}/${NAME}/${VERSION}"
+            do_build build ${NAME} ${VERSION}
+            _info "${NAME}:${VERSION} Build Complete"
+            # CMD="docker build --no-cache -t ${DOCKER_REGISTRY_PREFIX}/${NAME}:$VERSION ."
+            # echo ${CMD}
+        done
+    fi
+}
+
+# 批量上传
+do_pushs()
+{
+    NAME=$2
+    VERSION=$3
+    cd ${IMAGE_PATH}
+    if [[ -d "$NAME" ]]; then
+        cd ${NAME}
+        for ver in $(ls); do
+            VERSION="${ver}"
+            cd "${IMAGE_PATH}/${NAME}/${VERSION}"
+            do_push push ${NAME} ${VERSION}
+            _info "${NAME}:${VERSION} Push Complete"
+        done
+    fi
+}
+
+do_pull()
+{
+    NAME=$2
+    VERSION=$3
+    if [[ -z "$NAME" ]]; then
+        echo -e "pull requires exactly 1 argument See \n'docker pull --help'."
+    fi
+    if [[ -z "$VERSION" ]]; then
+        VERSION="latest"
+    fi
+    CMD="docker pull ${DOCKER_REGISTRY_PREFIX}/${NAME}:${VERSION}"
+    ${CMD}
+}
+
+do_run()
+{
+    echo ''
+}
+
+# Push Images to Registry
+do_push()
+{
+    NAME=$2
+    VERSION=$3
+    cd ${IMAGE_PATH}
+    if [[ -d "$NAME" ]]; then
+        cd ${NAME}/${VERSION}
+        if [[ -z "${VERSION}" ]]; then
+            VERSION='latest'
+        fi
+
+        CMD="docker push ${DOCKER_REGISTRY_PREFIX}/${NAME}:$VERSION"
+        ${CMD}
+    fi
+}
+
+do_login()
+{
+  case $1 in
+    'baidu')
+        docker login -u -p registry.baidubce.com
+    ;;
+    'coding')
+        docker login -u -p cloudflying-docker.pkg.coding.net
+        ;;
+    'aliyun')
+        docker login -u -p registry.cn-hongkong.aliyuncs.com
+        ;;
+    'tencent')
+        docker login -u -p ccr.ccs.tencentyun.com
+        ;;
+    *) echo 'Unknow Platform'
+    ;;
+  esac
+}
+
+usage()
+{
+	echo "	Docker Env Build Tool
+/-----------------------------------\\
+|	build image name tag         |
+|	push  image name tag         |
+|	pull  image name tag         |
+\\-----------------------------------/"
+}
+
+case $1 in
+    build)
+        do_build $*
+        ;;
+    builds)
+        do_builds $*
+        ;;
+    run)
+        do_run $*
+        ;;
+    push)
+        do_push $*
+        ;;
+    pushs)
+        do_pushs $*
+        ;;
+    pull)
+        do_pull $*
+        ;;
+    login)
+        do_login $*
+        ;;
+    *) usage
+    ;;
+esac
+
+END_TIME=$(date +%s)
+FULL_EXEC_TIME=$(expr ${END_TIME} - ${START_TIME})
+_info "==> Total Time: ${FULL_EXEC_TIME} Second "

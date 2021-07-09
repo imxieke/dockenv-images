@@ -1,4 +1,13 @@
 #!/usr/bin/env bash
+#!/usr/bin/env bash
+###
+ # @Author: Cloudflying
+ # @Date: 2019-12-13 06:33:13
+ # @LastEditTime: 2021-07-07 23:12:52
+ # @LastEditors: Cloudflying
+ # @Description:
+ # @FilePath: /dockenv/images/sshd/tools.sh
+###
 PATH="/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:/usr/games"
 export PATH
 
@@ -8,12 +17,11 @@ XCLOUD_RUN_DIR="/var/www/html/Cloud"
 TTYD_REPO="https://git.coding.net/tsl0922/ttyd.git"
 #TTYD_REPO="https://github.com/tsl0922/ttyd.git"
 
-	Install_env{
-		apt-get install -y build-essential gcc g++ cpp cmake make pkg-config automake \
-		autoconf libwebsockets-dev libjson-c-dev libssl-dev libjson-c2 curl unzip wget zsh vim git apt-utils apt-transport-https ca-certificates
+	Install_env(){
+		apt-get install -y build-essential gcc g++ cpp cmake make pkg-config automake autoconf libwebsockets-dev libjson-c-dev libssl-dev libjson-c2 curl unzip wget zsh vim git apt-utils apt-transport-https ca-certificates
 	}
 
-	Install_ttyd{
+	Install_ttyd(){
 		git clone $TTYD_REPO /tmp/ttyd
 		mkdir -p /tmp/ttyd/build
 		cd /tmp/ttyd/build
@@ -22,8 +30,8 @@ TTYD_REPO="https://git.coding.net/tsl0922/ttyd.git"
 	}
 
 
-	Install_XCloud{
+	Install_XCloud(){
 		git clone $XCLOUD_REPO $XCLOUD_RUN_DIR && \
 		chmod 777 -R $XCLOUD_RUN_DIR && \
-		 rm -fr /var/www/html/Cloud/.git
+		rm -fr /var/www/html/Cloud/.git
 	}

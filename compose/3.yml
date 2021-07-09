@@ -1,0 +1,97 @@
+version: "3.0"
+
+services:
+
+  nginx:
+    container_name: lnmp-nginx
+    build:
+      context: ./nginx
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/sites:/etc/nginx/conf.d
+      - ./nginx/ssl:/etc/nginx/ssl
+      - ${WEB_ROOT_PATH}:/var/www
+    depends_on:
+      - php-fpm
+      - mysql
+
+  php-fpm:
+    container_name: lnmp-php-pfm
+    build:
+      context: ./php-fpm
+      args:
+        - PHP_VERSION=${PHP_VERSION}
+        - INSTALL_PCNTL=${PHP_INSTALL_PCNTL}
+        - INSTALL_OPCACHE=${PHP_INSTALL_OPCACHE}
+        - INSTALL_ZIP=${PHP_INSTALL_ZIP}
+        - INSTALL_REDIS=${PHP_INSTALL_REDIS}
+        - INSTALL_REDIS_VERSION=${PHP_INSTALL_REDIS_VERSION}
+        - INSTALL_MONGODB=${PHP_INSTALL_MONGODB}
+        - INSTALL_MONGODB_VERSION=${PHP_INSTALL_MONGODB_VERSION}
+        - INSTALL_MEMCACHED=${PHP_INSTALL_MEMCACHED}
+        - INSTALL_MEMCACHED_VERSION=${PHP_INSTALL_MEMCACHED_VERSION}
+        - INSTALL_SWOOLE=${PHP_INSTALL_SWOOLE}
+        - INSTALL_SWOOLE_VERSION=${PHP_INSTALL_SWOOLE_VERSION}
+        - INSTALL_XUNSEARCH=${PHP_INSTALL_XUNSEARCH}
+        - INSTALL_COMPOSER=${PHP_INSTALL_COMPOSER}
+    ports:
+      - 9000:9000
+    volumes:
+      - ./php-fpm/conf-${PHP_VERSION}/php.ini:/usr/local/etc/php/php.ini
+      - ./php-fpm/conf-${PHP_VERSION}/php-fpm.conf:/usr/local/etc/php-fpm.conf
+      - ./php-fpm/conf-${PHP_VERSION}/php-fpm.d:/usr/local/etc/php-fpm.d
+      - ${WEB_ROOT_PATH}:/var/www
+
+  mysql:
+    container_name: lnmp-mysql
+    build:
+      context: ./mysql
+      args:
+        - MYSQL_VERSION=${MYSQL_VERSION}
+    ports:
+      - ${MYSQL_PORT}:3306
+    volumes:
+      - ./mysql/data:/var/lib/mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+
+  mongo:
+    container_name: lnmp-mongo
+    build:
+      context: ./mongo
+      args:
+        - MONGO_VERSION=${MONGO_VERSION}
+    ports:
+      - ${MONGO_PORT}:27017
+    volumes:
+      - ./mongo/data:/data/db
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD}
+
+  redis:
+    container_name: lnmp-redis
+    build:
+      context: ./redis
+      args:
+        - REDIS_VERSION=${REDIS_VERSION}
+    ports:
+      - ${REDIS_PORT}:6379
+    volumes:
+      - ./redis/data:/data
+    restart: always
+
+  memcached:
+    container_name: lnmp-memcached
+    build:
+      context: ./memcached
+      args:
+        - MEMCACHED_VERSION=${MEMCACHED_VERSION}
+    ports:
+      - ${MEMCACHED_PORT}:11211
