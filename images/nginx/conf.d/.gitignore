@@ -1,4 +1,0 @@
-# 忽略这个文件夹的改动
-*
-!.gitignore
-!default.conf

@@ -10,7 +10,7 @@ ENV PATH="/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin" \
   LC_MEASUREMENT='en_US.UTF-8' \
   TZ='Asia/Shanghai'
 
-RUN echo "Server = https://mirrors.aliyun.com/archlinux/\$repo/os/\$arch" > /etc/pacman.d/mirrorlist\
+RUN echo "Server = https://mirrors.aliyun.com/archlinux/\$repo/os/\$arch" > /etc/pacman.d/mirrorlist \
     && rm -fr /etc/localtime \
     && ln --symbolic "/usr/share/zoneinfo/${TZ}" /etc/localtime \
     && echo "Asia/Shanghai" > /etc/timezone

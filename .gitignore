@@ -7,7 +7,8 @@
 *.log
 /conf.ini
 /examples
-
+/tmp
+/runtime
 /.idea
 data/logs/*
 data/mysql/*

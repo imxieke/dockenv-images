@@ -1,72 +1,91 @@
 ## About
+boxs -> xfce-base-xfce
+
+## Boxs
+>> 一键开箱即用 PHP 开发环境, 后期增加其他环境 如 Python Go Node ...
+
+## Version
+- latest
+  - cli version dev env
+- xfce
+  - Ubuntu Xfce4 Desktop Version env
+- xfce-arch
+  - Archlinux Xfce4 Desktop Version env
+- sshd
+  - Pure Simple Ubuntu Env, No php Python and more env
+- builder
+  - Archlinux Builder, only for build Archlinux Package
+
+## TODO
+- 优化 Nginx Redis PHP Mysql Memcached Leveldb 环境
+- neovim oh-my-zsh 配置个人习惯
+- fix systemctl not work inside docker container
+- xfconf-query -c xsettings -p /Net/ThemeName -s "Numix"
+- xfconf-query -c xfwm4 -p /general/theme -s "Numix"
+- xfce-theme-manager
+- 配置 Neovim zsh 插件
+
+
+## AUR
+- menulibre
+- xfonts-wqy
+- xfonts-75dpi xfonts-scalable xfonts-cyrillic  fonts-mononoki
+-  ttf-ubuntu-font-family xfonts-base xfonts-100dpi
+-  rar p7zip-full p7zip-rar
+-  qdirstat
+-  kazam
+
+## Create AUR
+- chromium-codecs-ffmpeg
+- chromium-browser-l10n
+
+## pkgs
+
+ubuntu-kylin-software-center
+unity-tweak-tool
+/opt/google/chrome/chrome --user-data-dir=/root --window-position=0,0 --window-size=1366,748 --force-device-scale-factor=1 --no-default-browser-check --no-first-run --disable-translate
+## Cli Apps
+- linuxbrew
+
+## Desktop App
+- elementary/appcenter
+- https://github.com/elementary-tweaks/elementary-tweaks
+
+## 拆包查看文件
+ukui-themes
+
+## Sound
+```
+#set ALSA sound to HDMI output
+sudo amixer cset numid=3 2
+sudo amixer cset numid=1 100%
+
+# run applications in the background
+
+echo "starting pulseaudio ..."
+sudo pulseaudio --system --high-priority --no-cpu-limit -v -L 'module-alsa-sink device=plughw:0,1' >/dev/null 2>&1 &
+
+
+## Chrome
+if [ -z "$ALSADEV" ]; then
+    zenity --error --text "To support audio, please read README.md and run container with --device /dev/snd -e ALSADEV=..."
+    exit 1
+fi
+
+exec /usr/bin/google-chrome --no-sandbox --alsa-output-device="$ALSADEV" "$@"
+
+```
+
+## TODO
+- 考虑将常用程序写在脚本内 使用时一键安装
+- anbox 找一个替代品
+- uengine
 
 ## Feature
 - Web Server
 	- [Nginx](https://github.com/nginx/nginx)
 	- [OpenRestry](https://github.com/openresty/openresty)
 	-[Tengine](https://github.com/alibaba/tengine)
-- Nginx Module
-  - https://github.com/arut/nginx-rtmp-module
-  - https://github.com/openresty/lua-nginx-module
-  - https://github.com/openresty/lua-upstream-nginx-module
-  - https://github.com/openresty/stream-lua-nginx-module
-  - https://github.com/openresty/meta-lua-nginx-module
-  - https://github.com/wandenberg/nginx-push-stream-module
-  - https://github.com/winshining/nginx-http-flv-module
-  - https://github.com/weibocom/nginx-upsync-module
-  - https://github.com/yaoweibin/nginx_tcp_proxy_module
-  - https://github.com/google/ngx_brotli
-  - https://github.com/kaltura/nginx-vod-module
-  - https://github.com/FRiCKLE/ngx_cache_purge
-  - https://github.com/chobits/ngx_http_proxy_connect_module
-  - https://github.com/fdintino/nginx-upload-module
-  - https://github.com/leev/ngx_http_geoip2_module
-  - https://github.com/FRiCKLE/ngx_postgres
-  - https://github.com/arut/nginx-ts-module
-  - https://github.com/arut/nginx-dav-ext-module
-  - https://github.com/rryqszq4/ngx_php7
-  - https://github.com/oupula/ngx_image_thumb
-  - https://github.com/alibaba/nginx-tfs
-  - https://github.com/alibaba/nginx-http-sysguard
-  - https://github.com/evansun922/nginx-quic
-  - https://github.com/alibaba/nginx-http-user-agent
-  - https://github.com/winshining/nginx-http-flv-module
-  - https://github.com/arut/nginx-mtask-module
-  - https://github.com/rryqszq4/ngx_sqlite
-  - https://github.com/arut/nginx-dlna-module
-  - https://github.com/arut/nginx-mysql-hsock-module
-  - https://github.com/arut/nginx-let-module
-  - https://github.com/rryqszq4/ngx_python
-  - https://github.com/hongzhidao/nginx-upload-module
-  - https://github.com/alibaba/nginx-backtrace
-  - https://github.com/google/nginx-sxg-module
-  - https://github.com/FRiCKLE/ngx_supervisord
-  - https://github.com/alibaba/nginx-http-slice
-  - https://github.com/arut/nginx-mysql-module
-  - https://github.com/arut/nginx-python-module
-  - https://github.com/FRiCKLE/ngx_slowfs_cache
-  - https://github.com/replay/ngx_http_consistent_hash
-  - https://github.com/alibaba/nginx-http-footer-filter
-  - https://github.com/zls0424/ngx_req_status
-  - https://github.com/qieangel2013/ngx-fastdfs
-  - https://github.com/TeslaGov/ngx-http-auth-jwt-module
-  - https://github.com/alibaba/nginx-http-concat
-  - https://github.com/arut/nginx-live-module
-  - https://github.com/yaoweibin/ngx_http_substitutions_filter_module
-  - https://github.com/beyondblog/ngx_lua_google_auth
-  - https://github.com/PhillipTaylor/ngx_http_knock_module
-- Nginx Waf
-  - https://github.com/nbs-system/naxsi
-  - https://github.com/loveshell/ngx_lua_waf
-  - https://github.com/gsdu8g9/waf-nginx-module
-  - https://github.com/oneinstack/ngx_lua_waf
-  - https://github.com/taihedeveloper/ngx_lua_waf
-  -
-- oh-my-zsh
-- neovim
-- tools
-    - [x] jq
-    - [x] bat
 - golang
 - nodejs
 - python
@@ -74,34 +93,34 @@
 - rust
 - dotnet
 - code-server (VSCode Web Version)
-- openssh
-- vnc
-	- novnc
-	- Desktop
-		- cinnamon
-		- gnome
-		- kde-plasma-desktop
-		- ubuntu-desktop
-		- ubuntu-unity-desktop
-		- kubuntu-desktop
-		- lubuntu-desktop
-		- xubuntu-desktop
-		- mate-desktop
-		- plasma-desktop kde
-		- ros-desktop unknow
-		- ukui-desktop-environment
-		- xfce4
-		- lxde
-		- lxqt
-- and more ...
-
-# Mirrors
 
 ## TODO
-- 修改 /etc/update-motd.d ssh 登陆欢迎信息
 - fix PATH
-- ngrok in docker
+- https://github.com/elementary
 
-## Packages
+https://flathub.org/repo/
+https://dl.flathub.org/repo/appstream/
+https://flathub.org/repo/appstream/
+https://flathub.org/beta-repo/appstream/org.gimp.GIMP.flatpakref
+https://nightly.gnome.org/repo/appstream/org.gimp.GIMP.flatpakref
 
-## help
+https://rpmfusion.org/
+
+fastly.cdn.snapcraft.io
+darkbowser.canonical.com
+canonical-bos01.cdn.snapcraft.io
+
+https://api.snapcraft.io/api/v1/snaps/download/99T7MUlRhtI3U0QFgl5mXXESAiSwt776_11993.snap
+
+
+## 目录注释
+- 一般有 ~/ /usr /usr/local 三个位置存放安装文件
+- ~/.config/xfce4/panel/launcher-* xfce panel- 的启动器图标 类似桌面的快捷方式
+- ~/.local/share/applications
+- /usr/local/share/applications
+- /usr/share/applications
+- /usr/local/share/fonts
+- /usr/share/fonts
+- ~/.local/share/icons
+- /usr/local/share/icons
+- /usr/share/icons

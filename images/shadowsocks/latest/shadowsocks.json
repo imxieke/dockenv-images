@@ -1,0 +1,13 @@
+{
+    "server":"0.0.0.0",
+    "server_port":PORT,
+    "password":"PASSWD",
+    "timeout":300,
+    "user":"nobody",
+    "method":"METHOD",
+    "fast_open":false,
+    "nameserver":"8.8.8.8,8.8.4.4",
+    "mode":"tcp_and_udp",
+    "plugin":"obfs-server",
+    "plugin_opts":"obfs=tls"
+}

@@ -1,0 +1,51 @@
+
+
+;[program:xfce4-session]
+;priority=15
+;directory=/
+command=dbus-launch /usr/bin/xfce4-session --display=:1
+# environment=HOME='/home/boxs',XDG_RUNTIME_DIR='/run/user/1000',DBUS_SESSION_BUS_ADDRESS='/run/user/1000/bus'
+user=boxs
+autostart=true
+autorestart=true
+stopsignal=QUIT
+stdout_logfile=/var/log/xfce4-session.log
+stderr_logfile=/var/log/xfce4-session.err
+
+[program:vnc]
+priority=10
+directory=/home/boxs
+command=/usr/bin/vncserver :1
+# environment=HOME='/home/boxs'
+environment=HOME='/home/boxs',XDG_RUNTIME_DIR='/run/user/1000',DBUS_SESSION_BUS_ADDRESS='unix:path=/run/user/1000/bus',XDG_SESSION_ID=17,XDG_SESSION_TYPE=tty,XDG_SESSION_CLASS=user
+user=boxs
+autostart=true
+autorestart=true
+stopsignal=QUIT
+stdout_logfile=/var/log/vncserver.log
+stderr_logfile=/var/log/vncserver.err
+
+[program:vnc]
+priority=10
+directory=/home/boxs
+command=/usr/bin/vncserver :1
+;environment=HOME='/home/boxs',DBUS_SESSION_BUS_ADDRESS='unix:path=/run/user/1000/bus',XDG_SESSION_ID=17,XDG_SESSION_TYPE=tty,XDG_SESSION_CLASS=user,DISPLAY=:1.0,DESKTOP_SESSION=xfce,XDG_SESSION_DESKTOP=xfceGTK_MODULES=canberra-gtk-module:canberra-gtk-module,XDG_CONFIG_DIRS=/etc/xdg,GDMSESSION=xfce
+environment=HOME='/home/boxs',XDG_RUNTIME_DIR='/run/user/1000',DBUS_SESSION_BUS_ADDRESS='unix:path=/run/user/1000/bus'
+user=boxs
+autostart=true
+autorestart=true
+stopsignal=QUIT
+stdout_logfile=/var/log/vncserver.log
+stderr_logfile=/var/log/vncserver.err
+
+[program:xfce4-session]
+priority=15
+;directory=/
+command=dbus-launch /usr/bin/xfce4-session --display=:1
+environment=HOME='/home/boxs',XDG_RUNTIME_DIR='/run/user/1000',DBUS_SESSION_BUS_ADDRESS='/run/user/1000/bus'
+user=boxs
+autostart=true
+autorestart=true
+stopsignal=QUIT
+stdout_logfile=/var/log/xfce4-session.log
+stderr_logfile=/var/log/xfce4-session.err

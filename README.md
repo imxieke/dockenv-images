@@ -1,4 +1,4 @@
-### Xiekers Docker Images Repo!
+## Cloudflying Docker Images Repo!
 
 ## Wait for add Project
 - [Gitpod](https://github.com/gitpod-io/gitpod)
@@ -11,12 +11,31 @@
 	stretch(9)
 
 ## TODO
+- shadowsocks
+- php leveldb extension
 - go
 - go env configure
 - base Centos or redhat
   - almalinux
   - cloudlinux
+- tengine
+- Canddy2
 ### Run
+
+## Docker Composer
+- 将程序数据 配置文件 日志等目录挂载出来
+- varnish
+- haproxy
+- selenium
+- mailhog
+
+# TODO ADD Dockerfile
+- geth
+- openethereum
+- opensuuse
+- fedora
+- hhvm
+- /Users/imxieke/.boxs/bin/all/check-person-project-git-status
 
 ```
 $ run shadowsocks
@@ -42,12 +61,6 @@ phpRedisAdmin
 Aerospike 高可用的 K-V类型的Nosql数据库
 
 https://github.com/mozilla/geckodriver
-
-# TODO ADD Dockerfile
-geth
-openethereum
-opensuuse
-fedora
 
 ## TODO
 - 将 Nginx 配置 文件 氛围 main sec cache 等多个
@@ -236,10 +249,8 @@ sudo docker run --rm -ti -p 80:80 -p 3306:3306 --name debian_php_dev_env \
 ```
 ## Env
 - Web Server
-  - [Apache](https://httpd.apache.org)
   - [Canndy](https://caddyserver.com)
   - [Nginx](http://nginx.org)
-  - [LightHttp](https://www.lighttpd.net)
   - Openresty
   - Tengine
 - SQL
@@ -248,10 +259,11 @@ sudo docker run --rm -ti -p 80:80 -p 3306:3306 --name debian_php_dev_env \
   - [SQLite](https://www.sqlite.org)
   - [PostGreSQL](https://www.postgresql.org)
   - [MongoDB](https://www.mongodb.com)
-- Mysql Manage
+- Mysql Manager
   - [PHPMyAdmin](https://www.phpmyadmin.net)
   - [Adminer](https://www.adminer.org)
 - NOSQL
+  - [Aerospike](https://aerospike.com)
   - [Redis](https://redis.io)
   - [Memcached](https://memcached.org)
 - Message Queue (Broker)
@@ -261,23 +273,16 @@ sudo docker run --rm -ti -p 80:80 -p 3306:3306 --name debian_php_dev_env \
 - full-text search engine
   - [elastic](https://www.elastic.co)
 - Editor
-  - [Vim](https://www.vim.org)
   - [NeoVim](https://neovim.io)
-  - [Atom](https://atom.io)
   - [Sublime Text](https://www.sublimetext.com)
   - [Visual Studio Code](https://code.visualstudio.com)
-- Version Control
-  - [Git](https://git-scm.com)
-- Version Repo
+- Git Version Repo
   - [Github](https://github.com)
   - [BitBucket](https://bitbucket.org)
   - [Gitlab](https://about.gitlab.com)
   - [Azure](https://dev.azure.com)
 - 守护进程
   - superviosr
-
-
-
 
 提供PHP CLI模式独立运行模式参考：`call-websockt` 与 `php-superviosr`。`call-websockt` 是基于[workman](http://www.workerman.net/) 的PHP Socket服务。`php-supervior` 实现基于Supervisor的队列服务。
 
@@ -293,38 +298,15 @@ $ sudo systemctl daemon-reload
 $ sudo systemctl restart docker
 ```
 
+1. 配置.env环境参数，一般无需修改默认参数。配置`PHP_FPM_DOMAIN` 支持Nginx容器虚拟主机互通，配置`SUPERVISOR_DOMAIN` 支持Supervisor容器项目互通。[参考这里](https://github.com/laradock/laradock/issues/435)了解容器多个项目内部通信机制。
 
-## 安装 compose
-推荐[Github官网](https://github.com/docker/compose/releases)安装Docker Compose。
-
-```bash
-$ curl -L https://github.com/docker/compose/releases/download/1.13.0/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
-
-$ chmod +x /usr/local/bin/docker-compose
-```
-
-2. 配置.env环境参数，一般无需修改默认参数。配置`PHP_FPM_DOMAIN` 支持Nginx容器虚拟主机互通，配置`SUPERVISOR_DOMAIN` 支持Supervisor容器项目互通。[参考这里](https://github.com/laradock/laradock/issues/435)了解容器多个项目内部通信机制。
-
-3. [*] 配置定时任务容器环境参数。默认无定时任务，可以参考`php-crond/crontabs/default.example`开启定时任务。
+2. [*] 配置定时任务容器环境参数。默认无定时任务，可以参考`php-crond/crontabs/default.example`开启定时任务。
 
 ```shell
    $ cd php-crond/crontabs/
    $ cp default.example default
 ```
 4. [*] 配置Supervisor后台进程处理任务。默认无后台进程处理，参考`php-supervisor/supervisor/default.conf.example` 配置多进程任务。
-
-   ```shell
-   $ cd php-supervisor/supervisor
-   $ cp default.conf.example default.conf
-   ```
-
-### Docker常用命令
-```shell
-# 删除所有容器
-docker rm -f $(docker ps -aq)
-# 删除所有镜像
-docker rmi $(docker images -q)
-```
 
 ## 学习文档
 [Docker 配置详解](https://www.jianshu.com/p/2217cfed29d7)
@@ -333,117 +315,13 @@ docker rmi $(docker images -q)
 
 [Docker 微服务教程](http://www.ruanyifeng.com/blog/2018/02/docker-wordpress-tutorial.html)
 
-*/1 * * * * /cron-shell/backup.sh
-
-
-## Nginx Modules
-- https://www.nginx.com/resources/wiki/modules/
-- https://docs.nginx.com/nginx/admin-guide/dynamic-modules/dynamic-modules/
-
-### 使用
-
-**服务管理**
-
-```bash
-# MySQL
-systemctl {start,stop,status,restart} mysqld.service
-
-# MariaDB
-systemctl {start,stop,status,restart} mariadb.service
-
-# PHP
-systemctl {start,stop,status,restart} php-fpm.service
-
-# Nginx
-systemctl {start,stop,status,restart,reload} nginx.service
-```
-
-**站点管理**
-
-```bash
-# 列表
-service vhost list
-
-# 启动(重启)、停止
-service vhost {start,stop} [<domain>]
-
-# 新增、编辑
-service vhost {add, edit} [<domain>] [<server_name>] [<index_name>] [<rewrite_file>] [<host_subdirectory>]
-
-# 删除
-service vhost del [<domain>]
-```
-
-参数说明
-
-- `start` 启动、重启
-- `stop` 停止
-- `add` 新增
-- `edit` 编辑
-- `del` 删除
-- `<domain>` 站点标识，默认：`domain`
-- `<server_name>` 域名列表，使用 `,` 隔开，默认：`domain.com,www.domain.com`
-- `<index_name>` 首页文件，依次生效，默认：`index.html,index.htm,index.php`
-- `<rewrite_file>` 伪静态规则文件，保存在 `/etc/nginx/rewrite/`，默认：`nomal.conf`
-- `<host_subdirectory>` 是否支持子目录绑定，`on` 或者 `off`，默认 `off`
-
-示例
-
-```bash
-# 启动或重启所有站点
-service vhost start
-
-# 停止所有站点
-service vhost stop
-
-# 列出所有站点
-service vhost list
-
-# 添加一个标识为 `mysite`，域名为 `mysite.com` 的站点
-service vhost add mysite mysite.com
-
-# 启动或重启标识为 `mysite` 的站点
-service vhost start mysite
-
-# 停止标识为 `mysite` 的站点
-service vhost stop mysite
-
-# 编辑标识为 `mysite` 的站点
-service vhost edit mysite
-
-# 删除标识为 `mysite` 的站点
-service vhost del mysite
-```
-
-**备份**
-
-```bash
-# 新建一个备份
-service vbackup start
-
-# 删除一个备份
-service vbackup del [<file>.tar.gz]
-
-# 列出所有备份
-service vbackup list
-```
-
 ### 协议
 
 The MIT License (MIT)
 
-
+```shell
 * * * * * php /var/www/laravel/artisan schedule:run >> /dev/null 2>&1
 * docker-compose exec --user=laradock workspace bash
 * /usr/sbin/init
 * /usr/sbin/php-fpm -c /etc/php.ini -y /etc/php-fpm.conf
-
-
-## Alpine Version PHP Version
-3.8 5.6.40
-3.9 7.2.33
-3.10 7.3.14
-3.11 7.3.22
-3.12 7.3.25
-edge 7.4.13
-edge 8.0.0
+```

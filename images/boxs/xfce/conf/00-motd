@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+ # Ubuntu 20.04.3 LTS (GNU/Linux 5.10.47-linuxkit x86_64)
+OSNAME=$(grep '^NAME=' /etc/os-release | awk -F '"' '{print $2}')
+DISTRIB_DESCRIPTION=$(grep 'VERSION=' /etc/os-release | awk -F '"' '{print $2}')
+echo "Welcome to ${OSNAME} ${DISTRIB_DESCRIPTION} ($(uname -o) $(uname -r) $(uname -m)) "
+printf "\n"
+printf " * Documentation:  https://help.ubuntu.com\n"
+printf " * Management:     https://landscape.canonical.com\n"
+printf " * Support:        https://ubuntu.com/advantage\n"
+echo -e "\n"
+echo "System load    :$(uptime | awk -F ':' '{print $5}')"
+echo "Processes      : $(ps -aux | wc -l)"
+echo "Logged users   : $(who | wc -l)"
+echo "Usage of /     : $(df -h | grep '/$' | awk -F ' ' '{print $5}') of $(df -h | grep '/$' | awk -F ' ' '{print $2}')"
+echo "Last login     : $(last boxs | grep boxs | awk -F ' ' '{print $4" "$5" "$6" "$7}') from $(last boxs | grep boxs | awk -F ' ' '{print $3}')"
+
+echo -e "\nSystem infomation:\n"
+
+echo "CPU  :$(grep '^model\ name' /proc/cpuinfo | head -n 1 | awk -F ':' '{print $2}') x $(grep -c 'processor' /proc/cpuinfo)"
+echo "Mem  : $(free -h | grep '^Mem' | awk -F ' ' '{print $2}')"
+echo "Swap : $(free -h | grep '^Swap' | awk -F ' ' '{print $2}')"
+
+if [[ -f '/.dockerenv' ]]; then
+	echo ""
+	echo "This system has been minimized by removing packages and content that are"
+	echo "not required on a system that users do not log into."
+	echo ""
+	echo "To restore this content, you can run the 'unminimize' command."
+fi
+
+# if the current release is under development there won't be a new one
+if [ "$(lsb_release -sd | cut -d' ' -f4)" = "(development" ]; then
+    exit 0
+fi
+if [ -x /usr/lib/ubuntu-release-upgrader/release-upgrade-motd ]; then
+    exec /usr/lib/ubuntu-release-upgrader/release-upgrade-motd
+fi
+
+if [ -x /usr/lib/update-notifier/update-motd-hwe-eol ]; then
+    exec /usr/lib/update-notifier/update-motd-hwe-eol
+fi
+
+if [ -x /usr/lib/update-notifier/update-motd-fsck-at-reboot ]; then
+    exec /usr/lib/update-notifier/update-motd-fsck-at-reboot
+fi
+
+if [ -x /usr/lib/update-notifier/update-motd-reboot-required ]; then
+    exec /usr/lib/update-notifier/update-motd-reboot-required
+fi
