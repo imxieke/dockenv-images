@@ -1,4 +1,4 @@
-FROM almalinux:8.4
+FROM almalinux:latest
 LABEL MAINTAINER="Cloudflying" \
   MAIL="<oss@live.hk>"
 

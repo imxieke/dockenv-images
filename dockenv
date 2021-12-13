@@ -1,33 +1,6 @@
 #!/usr/bin/env bash
 # Docker Env
 START_TIME=$(date +%s)
-# https://www.docker.com/increase-rate-limits
-# due to Docker rate limit , mirrors recommended
-# Docker Pull Mirrors
-# https://registry-1.docker.io
-# index.docker.io/library/alpine
-# http://f1361db2.m.daocloud.io
-# https://22bvsrc3.mirror.aliyuncs.com
-# https://2h3po24q.mirror.aliyuncs.com
-# https://3laho3y3.mirror.aliyuncs.com
-# https://3wky8dz8.mirror.aliyuncs.com
-# https://ustc-edu-cn.mirror.aliyuncs.com
-# http://hub-mirror.c.163.com
-# docker.mirrors.ustc.edu.cn
-# https://mirror.baidubce.com
-# https://mirror.ccs.tencentyun.com
-
-# lnmp
-# php 5.6 7.2 7.3 7.4 8
-# mysql 5.7 8
-# nginx 1.18
-# groupadd www
-# useradd -m -s /sbin/nologin -g www www
-# mkdir -p /home/{wwwroot,userdata}
-# chown -R www:www /home/wwwroot
-# gcr.io/google_containers/pause-amd64:3.0
-
-# sed -i 's/archive.ubuntu.com/mirrors.aliyun.com/g' /etc/apt/sources.list
 
 PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 export PATH
@@ -40,22 +13,6 @@ export LC_CTYPE=en_US.UTF-8
 
 CUR_PATH=$(cd $(dirname "${BASH_SOURCE[0]}") && pwd)
 IMAGE_PATH=${CUR_PATH}/images
-
-# url -sS https://getcomposer.org/installer |php7
-
-# /etc/php7/conf.d/20_xdebug.ini
-# echo "xdebug.remote_host = ${LOCAL_IP_ADD}" >> /etc/php7/conf.d/20_xdebug.ini
-# echo "xdebug.idekey = PHPSTORM" >> /etc/php7/conf.d/20_xdebug.ini
-# echo "xdebug.remote_autostart = off" >> /etc/php7/conf.d/20_xdebug.ini
-
-# addgroup -S topone4tvs && adduser -S -G topone4tvs topone4tvs
-# chown -R topone4tvs:topone4tvs /var/www/
-
-# apk add openssh
-# ssh-keygen -t rsa -b 2048 -f /etc/ssh/ssh_host_rsa_key
-# sed -i -e "s/#HostKey \/etc\/ssh\/ssh_host_rsa_key/HostKey \/etc\/ssh\/ssh_host_rsa_key/g" /etc/ssh/sshd_config
-# ssh-keygen -t rsa
-# touch ~/.ssh/authorized_keys
 
 source .env
 

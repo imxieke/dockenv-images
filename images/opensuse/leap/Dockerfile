@@ -1,4 +1,4 @@
-FROM opensuse:leap
+FROM opensuse/leap:latest
 LABEL MAINTAINER="Cloudflying" \
   MAIL="oss@live.hk"
 

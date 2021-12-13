@@ -1,4 +1,4 @@
-FROM opensuse:tumbleweed
+FROM opensuse/tumbleweed:latest
 LABEL MAINTAINER="Cloudflying" \
   MAIL="oss@live.hk"
 

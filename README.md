@@ -1,26 +1,41 @@
 ## Cloudflying Docker Images Repo!
 
-## Wait for add Project
+## Images
+### OS
+- ALinux Aliyun Linux
+- Almalinux
+- Alpine
+- Altlinux
+- Archlinux
+- Cirros
+- Clearlinux
+- Debian
+- Deepin
+- Centos
+- Fedora
+- Gentoo
+- Kali
+- Manjaro
+- Megaia
+- Openeuler
+- Oraclelinux
+- Photon
+- Scientific Linux
+- Ubuntu
+
+# Debian
+	stretch(9)
+
+## TODO
+- shadowsocks
+- tengine
+- Canddy2
 - [Gitpod](https://github.com/gitpod-io/gitpod)
 - [Theia](https://github.com/eclipse-theia/theia)
 - [Code Server](https://github.com/cdr/code-server)
 - [Eclipse Che](https://github.com/eclipse/che)
 - [Codiad](https://github.com/Codiad/Codiad)
 - [C9](https://github.com/c9/core)
-# Debian
-	stretch(9)
-
-## TODO
-- shadowsocks
-- php leveldb extension
-- go
-- go env configure
-- base Centos or redhat
-  - almalinux
-  - cloudlinux
-- tengine
-- Canddy2
-### Run
 
 ## Docker Composer
 - 将程序数据 配置文件 日志等目录挂载出来
