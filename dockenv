@@ -84,9 +84,9 @@ do_build()
         DOCKER_BUILDKIT=0
 
         if [[ -n "${DOCKER_REGISTRY_PREFIX}" ]]; then
-            docker build --progress plain --no-cache -t ${DOCKER_REGISTRY_PREFIX}${NAME}:$VERSION .
+            docker build --progress auto --no-cache -t ${DOCKER_REGISTRY_PREFIX}${NAME}:$VERSION .
         else
-            docker build --progress plain --no-cache -t ${NAME}:$VERSION .
+            docker build --progress auto --no-cache -t ${NAME}:$VERSION .
         fi
 
         [[ -n "${ENABLE_GITHUB_REGISTRY}" ]] && docker tag ${DOCKER_REGISTRY_PREFIX}${NAME}:$VERSION ${DOCKER_REGISTRY_GITHUB}/${NAME}:$VERSION
@@ -208,7 +208,7 @@ do_login()
         docker login -u -p registry.baidubce.com
     ;;
     'coding')
-        docker login -u -p cloudflying-docker.pkg.coding.net
+        docker login -u -p pkgs-docker.pkg.coding.net
         ;;
     # 阿里云香港
     'aliyun-hk')

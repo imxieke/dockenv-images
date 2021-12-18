@@ -20,6 +20,7 @@
 - Openeuler
 - Oraclelinux
 - Photon
+- Rockylinux
 - Scientific Linux
 - Ubuntu
 

@@ -2,7 +2,8 @@
 FROM ubuntu:impish
 
 LABEL MAINTAINER="Cloudflying" \
-    MAIL="oss@live.hk"
+    MAIL="oss@live.hk" \
+    org.opencontainers.image.source=https://github.com/dockenv/dockenv
 
 ENV PATH="/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin" \
     DEBIAN_FRONTEND=noninteractive
