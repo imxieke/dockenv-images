@@ -1,6 +1,13 @@
 ## bug
 
-aria2 
+aria2
 PAS_SECRET 自定义 secret 无效
 
 脚本一键更新 .env 内版本信息
+
+- https://github.com/mozilla/geckodriver
+- https://github.com/mongo-express/mongo-express
+- geth
+- openethereum
+- opensuuse
+- /Users/imxieke/.boxs/bin/all/check-person-project-git-status
