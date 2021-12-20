@@ -16,7 +16,7 @@ RUN pacman -Syyu --noconfirm \
     # File Manage
     && pacman -S --noconfirm thunar thunar-archive-plugin thunar-volman \
     && pacman -S --noconfirm tigervnc python python-pip python-pynvim openssh dialog \
-    && pip install wheel numpy websockify -i https://mirrors.aliyun.com/pypi/simple/ \
+    && pip install wheel numpy websockify -i https://repo.huaweicloud.com/pypi/simple/ \
     # build desktop require
     && pacman -S --noconfirm supervisor sudo wget curl git neovim tree less zsh bat net-tools \
     && git clone --depth 1 https://e.coding.net/pkgs/oh-my-zsh/oh-my-zsh.git /tmp/oh-my-zsh \

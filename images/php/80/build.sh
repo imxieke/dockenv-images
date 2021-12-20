@@ -2,7 +2,7 @@
 ###
  # @Author: Cloudflying
  # @Date: 2021-11-13 20:44:45
- # @LastEditTime: 2021-11-14 13:04:35
+ # @LastEditTime: 2021-12-21 00:17:26
  # @LastEditors: Cloudflying
  # @Description:
  # @FilePath: /dockenv/images/php/80/build.sh
@@ -106,7 +106,7 @@ ext_dir=$(php-config --extension-dir)
 ini_dir=$(php-config --ini-dir)
 ini_file=$(php --ini | grep '^Loaded Configuration File' | awk -F ' ' '{print $4}')
 # gnupg gpgme-dev depency qtbase fuck
-#
+
 # alpine included: event xhprof xdebug ssh2 protobuf imagick igbinary msgpack memcache memcached mongodb redis yaml
 # 不兼容 8 scrypt stomp hprose
 exts="amqp ev rar rdkafka  yac yaf swoole zstd leveldb"

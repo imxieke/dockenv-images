@@ -28,7 +28,7 @@ RUN apt update -y \
     # && apt install -y --no-install-recommends fonts-noto-mono ttf-ubuntu-font-family ttf-wqy-zenhei xfonts-base xfonts-100dpi \
     # xfonts-75dpi xfonts-scalable xfonts-cyrillic ttf-wqy-zenhei fonts-wqy-zenhei fonts-wqy-microhei xfonts-wqy fonts-mononoki \
     # fonts-noto-mono fonts-liberation \
-    && pip install numpy websockify -i https://mirrors.aliyun.com/pypi/simple/ \
+    && pip install numpy websockify -i https://repo.huaweicloud.com/pypi/simple/ \
     # && apt install -y --no-install-recommends openbox openbox-menu \
     # editor 考虑 sublime text 为替代品
     # && apt install -y --no-install-recommends gedit \
