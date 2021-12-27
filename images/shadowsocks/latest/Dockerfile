@@ -14,5 +14,5 @@ USER root
 
 # RUN rm -fr /etc/service
 
-# CMD sh /tmp/entrypoint.sh
-CMD sh
+# CMD [ "/bin/bash" ]h /tmp/entrypoint.sh
+CMD [ "/bin/bash" ]h

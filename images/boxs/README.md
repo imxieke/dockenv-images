@@ -16,3 +16,8 @@
   - `docker run -d -p 22:22 ghcr.io/dockenv/boxs:sshd`
 - builder
   - Archlinux Builder, only for build Archlinux Package
+
+
+## cli
+- kotlin
+- rust 解压后 1.2G

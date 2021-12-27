@@ -24,6 +24,21 @@
 - Scientific Linux
 - Ubuntu
 
+## Rolling Release
+- Archlinux
+- Alpine Edge
+- Debian testing
+- Gentoo
+- kali kali-rolling (default)
+- Manjaro (Base Archlinux)
+- opensuse tumbleweed
+- solus
+  - TODO
+  - https://github.com/solus-project
+  - https://getsol.us
+  - https://github.com/sileshn/SolusWSL
+- voidlinux
+
 #### App image
 - inotify-tools
 - phpRedisAdmin

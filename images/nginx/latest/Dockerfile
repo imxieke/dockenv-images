@@ -32,5 +32,5 @@ WORKDIR ${HOME_DIR}
 
 EXPOSE 22 80
 
-# CMD sudo service ssh start
+# CMD [ "/bin/bash" ]udo service ssh start
 CMD /usr/bin/bootstrap

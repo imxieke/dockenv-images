@@ -18,6 +18,7 @@ source .env
 
 for denv in $* ;do
     [[ "$(echo $denv | grep '\-\-registry\-prefix=')" ]] && DOCKER_REGISTRY_PREFIX=$(echo $denv | awk -F '=' '{print $2}')
+    [[ "$(echo $denv | grep '\-\-registry\-prefix=')" ]] && DOCKER_REGISTRY_PREFIX=$(echo $denv | awk -F '=' '{print $2}')
     [[ "$(echo $denv | grep '\-\-with=github')" ]] && ENABLE_GITHUB_REGISTRY=true
     [[ "$(echo $denv | grep '\-\-with=coding')" ]] && ENABLE_CODING_REGISTRY=true
     [[ "$(echo $denv | grep '\-\-with=baidu')" ]] && ENABLE_BAIDU_REGISTRY=true
@@ -32,12 +33,13 @@ for denv in $* ;do
     [[ "$(echo $denv | grep '\-\-with=ucloud')" ]] && ENABLE_UCLOUD_REGISTRY=true
     [[ "$(echo $denv | grep '\-\-with=amazon')" ]] && ENABLE_AMAZON_REGISTRY=true
     [[ "$(echo $denv | grep '\-\-with=ecr')" ]] && ENABLE_ECR_REGISTRY=true
+    [[ "$(echo $denv | grep '\-\-prefix')" ]] && DOCKER_REGISTRY_PREFIX=$(echo $denv | awk -F '=' '{print $2}')
 done
 
 # enable github coding aliyun
-ENABLE_GITHUB_REGISTRY=true
-ENABLE_CODING_REGISTRY=true
-ENABLE_ALIYUN_REGISTRY=true
+# ENABLE_GITHUB_REGISTRY=true
+# ENABLE_CODING_REGISTRY=true
+# ENABLE_ALIYUN_REGISTRY=true
 
 _red() {
     printf '\033[1;31;31m%b\033[0m' "$1"
@@ -83,10 +85,11 @@ do_build()
         cd ${NAME}/${VERSION}
         DOCKER_BUILDKIT=0
 
+        # --no-cache
         if [[ -n "${DOCKER_REGISTRY_PREFIX}" ]]; then
-            docker build --progress auto --no-cache -t ${DOCKER_REGISTRY_PREFIX}${NAME}:$VERSION .
+            docker build --progress auto -t ${DOCKER_REGISTRY_PREFIX}${NAME}:$VERSION .
         else
-            docker build --progress auto --no-cache -t ${NAME}:$VERSION .
+            docker build --progress auto -t ${NAME}:$VERSION .
         fi
 
         [[ -n "${ENABLE_GITHUB_REGISTRY}" ]] && docker tag ${DOCKER_REGISTRY_PREFIX}${NAME}:$VERSION ${DOCKER_REGISTRY_GITHUB}/${NAME}:$VERSION

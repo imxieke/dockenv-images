@@ -5,6 +5,12 @@ PAS_SECRET 自定义 secret 无效
 
 脚本一键更新 .env 内版本信息
 
+php.ini
+- expose_php = On
+
+- boxs
+-
+
 - https://github.com/mongo-express/mongo-express
 - geth
 - openethereum
