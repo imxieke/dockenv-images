@@ -1,6 +1,9 @@
 name: Docker Build Alpine
 
 on:
+  workflow_dispatch:
+    branches:
+    - master
   schedule:
     - cron: '0 2 * * *'
 
