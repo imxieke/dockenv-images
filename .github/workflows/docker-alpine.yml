@@ -18,7 +18,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Build the alpine Docker image
+    - name: Build the Docker Image
       run: |
         docker build . --file images/${{ env.IMAGE_NAME }}/latest/Dockerfile -t ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:latest
         docker build . --file images/${{ env.IMAGE_NAME }}/3.15/Dockerfile -t ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:3.15

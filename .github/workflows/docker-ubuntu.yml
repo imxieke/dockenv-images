@@ -1,0 +1,43 @@
+name: Docker Build Ubuntu
+
+on:
+  workflow_dispatch:
+    branches:
+    - master
+  schedule:
+    - cron: '0 2 * * *'
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ubuntu
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build the Docker image
+      run: |
+        docker build . --file images/${{ env.IMAGE_NAME }}/latest/Dockerfile -t ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:latest
+        docker build . --file images/${{ env.IMAGE_NAME }}/21.10/Dockerfile -t ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:21.10
+        docker build . --file images/${{ env.IMAGE_NAME }}/21.04/Dockerfile -t ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:21.04
+        docker build . --file images/${{ env.IMAGE_NAME }}/20.10/Dockerfile -t ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:20.10
+        docker build . --file images/${{ env.IMAGE_NAME }}/20.04/Dockerfile -t ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:20.04
+        docker build . --file images/${{ env.IMAGE_NAME }}/18.04/Dockerfile -t ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:18.04
+        docker build . --file images/${{ env.IMAGE_NAME }}/16.04/Dockerfile -t ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:16.04
+
+    - name: Login Github Package Registry
+      run: |
+        docker login -u imxieke -p '${{ secrets.APIKEY }}' ${{ env.REGISTRY }}
+
+    - name: Push Docker Image To Github Package
+      run: |
+        docker push ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:latest
+        docker push ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:21.10
+        docker push ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:21.04
+        docker push ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:20.10
+        docker push ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:20.04
+        docker push ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:18.04
+        docker push ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:16.04
