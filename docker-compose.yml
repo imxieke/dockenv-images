@@ -21,7 +21,7 @@ services:
       - boxs
 
   php74:
-    image: registry.cn-hongkong.aliyuncs.com/boxs/php:74
+    image: ghcr.io.dockenv/php:74
     container_name: php74
     restart: always
     privileged: true
@@ -38,7 +38,7 @@ services:
       - 8.8.8.8
 
   mysql57:
-    image: registry.cn-hongkong.aliyuncs.com/boxs/mysql:5.7
+    image: ghcr.io.dockenv/mysql:5.7
     hostname: mysql57
     container_name: mysql57
     restart: always
@@ -63,7 +63,7 @@ services:
         ipv4_address: ${MYSQL57_IP}
 
   mysql80:
-    image: registry.cn-hongkong.aliyuncs.com/boxs/mysql:8.0
+    image: ghcr.io.dockenv/mysql:8.0
     hostname: mysql80
     container_name: mysql80
     restart: always
@@ -88,7 +88,7 @@ services:
         ipv4_address: ${MYSQL80_IP}
 
   redis:
-    image: registry.cn-hongkong.aliyuncs.com/boxs/redis:6.2
+    image: ghcr.io.dockenv/redis:6.2
     container_name: redis
     hostname: redis
     ports:
@@ -103,8 +103,15 @@ services:
       - ./runtime/logs/redis:/var/log/redis
     command: redis-server /etc/redis/redis.conf
 
+  memcached:
+    image: ghcr.io/dockenv/memcached:latest
+    hostname: memcached
+    container_name: memcached
+    ports:
+      - ${MEMCACHED_PORT}:11211
+
   boxs:
-    image: registry.cn-hongkong.aliyuncs.com/imxieke/boxs:latest
+    image: ghcr.io.dockenv/boxs:latest
     hostname: boxs
     container_name: boxs
     volumes:
@@ -118,7 +125,7 @@ services:
       - "16901:6901"
 
   xfce4:
-    image: registry.cn-hongkong.aliyuncs.com/imxieke/boxs:xfce
+    image: ghcr.io.dockenv/boxs:xfce
     hostname: xfce4
     container_name: xfce4
     privileged: true
