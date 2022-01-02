@@ -9,6 +9,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
+  IMAGE_NAME: alpine
 
 jobs:
   build:
@@ -19,10 +20,10 @@ jobs:
     - uses: actions/checkout@v2
     - name: Build the alpine Docker image
       run: |
-        docker build . --file images/alpine/latest/Dockerfile --tag ${{ env.REGISTRY }}/dockenv/alpine:latest
-        docker build . --file images/alpine/3.15/Dockerfile --tag ${{ env.REGISTRY }}/dockenv/alpine:3.15
-        docker build . --file images/alpine/3.14/Dockerfile --tag ${{ env.REGISTRY }}/dockenv/alpine:3.14
-        docker build . --file images/alpine/3.13/Dockerfile --tag ${{ env.REGISTRY }}/dockenv/alpine:3.13
+        docker build . --file images/${{ env.IMAGE_NAME }}/latest/Dockerfile -t ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:latest
+        docker build . --file images/${{ env.IMAGE_NAME }}/3.15/Dockerfile -t ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:3.15
+        docker build . --file images/${{ env.IMAGE_NAME }}/3.14/Dockerfile -t ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:3.14
+        docker build . --file images/${{ env.IMAGE_NAME }}/3.13/Dockerfile -t ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:3.13
 
     - name: Login Github Package Registry
       run: |
