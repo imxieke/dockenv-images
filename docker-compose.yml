@@ -128,6 +128,89 @@ services:
       - "10022:22"
       - "15901:5901"
       - "16901:6901"
+
+  elasticsearch:
+    image: ghcr.io/dockenv/elastic:latest
+    hostname: elasticsearch
+    container_name: elasticsearch
+    restart: always
+    environment:
+      - cluster.name=docker-elasticsearch
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - discovery.type=single-node
+      # - "discovery.zen.ping.unicast.hosts=elasticsearch2, elasticsearch"
+      - script.painless.regex.enabled=true
+      # - node.master=false
+      # - node.data=true
+      - TZ=${TIMEZONE}
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+          soft: 65536
+          hard: 65536
+    volumes:
+      - ./runtime/data/elasticsearch:/usr/share/elasticsearch/data
+      # - ${ELASTICSEARCH_CONF_FILE}:/usr/share/elasticsearch/config/elasticsearch.yml
+    ports:
+     - "9200:9200"
+     - "9300:9300"
+    networks:
+      boxs:
+        ipv4_address: ${ELASTICSEARCH_IP}
+
+  kibana:
+    image: ghcr.io/dockenv/kibana:latest
+    hostname: kibana
+    container_name: kibana
+    restart: always
+    environment:
+      - SERVER_NAME=kibana
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+    ports:
+     - "5601:5601"
+    networks:
+      boxs:
+        ipv4_address: ${KIBANA_IP}
+
+  logstash:
+    image: ghcr.io/dockenv/logstash:latest
+    hostname: logstash
+    container_name: logstash
+    restart: always
+    ports:
+     - "9600:9600"
+     - "5044:5044"
+    networks:
+      boxs:
+        ipv4_address: ${LOGSTASH_IP}
+
+  rabbitmq:
+    image: ghcr.io/dockenv/rabbitmq:latest
+    hostname: rabbitmq
+    container_name: rabbitmq
+    restart: always
+    ports:
+      - "4369:4369"
+      - "5671:5671"
+      - "5672:5672"
+      - "15691:15691"
+      - "15692:15692"
+      - "25672:25672"
+    environment:
+      TZ: "${TIMEZONE}"
+      RABBITMQ_DEFAULT_USER: "${RABBITMQ_DEFAULT_USER}"
+      RABBITMQ_DEFAULT_PASS: "${RABBITMQ_DEFAULT_PASS}"
+      RABBITMQ_NODE_IP_ADDRESS: "${RBMQ_IP}"
+    volumes:
+      - ./runtime/data/rabbitmq:/var/lib/rabbitmq
+      - ./runtime/logs/rabbitmq:/var/log/rabbitmq
+    networks:
+      boxs:
+        ipv4_address: ${RBMQ_IP}
+
 networks:
   boxs:
     driver: bridge

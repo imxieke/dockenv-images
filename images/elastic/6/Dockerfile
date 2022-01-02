@@ -1,4 +1,4 @@
-FROM elasticsearch:7.16.2
+FROM elasticsearch:6.8.22
 
 LABEL MAINTAINER="Cloudflying" \
     MAIL="oss@live.hk" \
