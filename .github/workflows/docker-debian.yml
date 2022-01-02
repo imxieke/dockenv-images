@@ -1,5 +1,4 @@
 name: Docker Build Debian
-description: build and push docker images
 
 on:
   workflow_dispatch:

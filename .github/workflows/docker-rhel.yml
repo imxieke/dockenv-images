@@ -1,5 +1,4 @@
 name: Docker Build rhel
-description: build and push docker images
 
 on:
   workflow_dispatch:

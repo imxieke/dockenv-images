@@ -1,5 +1,4 @@
 name: Docker Build Aliyun Linux
-description: build and push docker images
 
 on:
   workflow_dispatch:

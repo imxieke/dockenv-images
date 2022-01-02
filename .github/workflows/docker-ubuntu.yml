@@ -1,5 +1,4 @@
 name: Docker Build Ubuntu
-description: build and push docker images
 
 on:
   workflow_dispatch:
