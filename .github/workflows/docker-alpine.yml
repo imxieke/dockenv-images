@@ -2,7 +2,7 @@ name: Docker Build Alpine
 
 on:
   schedule:
-    - cron: '0 2 1/* * *'
+    - cron: '0 2 * * *'
 
 env:
   # Use docker.io for Docker Hub if empty
@@ -26,7 +26,7 @@ jobs:
 
     - name: Login Github Package Registry
       run: |
-        docker login -u ${{ github.actor }} -p '${{ secrets.APIKEY }}' ${{ env.REGISTRY }}
+        docker login -u imxieke -p '${{ secrets.APIKEY }}' ${{ env.REGISTRY }}
 
     - name: Push Docker Image To Github Package
       run: docker push ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:latest
