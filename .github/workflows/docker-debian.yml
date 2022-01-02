@@ -1,0 +1,44 @@
+name: Docker Build Debian
+description: build and push docker images
+
+on:
+  workflow_dispatch:
+    branches:
+    - master
+  schedule:
+    - cron: '0 2 * * *'
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: debian
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build the Docker image
+      run: |
+        docker build . --file images/${{ env.IMAGE_NAME }}/latest/Dockerfile -t ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:latest
+        docker build . --file images/${{ env.IMAGE_NAME }}/bullseye/Dockerfile -t ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:bullseye
+        docker build . --file images/${{ env.IMAGE_NAME }}/buster/Dockerfile -t ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:buster
+        docker build . --file images/${{ env.IMAGE_NAME }}/stretch/Dockerfile -t ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:stretch
+        docker build . --file images/${{ env.IMAGE_NAME }}/jessie/Dockerfile -t ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:jessie
+        docker build . --file images/${{ env.IMAGE_NAME }}/testing/Dockerfile -t ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:testing
+        docker build . --file images/${{ env.IMAGE_NAME }}/sid/Dockerfile -t ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:sid
+
+    - name: Login Github Package Registry
+      run: |
+        docker login -u imxieke -p '${{ secrets.APIKEY }}' ${{ env.REGISTRY }}
+
+    - name: Push Docker Image To Github Package
+      run: |
+        docker push ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:latest
+        docker push ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:bullseye
+        docker push ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:buster
+        docker push ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:stretch
+        docker push ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:jessie
+        docker push ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:testing
+        docker push ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:sid

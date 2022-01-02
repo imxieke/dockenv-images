@@ -1,0 +1,36 @@
+name: Docker Build Aliyun Linux
+description: build and push docker images
+
+on:
+  workflow_dispatch:
+    branches:
+    - master
+  schedule:
+    - cron: '0 2 * * *'
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: alinux
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build the Docker image
+      run: |
+        docker build . -f images/${{ env.IMAGE_NAME }}/3/Dockerfile -t ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:3
+        docker tag ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:3 ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:latest
+        docker build . -f images/${{ env.IMAGE_NAME }}/2/Dockerfile -t ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:2
+
+    - name: Login Github Package Registry
+      run: |
+        docker login -u imxieke -p '${{ secrets.APIKEY }}' ${{ env.REGISTRY }}
+
+    - name: Push Docker Image To Github Package
+      run: |
+        docker push ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:latest
+        docker push ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:3
+        docker push ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:2

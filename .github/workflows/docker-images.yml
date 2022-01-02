@@ -1,0 +1,49 @@
+name: Docker Build Images
+description: build and push docker images
+
+on:
+  workflow_dispatch:
+    branches:
+    - master
+  schedule:
+    - cron: '0 2 * * *'
+
+env:
+  REGISTRY: ghcr.io
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build the Docker image
+      run: |
+        docker build . -f images/rabbitmq/latest/Dockerfile -t ${{ env.REGISTRY }}/dockenv/rabbitmq:latest
+        docker build . -f images/geckodriver/latest/Dockerfile -t ${{ env.REGISTRY }}/dockenv/geckodriver:latest
+        docker build . -f images/chromedriver/latest/Dockerfile -t ${{ env.REGISTRY }}/dockenv/chromedriver:latest
+        docker build . -f images/memcached/latest/Dockerfile -t ${{ env.REGISTRY }}/dockenv/memcached:latest
+        docker build . -f images/archlinux/latest/Dockerfile -t ${{ env.REGISTRY }}/dockenv/archlinux:latest
+        docker build . -f images/gentoo/latest/Dockerfile -t ${{ env.REGISTRY }}/dockenv/gentoo:latest
+        docker build . -f images/manjaro/latest/Dockerfile -t ${{ env.REGISTRY }}/dockenv/manjaro:latest
+        docker build . -f images/caddy/latest/Dockerfile -t ${{ env.REGISTRY }}/dockenv/caddy:latest
+        docker build . -f images/rsync/latest/Dockerfile -t ${{ env.REGISTRY }}/dockenv/rsync:latest
+        docker build . -f images/varnish/latest/Dockerfile -t ${{ env.REGISTRY }}/dockenv/varnish:latest
+
+    - name: Login Github Package Registry
+      run: |
+        docker login -u imxieke -p '${{ secrets.APIKEY }}' ${{ env.REGISTRY }}
+
+    - name: Push Docker Image To Github Package
+      run: |
+        docker push ${{ env.REGISTRY }}/dockenv/rabbitmq:latest
+        docker push ${{ env.REGISTRY }}/dockenv/geckodriver:latest
+        docker push ${{ env.REGISTRY }}/dockenv/chromedriver:latest
+        docker push ${{ env.REGISTRY }}/dockenv/memcached:latest
+        docker push ${{ env.REGISTRY }}/dockenv/archlinux:latest
+        docker push ${{ env.REGISTRY }}/dockenv/gentoo:latest
+        docker push ${{ env.REGISTRY }}/dockenv/manjaro:latest
+        docker push ${{ env.REGISTRY }}/dockenv/caddy:latest
+        docker push ${{ env.REGISTRY }}/dockenv/rsync:latest
+        docker push ${{ env.REGISTRY }}/dockenv/varnish:latest

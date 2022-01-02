@@ -1,6 +1,7 @@
 FROM redis:6.2-alpine
 LABEL MAINTAINER="Cloudflying" \
-    MAIL="<oss@live.hk>"
+    MAIL="<oss@live.hk>" \
+    org.opencontainers.image.source=https://github.com/dockenv/dockenv
 
 USER redis
 

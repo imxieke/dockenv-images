@@ -1,0 +1,40 @@
+name: Docker Build rhel
+description: build and push docker images
+
+on:
+  workflow_dispatch:
+    branches:
+    - master
+  schedule:
+    - cron: '0 2 * * *'
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: rhel
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build the Docker image
+      run: |
+        docker build . -f images/${{ env.IMAGE_NAME }}/8/Dockerfile -t ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:8
+        docker tag ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:8 ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:latest
+        docker build . -f images/${{ env.IMAGE_NAME }}/7/Dockerfile -t ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:7
+        docker build . -f images/${{ env.IMAGE_NAME }}/6/Dockerfile -t ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:6
+        docker build . -f images/${{ env.IMAGE_NAME }}/minimal/Dockerfile -t ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:minimal
+
+    - name: Login Github Package Registry
+      run: |
+        docker login -u imxieke -p '${{ secrets.APIKEY }}' ${{ env.REGISTRY }}
+
+    - name: Push Docker Image To Github Package
+      run: |
+        docker push ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:latest
+        docker push ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:8
+        docker push ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:7
+        docker push ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:6
+        docker push ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:minimal
