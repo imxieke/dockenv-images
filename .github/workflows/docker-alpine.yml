@@ -1,0 +1,32 @@
+name: Docker Build Alpine
+
+on:
+  schedule:
+    - cron: '0 2 1/* * *'
+
+env:
+  # Use docker.io for Docker Hub if empty
+  REGISTRY: ghcr.io
+  # github.repository as <account>/<repo>
+  # IMAGE_NAME: ${{ github.repository }}
+  IMAGE_NAME: alpine
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build the alpine Docker image
+      run: |
+        cd images/alpine/latest
+        docker build . --file Dockerfile --tag ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:latest
+
+    - name: Login Github Package Registry
+      run: |
+        docker login -u ${{ github.actor }} -p '${{ secrets.APIKEY }}' ${{ env.REGISTRY }}
+
+    - name: Push Docker Image To Github Package
+      run: docker push ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:latest
