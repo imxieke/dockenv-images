@@ -1,0 +1,35 @@
+name: Docker Build Images Weekly
+
+on:
+  workflow_dispatch:
+    branches:
+    - master
+  schedule:
+    # Runs at 02:00 UTC on Mon.
+    - cron: '0 2 * * 1'
+
+env:
+  REGISTRY: ghcr.io
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build the Docker image
+      run: |
+        docker build . -f images/geckodriver/latest/Dockerfile -t ${{ env.REGISTRY }}/dockenv/geckodriver:latest
+        docker build . -f images/chromedriver/latest/Dockerfile -t ${{ env.REGISTRY }}/dockenv/chromedriver:latest
+        docker build . -f images/rsync/latest/Dockerfile -t ${{ env.REGISTRY }}/dockenv/rsync:latest
+
+    - name: Login Github Package Registry
+      run: |
+        docker login -u imxieke -p '${{ secrets.APIKEY }}' ${{ env.REGISTRY }}
+
+    - name: Push Docker Image To Github Package
+      run: |
+        docker push ${{ env.REGISTRY }}/dockenv/geckodriver:latest
+        docker push ${{ env.REGISTRY }}/dockenv/chromedriver:latest
+        docker push ${{ env.REGISTRY }}/dockenv/rsync:latest

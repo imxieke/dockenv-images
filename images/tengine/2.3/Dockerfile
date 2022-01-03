@@ -1,5 +1,4 @@
-# FROM registry.cn-hongkong.aliyuncs.com/imxieke/alpine:3.8
-FROM registry.cn-hongkong.aliyuncs.com/imxieke/ubuntu:21.04
+FROM ghcr.io/dockenv/ubuntu:21.04
 
 LABEL MAINTAINER="Cloudflying" \
     MAIL="oss@live.hk"
