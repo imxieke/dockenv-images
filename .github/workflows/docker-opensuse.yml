@@ -10,7 +10,7 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: opensuse
-  IMAGE_TAGS: "latest leap tumbleweed"
+  IMAGE_TAGS: "leap tumbleweed"
 
 jobs:
   build:
@@ -24,6 +24,7 @@ jobs:
         for tag in ${IMAGE_TAGS}; do
           docker build . -f images/${{ env.IMAGE_NAME }}/${tag}/Dockerfile -t ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:${tag}
         done
+        docker tag ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:tumbleweed ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:latest
 
     - name: Login Github Package Registry
       run: |

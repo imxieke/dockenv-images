@@ -9,7 +9,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: gegaia
+  IMAGE_NAME: megaia
   IMAGE_TAGS: "latest 7 8"
 
 jobs:
