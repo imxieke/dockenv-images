@@ -10,7 +10,7 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: gegaia
-  IMAGE_TAG: "latest 7 8"
+  IMAGE_TAGS: "latest 7 8"
 
 jobs:
   build:

@@ -10,7 +10,7 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: logstash
-  IMAGE_TAG: "latest 6 7"
+  IMAGE_TAGS: "latest 6 7"
 
 jobs:
   build:

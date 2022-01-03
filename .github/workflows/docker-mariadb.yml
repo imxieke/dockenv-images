@@ -10,7 +10,7 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: mariadb
-  IMAGE_TAG: "latest 10.2 10.3 10.4 10.5 10.6 10.7"
+  IMAGE_TAGS: "latest 10.2 10.3 10.4 10.5 10.6 10.7"
 
 jobs:
   build:

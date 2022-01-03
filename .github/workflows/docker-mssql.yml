@@ -10,7 +10,7 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: mssql
-  IMAGE_TAG: "latest 2017 2019"
+  IMAGE_TAGS: "latest 2017 2019"
 
 jobs:
   build:

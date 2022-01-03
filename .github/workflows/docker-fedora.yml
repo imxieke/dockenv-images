@@ -10,7 +10,7 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: fedora
-  IMAGE_TAG: "latest 36 35 34 33"
+  IMAGE_TAGS: "latest 36 35 34 33"
 
 jobs:
   build:

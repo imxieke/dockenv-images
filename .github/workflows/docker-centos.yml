@@ -10,7 +10,7 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: centos
-  IMAGE_TAG: "7.9 8.3 8.4 stream stream8 stream9 stream9-dev"
+  IMAGE_TAGS: "7.9 8.3 8.4 stream stream8 stream9 stream9-dev"
 
 jobs:
   build:
@@ -24,7 +24,7 @@ jobs:
         for tag in ${IMAGE_TAGS}; do
           docker build . -f images/${{ env.IMAGE_NAME }}/${tag}/Dockerfile -t ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:${tag}
         done
-        docker build . -f images/${{ env.IMAGE_NAME }}/8.4/Dockerfile -t ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:latest
+        docker tag ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:8.4 ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:latest
 
     - name: Login Github Package Registry
       run: |

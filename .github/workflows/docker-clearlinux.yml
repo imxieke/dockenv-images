@@ -10,7 +10,7 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: clearlinux
-  IMAGE_TAG: "latest base"
+  IMAGE_TAGS: "latest base"
 
 jobs:
   build:

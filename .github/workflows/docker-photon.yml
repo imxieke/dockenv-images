@@ -10,7 +10,7 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: photon
-  IMAGE_TAG: "latest 1 2 3 4"
+  IMAGE_TAGS: "latest 1 2 3 4"
 
 jobs:
   build:

@@ -10,7 +10,7 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: oraclelinux
-  IMAGE_TAG: "latest 7 8 7-slim 8-slim"
+  IMAGE_TAGS: "latest 7 8 7-slim 8-slim"
 
 jobs:
   build:

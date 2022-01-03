@@ -10,7 +10,7 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: selenium
-  IMAGE_TAG: "node-chrome node-edge node-firefox standalone-chrome standalone-edge standalone-firefox"
+  IMAGE_TAGS: "node-chrome node-edge node-firefox standalone-chrome standalone-edge standalone-firefox"
 
 jobs:
   build:

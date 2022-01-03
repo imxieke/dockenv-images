@@ -10,7 +10,7 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: elastic
-  IMAGE_TAG: "latest 7 6"
+  IMAGE_TAGS: "latest 7 6"
 
 jobs:
   build:

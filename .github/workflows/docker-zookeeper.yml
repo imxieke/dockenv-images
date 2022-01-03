@@ -10,7 +10,7 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: zookeeper
-  IMAGE_TAG: "latest 3.5 3.6 3.7"
+  IMAGE_TAGS: "latest 3.5 3.6 3.7"
 
 jobs:
   build:

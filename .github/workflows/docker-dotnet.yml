@@ -10,7 +10,7 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: dotnet
-  IMAGE_TAG: "2 3 5 6"
+  IMAGE_TAGS: "2 3 5 6"
 
 jobs:
   build:

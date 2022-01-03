@@ -10,7 +10,7 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: openeuler
-  IMAGE_TAG: "latest 20.09 21.09"
+  IMAGE_TAGS: "latest 20.09 21.09"
 
 jobs:
   build:

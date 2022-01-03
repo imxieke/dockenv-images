@@ -10,7 +10,7 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: mongo
-  IMAGE_TAG: "latest 4.4 5.0"
+  IMAGE_TAGS: "latest 4.4 5.0"
 
 jobs:
   build:
