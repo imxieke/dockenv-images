@@ -26,6 +26,8 @@ jobs:
         docker build . -f images/manjaro/latest/Dockerfile -t ${{ env.REGISTRY }}/dockenv/manjaro:latest
         docker build . -f images/caddy/latest/Dockerfile -t ${{ env.REGISTRY }}/dockenv/caddy:latest
         docker build . -f images/varnish/latest/Dockerfile -t ${{ env.REGISTRY }}/dockenv/varnish:latest
+        docker build . -f images/almalinux/latest/Dockerfile -t ${{ env.REGISTRY }}/dockenv/almalinux:latest
+        docker build . -f images/almalinux/8.4/Dockerfile -t ${{ env.REGISTRY }}/dockenv/almalinux:8.4
 
     - name: Login Github Package Registry
       run: |
@@ -40,3 +42,5 @@ jobs:
         docker push ${{ env.REGISTRY }}/dockenv/manjaro:latest
         docker push ${{ env.REGISTRY }}/dockenv/caddy:latest
         docker push ${{ env.REGISTRY }}/dockenv/varnish:latest
+        docker push ${{ env.REGISTRY }}/dockenv/almalinux:latest
+        docker push ${{ env.REGISTRY }}/dockenv/almalinux:8.4

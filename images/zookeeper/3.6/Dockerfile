@@ -1,7 +1,8 @@
 FROM zookeeper:3.6.3
 
 LABEL MAINTAINER="Cloudflying" \
-        MAIL="oss@live.hk"
+        MAIL="oss@live.hk" \
+        org.opencontainers.image.source=https://github.com/dockenv/dockenv
 
 # ZOO_CONF_DIR=/conf
 VOLUME ["/data", "/datalog", "/logs"]

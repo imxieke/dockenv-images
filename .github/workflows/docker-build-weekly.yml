@@ -23,6 +23,7 @@ jobs:
         docker build . -f images/geckodriver/latest/Dockerfile -t ${{ env.REGISTRY }}/dockenv/geckodriver:latest
         docker build . -f images/chromedriver/latest/Dockerfile -t ${{ env.REGISTRY }}/dockenv/chromedriver:latest
         docker build . -f images/rsync/latest/Dockerfile -t ${{ env.REGISTRY }}/dockenv/rsync:latest
+        docker build . -f images/acme.sh/latest/Dockerfile -t ${{ env.REGISTRY }}/dockenv/acme.sh:latest
 
     - name: Login Github Package Registry
       run: |
@@ -33,3 +34,4 @@ jobs:
         docker push ${{ env.REGISTRY }}/dockenv/geckodriver:latest
         docker push ${{ env.REGISTRY }}/dockenv/chromedriver:latest
         docker push ${{ env.REGISTRY }}/dockenv/rsync:latest
+        docker push ${{ env.REGISTRY }}/dockenv/acme.sh:latest

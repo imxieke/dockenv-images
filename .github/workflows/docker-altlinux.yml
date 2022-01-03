@@ -1,0 +1,36 @@
+name: Docker Build Images altlinux
+
+on:
+  workflow_dispatch:
+    branches:
+    - master
+  schedule:
+    - cron: '0 2 * * *'
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: altlinux
+  IMAGE_TAGS: "latest p10 p9 p8 sisyphus"
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build the Docker image
+      run: |
+        for tag in ${IMAGE_TAGS}; do
+          docker build . -f images/${{ env.IMAGE_NAME }}/${tag}/Dockerfile -t ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:${tag}
+        done
+
+    - name: Login Github Package Registry
+      run: |
+        docker login -u imxieke -p '${{ secrets.APIKEY }}' ${{ env.REGISTRY }}
+
+    - name: Push Docker Image To Github Package
+      run: |
+        for tag in ${IMAGE_TAGS}; do
+          docker push ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:${tag}
+        done
