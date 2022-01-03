@@ -9,12 +9,12 @@ RUN apt update -y --fix-missing \
         curl \
         unzip \
         ca-certificates \
-    && wget -c --no-check-certificate https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -O /tmp/chrome.deb \
+    && wget -cq --no-check-certificate https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -O /tmp/chrome.deb \
     && apt-get install -y --no-install-recommends --no-install-suggests /tmp/chrome.deb \
     # Taobao Chromedriver mirror
     # curl -sL https://npm.taobao.org/mirrors/chromedriver/ | grep -v 'LATEST' | grep -v 'icons' | grep -v 'index.html' | grep mirrors | awk -F '>' '{print $2}' | awk -F '\/<' '{print $1}' | sort -h --reverse | head -n 1
     && VERSION=$(curl -sL https://chromedriver.storage.googleapis.com/LATEST_RELEASE) \
-    && wget -c --no-check-certificate "https://chromedriver.storage.googleapis.com/${VERSION}/chromedriver_linux64.zip" -O /tmp/chromedriver.zip \
+    && wget -cq --no-check-certificate "https://chromedriver.storage.googleapis.com/${VERSION}/chromedriver_linux64.zip" -O /tmp/chromedriver.zip \
     && unzip /tmp/chromedriver.zip \
     && mv chromedriver /usr/bin/chromedriver \
     && chmod +x /usr/bin/chromedriver \

@@ -9,7 +9,7 @@ RUN apt update -y --fix-missing \
         curl \
         ca-certificates \
     && VERSION=$(curl -sX GET "https://api.github.com/repos/mozilla/geckodriver/releases/latest" | awk '/tag_name/{print $4;exit}' FS='[""]') \
-    && wget -c --no-check-certificate "https://github.com/mozilla/geckodriver/releases/download/${VERSION}/geckodriver-${VERSION}-linux64.tar.gz" -O /tmp/geckodriver.tar.gz \
+    && wget -cq --no-check-certificate "https://github.com/mozilla/geckodriver/releases/download/${VERSION}/geckodriver-${VERSION}-linux64.tar.gz" -O /tmp/geckodriver.tar.gz \
     && tar -xvf /tmp/geckodriver.tar.gz -C /tmp \
     && mv /tmp/geckodriver /usr/bin/geckodriver \
     && chmod +x /usr/bin/geckodriver \

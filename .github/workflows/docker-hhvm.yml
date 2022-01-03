@@ -1,0 +1,34 @@
+name: Docker Build Images HHVM
+
+on:
+  workflow_dispatch:
+    branches:
+    - master
+  schedule:
+    # Runs at 02:00 UTC on Mon.
+    - cron: '0 2 * * 1'
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: hhvm
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build the Docker image
+      run: |
+        docker build . -f images/${{ env.IMAGE_NAME }}/latest/Dockerfile -t ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:latest
+        docker build . -f images/${{ env.IMAGE_NAME }}/3.30/Dockerfile -t ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:3.30
+
+    - name: Login Github Package Registry
+      run: |
+        docker login -u imxieke -p '${{ secrets.APIKEY }}' ${{ env.REGISTRY }}
+
+    - name: Push Docker Image To Github Package
+      run: |
+        docker push ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:latest
+        docker push ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:3.30

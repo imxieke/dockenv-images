@@ -1,0 +1,38 @@
+name: Docker Build Images AeroSpike
+
+on:
+  workflow_dispatch:
+    branches:
+    - master
+  schedule:
+    # Runs at 02:00 UTC on Mon.
+    - cron: '0 2 * * 1'
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: aerospike
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build the Docker image
+      run: |
+        tags="ce-5.3 ce-5.4 ce-5.5 ce-5.6 ce-5.7 ee-5.3 ee-5.4 ee-5.5 ee-5.6 ee-5.7 latest"
+        for tag in ${tags}; do
+          docker build . -f images/${{ env.IMAGE_NAME }}/${tag}/Dockerfile -t ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:${tag}
+        done
+
+    - name: Login Github Package Registry
+      run: |
+        docker login -u imxieke -p '${{ secrets.APIKEY }}' ${{ env.REGISTRY }}
+
+    - name: Push Docker Image To Github Package
+      run: |
+        tags="ce-5.3 ce-5.4 ce-5.5 ce-5.6 ce-5.7 ee-5.3 ee-5.4 ee-5.5 ee-5.6 ee-5.7 latest"
+        for tag in ${tags}; do
+          docker push ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:${tag}
+        done
