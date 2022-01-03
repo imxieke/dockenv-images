@@ -24,7 +24,7 @@ jobs:
         for tag in ${IMAGE_TAGS}; do
           docker build . -f images/${{ env.IMAGE_NAME }}/${tag}/Dockerfile -t ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:${tag}
         done
-        docker tag ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:8.0 ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:latest
+        docker build . -f images/${{ env.IMAGE_NAME }}/8.0/Dockerfile -t ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:latest
 
     - name: Login Github Package Registry
       run: |
