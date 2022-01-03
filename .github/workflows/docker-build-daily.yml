@@ -28,6 +28,15 @@ jobs:
         docker build . -f images/varnish/latest/Dockerfile -t ${{ env.REGISTRY }}/dockenv/varnish:latest
         docker build . -f images/almalinux/latest/Dockerfile -t ${{ env.REGISTRY }}/dockenv/almalinux:latest
         docker build . -f images/almalinux/8.4/Dockerfile -t ${{ env.REGISTRY }}/dockenv/almalinux:8.4
+        docker build . -f images/amazonlinux/latest/Dockerfile -t ${{ env.REGISTRY }}/dockenv/amazonlinux:latest
+        docker build . -f images/busybox/latest/Dockerfile -t ${{ env.REGISTRY }}/dockenv/busybox:latest
+        docker build . -f images/busybox/glibc/Dockerfile -t ${{ env.REGISTRY }}/dockenv/busybox:glibc
+        docker build . -f images/busybox/musl/Dockerfile -t ${{ env.REGISTRY }}/dockenv/busybox:musl
+        docker build . -f images/kali/latest/Dockerfile -t ${{ env.REGISTRY }}/dockenv/kali:latest
+        docker build . -f images/rockylinux/latest/Dockerfile -t ${{ env.REGISTRY }}/dockenv/rockylinux:latest
+        docker build . -f images/rockylinux/8/Dockerfile -t ${{ env.REGISTRY }}/dockenv/rockylinux:8
+        docker build . -f images/scientificlinux/latest/Dockerfile -t ${{ env.REGISTRY }}/dockenv/scientificlinux:latest
+        docker build . -f images/scientificlinux/7/Dockerfile -t ${{ env.REGISTRY }}/dockenv/scientificlinux:7
 
     - name: Login Github Package Registry
       run: |
@@ -44,3 +53,12 @@ jobs:
         docker push ${{ env.REGISTRY }}/dockenv/varnish:latest
         docker push ${{ env.REGISTRY }}/dockenv/almalinux:latest
         docker push ${{ env.REGISTRY }}/dockenv/almalinux:8.4
+        docker push ${{ env.REGISTRY }}/dockenv/amazonlinux:latest
+        docker push ${{ env.REGISTRY }}/dockenv/busybox:latest
+        docker push ${{ env.REGISTRY }}/dockenv/busybox:glibc
+        docker push ${{ env.REGISTRY }}/dockenv/busybox:musl
+        docker push ${{ env.REGISTRY }}/dockenv/kali:latest
+        docker push ${{ env.REGISTRY }}/dockenv/rockylinux:latest
+        docker push ${{ env.REGISTRY }}/dockenv/rockylinux:8
+        docker push ${{ env.REGISTRY }}/dockenv/scientificlinux:latest
+        docker push ${{ env.REGISTRY }}/dockenv/scientificlinux:7

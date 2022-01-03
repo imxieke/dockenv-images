@@ -1,6 +1,7 @@
-FROM rockylinux/rockylinux:latest
+FROM selenium/standalone-edge:latest
+
 LABEL MAINTAINER="Cloudflying" \
   MAIL="<oss@live.hk>" \
   org.opencontainers.image.source=https://github.com/dockenv/dockenv
 
-CMD [ "/bash" ]
+EXPOSE 4444

@@ -1,6 +1,8 @@
 FROM phpmyadmin/phpmyadmin
 
-LABEL maintainer="Bo-Yi Wu <appleboy.tw@gmail.com>"
+LABEL MAINTAINER="Cloudflying" \
+  MAIL="<oss@live.hk>" \
+  org.opencontainers.image.source=https://github.com/dockenv/dockenv
 
 # Add volume for sessions to allow session persistence
 VOLUME /sessions

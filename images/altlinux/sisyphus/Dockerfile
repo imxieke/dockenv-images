@@ -1,5 +1,6 @@
 FROM alt:sisyphus
 LABEL MAINTAINER="Cloudflying" \
-  MAIL="<oss@live.hk>"
+  MAIL="<oss@live.hk>" \
+  org.opencontainers.image.source=https://github.com/dockenv/dockenv
 
-CMD [ "/bash" ]
+CMD [ "/bin/bash" ]

@@ -51,3 +51,17 @@ unity-tweak-tool
 
 ## 拆包查看文件
 ukui-themes
+
+## Github action workflow TODO
+- aria2
+- deepin
+- openrestry
+- nginx
+- percona
+- php
+- shadowsocks
+- sshd
+- tengine
+- ttyd
+- vscode-remote
+- xcloud

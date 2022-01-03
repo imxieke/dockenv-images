@@ -1,7 +1,8 @@
-FROM pkgs-docker.pkg.coding.net/storage/docker/ubuntu:21.04
+FROM ghcr.io/dockenv/ubuntu:21.04
 
 LABEL MAINTAINER="Cloudflying" \
-    MAIL="oss@live.hk"
+  MAIL="oss@live.hk" \
+  org.opencontainers.image.source=https://github.com/dockenv/dockenv
 
 RUN apt update -y \
     && apt install -y --no-install-recommends wget ca-certificates openssl \

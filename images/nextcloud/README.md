@@ -1,2 +1,0 @@
-# NextCloud
-https://nextcloud.com

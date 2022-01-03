@@ -10,6 +10,7 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ubuntu
+  IMAGE_TAG: "latest 21.10 21.04 20.10 20.04 18.04 16.04"
 
 jobs:
   build:
@@ -20,13 +21,9 @@ jobs:
     - uses: actions/checkout@v2
     - name: Build the Docker image
       run: |
-        docker build . --file images/${{ env.IMAGE_NAME }}/latest/Dockerfile -t ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:latest
-        docker build . --file images/${{ env.IMAGE_NAME }}/21.10/Dockerfile -t ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:21.10
-        docker build . --file images/${{ env.IMAGE_NAME }}/21.04/Dockerfile -t ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:21.04
-        docker build . --file images/${{ env.IMAGE_NAME }}/20.10/Dockerfile -t ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:20.10
-        docker build . --file images/${{ env.IMAGE_NAME }}/20.04/Dockerfile -t ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:20.04
-        docker build . --file images/${{ env.IMAGE_NAME }}/18.04/Dockerfile -t ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:18.04
-        docker build . --file images/${{ env.IMAGE_NAME }}/16.04/Dockerfile -t ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:16.04
+        for tag in ${IMAGE_TAGS}; do
+          docker build . -f images/${{ env.IMAGE_NAME }}/${tag}/Dockerfile -t ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:${tag}
+        done
 
     - name: Login Github Package Registry
       run: |
@@ -34,10 +31,6 @@ jobs:
 
     - name: Push Docker Image To Github Package
       run: |
-        docker push ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:latest
-        docker push ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:21.10
-        docker push ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:21.04
-        docker push ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:20.10
-        docker push ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:20.04
-        docker push ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:18.04
-        docker push ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:16.04
+        for tag in ${IMAGE_TAGS}; do
+          docker push ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:${tag}
+        done
