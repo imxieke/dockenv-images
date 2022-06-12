@@ -16,6 +16,12 @@ IMAGE_PATH=${CUR_PATH}/images
 
 source .env
 
+if [[ -z "$(command -v docker)" ]]; then
+    function docker() {
+        /Users/imxieke/.boxs/bin/all/docker $@
+    }
+fi
+
 for denv in $* ;do
     [[ "$(echo $denv | grep '\-\-registry\-prefix=')" ]] && DOCKER_REGISTRY_PREFIX=$(echo $denv | awk -F '=' '{print $2}')
     [[ "$(echo $denv | grep '\-\-registry\-prefix=')" ]] && DOCKER_REGISTRY_PREFIX=$(echo $denv | awk -F '=' '{print $2}')
