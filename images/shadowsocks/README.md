@@ -3,7 +3,7 @@ shadowsocks + v2ray
 shadowsocks + vray
 shadowsocks + obfs 覆盖客户端多
 
-docker run -d -e PASSWORD=xiaoke -p6443:6443 -p6443:6443/udp shadowsocks/shadowsocks-libev ss-server -s 0.0.0.0 -p 6443 -k xiaoke -t 300 -u -m xchacha20-ietf-poly1305
+docker run -d -e PASSWORD=secret -p6443:6443 -p6443:6443/udp shadowsocks/shadowsocks-libev ss-server -s 0.0.0.0 -p 6443 -k secret -t 300 -u -m xchacha20-ietf-poly1305
 
 ENV SERVER_ADDR=0.0.0.0     \
   SERVER_PORT=6433      \

@@ -3,7 +3,7 @@
 
 ### start a redis instance
 
-`$ docker run --name some-redis -d redis`
+`$ docker run -d --name redis redis`
 
 ### start with persistent storage
 `$ docker run --name some-redis -d redis redis-server --appendonly yes`

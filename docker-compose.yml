@@ -2,12 +2,12 @@ version: '3'
 
 services:
   nginx:
-    image: nginx:latest
+    image: ghcr.io/dockenv/nginx:latest
     container_name: nginx
     restart: always
     deploy:
       mode: replicated
-      replicas: 4
+      # replicas: 4
       resources:
         limits:
           cpus: "0.5"
@@ -16,12 +16,18 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - ./runtime/log/nginx:/var/log/nginx
+      - ./runtime/logs/nginx:/var/log/nginx
+      # - ./conf/nginx/conf.d:/etc/nginx/conf.d
+      # - ./conf/nginx/nginx.conf:/etc/nginx/nginx.conf
+    links:
+      # set php74 aliasor direct to use mysql57 no alias set
+      - php74:php74
+      - mysql57:mysql57
     networks:
       - boxs
 
   php74:
-    image: ghcr.io.dockenv/php:74
+    image: ghcr.io/dockenv/php:74
     container_name: php74
     restart: always
     privileged: true
@@ -38,7 +44,7 @@ services:
       - 8.8.8.8
 
   mysql57:
-    image: ghcr.io.dockenv/mysql:5.7
+    image: ghcr.io/dockenv/mysql:5.7
     hostname: mysql57
     container_name: mysql57
     restart: always
@@ -63,7 +69,7 @@ services:
         ipv4_address: ${MYSQL57_IP}
 
   mysql80:
-    image: ghcr.io.dockenv/mysql:8.0
+    image: ghcr.io/dockenv/mysql:8.0
     hostname: mysql80
     container_name: mysql80
     restart: always
@@ -87,8 +93,33 @@ services:
       boxs:
         ipv4_address: ${MYSQL80_IP}
 
+  mariadb:
+    image: ghcr.io/dockenv/mariadb:latest
+    hostname: mariadb
+    container_name: mariadb
+    restart: always
+    # Only for Container
+    expose:
+      - "3306"
+    ports:
+      - "${MARIADB_PORT}:${MARIADB_PORT}"
+    volumes:
+      - ./runtime/data/mariadb:/var/lib/mysql
+      - ./runtime/logs/mariadb/:/var/log/mysql
+    environment:
+      - TZ=${TIMEZONE}
+      - MYSQL_ROOT_PASSWORD=${MARIADB_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MARIADB_DATABASE}
+      - MYSQL_USER=${MARIADB_USER}
+      - MYSQL_PASSWORD=${MARIADB_PASSWORD}
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    #only for container without host
+    networks:
+      boxs:
+        ipv4_address: ${MARIADB_IP}
+
   redis:
-    image: ghcr.io.dockenv/redis:6.2
+    image: ghcr.io/dockenv/redis:latest
     container_name: redis
     hostname: redis
     ports:
@@ -111,7 +142,7 @@ services:
       - ${MEMCACHED_PORT}:11211
 
   boxs:
-    image: ghcr.io.dockenv/boxs:latest
+    image: ghcr.io/dockenv/boxs:latest
     hostname: boxs
     container_name: boxs
     volumes:
@@ -125,7 +156,7 @@ services:
       - "16901:6901"
 
   xfce4:
-    image: ghcr.io.dockenv/boxs:xfce
+    image: ghcr.io/dockenv/boxs:xfce
     hostname: xfce4
     container_name: xfce4
     privileged: true

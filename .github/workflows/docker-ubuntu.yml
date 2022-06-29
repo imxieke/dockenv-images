@@ -10,7 +10,7 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ubuntu
-  IMAGE_TAGS: "latest 21.10 21.04 20.10 20.04 18.04 16.04"
+  IMAGE_TAGS: "latest 22.10 22.04 21.10 21.04 20.10 20.04 18.04 16.04"
 
 jobs:
   build:
@@ -27,7 +27,7 @@ jobs:
 
     - name: Login Github Package Registry
       run: |
-        docker login -u imxieke -p '${{ secrets.APIKEY }}' ${{ env.REGISTRY }}
+        docker login -u ${{secrets.USERNAME}} -p "${{ secrets.APIKEY }}" ${{ env.REGISTRY }}
 
     - name: Push Docker Image To Github Package
       run: |

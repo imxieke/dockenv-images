@@ -42,11 +42,6 @@ for denv in $* ;do
     [[ "$(echo $denv | grep '\-\-prefix')" ]] && DOCKER_REGISTRY_PREFIX=$(echo $denv | awk -F '=' '{print $2}')
 done
 
-# enable github coding aliyun
-# ENABLE_GITHUB_REGISTRY=true
-# ENABLE_CODING_REGISTRY=true
-# ENABLE_ALIYUN_REGISTRY=true
-
 _red() {
     printf '\033[1;31;31m%b\033[0m' "$1"
 }
@@ -93,25 +88,30 @@ do_build()
 
         # --no-cache
         if [[ -n "${DOCKER_REGISTRY_PREFIX}" ]]; then
-            docker build --progress auto -t ${DOCKER_REGISTRY_PREFIX}${NAME}:$VERSION .
+            docker build --progress auto --no-cache -t ${DOCKER_REGISTRY_PREFIX}/${NAME}:$VERSION .
         else
-            docker build --progress auto -t ${NAME}:$VERSION .
+            docker build --progress auto --no-cache -t ${NAME}:$VERSION .
         fi
 
-        [[ -n "${ENABLE_GITHUB_REGISTRY}" ]] && docker tag ${DOCKER_REGISTRY_PREFIX}${NAME}:$VERSION ${DOCKER_REGISTRY_GITHUB}/${NAME}:$VERSION
-        [[ -n "${ENABLE_CODING_REGISTRY}" ]] && docker tag ${DOCKER_REGISTRY_PREFIX}${NAME}:$VERSION ${DOCKER_REGISTRY_CODING}/${NAME}:$VERSION
-        [[ -n "${ENABLE_BAIDU_REGISTRY}" ]] && docker tag ${DOCKER_REGISTRY_PREFIX}${NAME}:$VERSION ${DOCKER_REGISTRY_BAIDU}/${NAME}:$VERSION
-        [[ -n "${ENABLE_HUAWEI_REGISTRY}" ]] && docker tag ${DOCKER_REGISTRY_PREFIX}${NAME}:$VERSION ${DOCKER_REGISTRY_HUAWEI}/${NAME}:$VERSION
-        [[ -n "${ENABLE_ALIYUN_REGISTRY}" ]] && docker tag ${DOCKER_REGISTRY_PREFIX}${NAME}:$VERSION ${DOCKER_REGISTRY_ALIYUN}/${NAME}:$VERSION
-        [[ -n "${ENABLE_TENCENT_REGISTRY}" ]] && docker tag ${DOCKER_REGISTRY_PREFIX}${NAME}:$VERSION ${DOCKER_REGISTRY_TENCENT}/${NAME}:$VERSION
-        [[ -n "${ENABLE_GITLAB_REGISTRY}" ]] && docker tag ${DOCKER_REGISTRY_PREFIX}${NAME}:$VERSION ${DOCKER_REGISTRY_GITLAB}/${NAME}:$VERSION
-        [[ -n "${ENABLE_QUAY_REGISTRY}" ]] && docker tag ${DOCKER_REGISTRY_PREFIX}${NAME}:$VERSION ${DOCKER_REGISTRY_QUAY}/${NAME}:$VERSION
-        [[ -n "${ENABLE_GCR_REGISTRY}" ]] && docker tag ${DOCKER_REGISTRY_PREFIX}${NAME}:$VERSION ${DOCKER_REGISTRY_GCR}/${NAME}:$VERSION
-        [[ -n "${ENABLE_GAR_REGISTRY}" ]] && docker tag ${DOCKER_REGISTRY_PREFIX}${NAME}:$VERSION ${DOCKER_REGISTRY_GAR}/${NAME}:$VERSION
-        [[ -n "${ENABLE_AZURE_REGISTRY}" ]] && docker tag ${DOCKER_REGISTRY_PREFIX}${NAME}:$VERSION ${DOCKER_REGISTRY_AZURE}/${NAME}:$VERSION
-        [[ -n "${ENABLE_UCLOUD_REGISTRY}" ]] && docker tag ${DOCKER_REGISTRY_PREFIX}${NAME}:$VERSION ${DOCKER_REGISTRY_UCLOUD}/${NAME}:$VERSION
-        [[ -n "${ENABLE_AMAZON_REGISTRY}" ]] && docker tag ${DOCKER_REGISTRY_PREFIX}${NAME}:$VERSION ${DOCKER_REGISTRY_AMAZON}/${NAME}:$VERSION
-        [[ -n "${ENABLE_ECR_REGISTRY}" ]] && docker tag ${DOCKER_REGISTRY_PREFIX}${NAME}:$VERSION ${DOCKER_REGISTRY_RCR}/${NAME}:$VERSION
+        [[ -n "${ENABLE_GITHUB_REGISTRY}" ]] && docker tag ${DOCKER_REGISTRY_PREFIX}/${NAME}:$VERSION ${DOCKER_REGISTRY_GITHUB}/${NAME}:$VERSION
+        [[ -n "${ENABLE_CODING_REGISTRY}" ]] && docker tag ${DOCKER_REGISTRY_PREFIX}/${NAME}:$VERSION ${DOCKER_REGISTRY_CODING}/${NAME}:$VERSION
+        [[ -n "${ENABLE_BAIDU_REGISTRY}" ]] && docker tag ${DOCKER_REGISTRY_PREFIX}/${NAME}:$VERSION ${DOCKER_REGISTRY_BAIDU}/${NAME}:$VERSION
+        [[ -n "${ENABLE_HUAWEI_REGISTRY}" ]] && docker tag ${DOCKER_REGISTRY_PREFIX}/${NAME}:$VERSION ${DOCKER_REGISTRY_HUAWEI}/${NAME}:$VERSION
+
+        [[ -n "${ENABLE_ALIYUN_SH_REGISTRY}" ]] && docker tag ${DOCKER_REGISTRY_PREFIX}/${NAME}:$VERSION ${DOCKER_REGISTRY_ALIYUN_SH}/${NAME}:$VERSION
+        [[ -n "${ENABLE_ALIYUN_HK_REGISTRY}" ]] && docker tag ${DOCKER_REGISTRY_PREFIX}/${NAME}:$VERSION ${DOCKER_REGISTRY_ALIYUN_HK}/${NAME}:$VERSION
+
+        [[ -n "${ENABLE_TENCENT_GZ_REGISTRY}" ]] && docker tag ${DOCKER_REGISTRY_PREFIX}/${NAME}:$VERSION ${DOCKER_REGISTRY_TENCENT_GZ}/${NAME}:$VERSION
+        [[ -n "${ENABLE_TENCENT_HK_REGISTRY}" ]] && docker tag ${DOCKER_REGISTRY_PREFIX}/${NAME}:$VERSION ${DOCKER_REGISTRY_TENCENT_HK}/${NAME}:$VERSION
+
+        [[ -n "${ENABLE_GITLAB_REGISTRY}" ]] && docker tag ${DOCKER_REGISTRY_PREFIX}/${NAME}:$VERSION ${DOCKER_REGISTRY_GITLAB}/${NAME}:$VERSION
+        [[ -n "${ENABLE_QUAY_REGISTRY}" ]] && docker tag ${DOCKER_REGISTRY_PREFIX}/${NAME}:$VERSION ${DOCKER_REGISTRY_QUAY}/${NAME}:$VERSION
+        [[ -n "${ENABLE_GCR_REGISTRY}" ]] && docker tag ${DOCKER_REGISTRY_PREFIX}/${NAME}:$VERSION ${DOCKER_REGISTRY_GCR}/${NAME}:$VERSION
+        [[ -n "${ENABLE_GAR_REGISTRY}" ]] && docker tag ${DOCKER_REGISTRY_PREFIX}/${NAME}:$VERSION ${DOCKER_REGISTRY_GAR}/${NAME}:$VERSION
+        [[ -n "${ENABLE_AZURE_REGISTRY}" ]] && docker tag ${DOCKER_REGISTRY_PREFIX}/${NAME}:$VERSION ${DOCKER_REGISTRY_AZURE}/${NAME}:$VERSION
+        [[ -n "${ENABLE_UCLOUD_REGISTRY}" ]] && docker tag ${DOCKER_REGISTRY_PREFIX}/${NAME}:$VERSION ${DOCKER_REGISTRY_UCLOUD}/${NAME}:$VERSION
+        [[ -n "${ENABLE_AMAZON_REGISTRY}" ]] && docker tag ${DOCKER_REGISTRY_PREFIX}/${NAME}:$VERSION ${DOCKER_REGISTRY_AMAZON}/${NAME}:$VERSION
+        [[ -n "${ENABLE_ECR_REGISTRY}" ]] && docker tag ${DOCKER_REGISTRY_PREFIX}/${NAME}:$VERSION ${DOCKER_REGISTRY_RCR}/${NAME}:$VERSION
     fi
 }
 
@@ -129,7 +129,7 @@ do_builds()
                 cd "${IMAGE_PATH}/${NAME}/${VERSION}"
                 do_build build ${NAME} ${VERSION}
                 _info "${NAME}:${VERSION} Build Complete"
-                # CMD="docker build --no-cache -t ${DOCKER_REGISTRY_PREFIX}${NAME}:$VERSION ."
+                # CMD="docker build --no-cache -t ${DOCKER_REGISTRY_PREFIX}/${NAME}:$VERSION ."
             fi
         done
     fi
@@ -151,8 +151,10 @@ do_push()
         [[ -n "${ENABLE_CODING_REGISTRY}" ]] && docker push ${DOCKER_REGISTRY_CODING}/${NAME}:$VERSION
         [[ -n "${ENABLE_BAIDU_REGISTRY}" ]] && docker push ${DOCKER_REGISTRY_BAIDU}/${NAME}:$VERSION
         [[ -n "${ENABLE_HUAWEI_REGISTRY}" ]] && docker push ${DOCKER_REGISTRY_HUAWEI}/${NAME}:$VERSION
-        [[ -n "${ENABLE_ALIYUN_REGISTRY}" ]] && docker push ${DOCKER_REGISTRY_ALIYUN}/${NAME}:$VERSION
-        [[ -n "${ENABLE_TENCENT_REGISTRY}" ]] && docker push ${DOCKER_REGISTRY_TENCENT}/${NAME}:$VERSION
+        [[ -n "${ENABLE_ALIYUN_SH_REGISTRY}" ]] && docker push ${DOCKER_REGISTRY_ALIYUN_SH}/${NAME}:$VERSION
+        [[ -n "${ENABLE_ALIYUN_HK_REGISTRY}" ]] && docker push ${DOCKER_REGISTRY_ALIYUN_HK}/${NAME}:$VERSION
+        [[ -n "${ENABLE_TENCENT_GZ_REGISTRY}" ]] && docker push ${DOCKER_REGISTRY_TENCENT_GZ}/${NAME}:$VERSION
+        [[ -n "${ENABLE_TENCENT_HK_REGISTRY}" ]] && docker push ${DOCKER_REGISTRY_TENCENT_HK}/${NAME}:$VERSION
         [[ -n "${ENABLE_GITLAB_REGISTRY}" ]] && docker push ${DOCKER_REGISTRY_GITLAB}/${NAME}:$VERSION
         [[ -n "${ENABLE_QUAY_REGISTRY}" ]] && docker push ${DOCKER_REGISTRY_QUAY}/${NAME}:$VERSION
         [[ -n "${ENABLE_GCR_REGISTRY}" ]] && docker push ${DOCKER_REGISTRY_GCR}/${NAME}:$VERSION
@@ -163,7 +165,7 @@ do_push()
         [[ -n "${ENABLE_ECR_REGISTRY}" ]] && docker push ${DOCKER_REGISTRY_RCR}/${NAME}:$VERSION
 
         if [[ -n "${DOCKER_REGISTRY_PREFIX}" ]]; then
-            docker push ${DOCKER_REGISTRY_PREFIX}${NAME}:$VERSION
+            docker push ${DOCKER_REGISTRY_PREFIX}/${NAME}:$VERSION
         else
             docker push ${NAME}:$VERSION
         fi
@@ -201,7 +203,7 @@ do_pull()
     if [[ -z "$VERSION" ]]; then
         VERSION="latest"
     fi
-    CMD="docker pull ${DOCKER_REGISTRY_PREFIX}${NAME}:${VERSION}"
+    CMD="docker pull ${DOCKER_REGISTRY_PREFIX}/${NAME}:${VERSION}"
     ${CMD}
 }
 
@@ -212,36 +214,69 @@ do_run()
 
 do_login()
 {
-  case $1 in
+  case $2 in
+    'docker')
+        # docker login -u ${DOCKER_REGISTRY_BAIDU_USERNAME} -p ${DOCKER_REGISTRY_BAIDU_PASSWORD} registry.baidubce.com
+        echo ${DOCKER_REGISTRY_PASSWORD} | docker login -u ${DOCKER_REGISTRY_USERNAME} --password-stdin
+        ;;
     'baidu')
-        docker login -u -p registry.baidubce.com
-    ;;
+        # docker login -u ${DOCKER_REGISTRY_BAIDU_USERNAME} -p ${DOCKER_REGISTRY_BAIDU_PASSWORD} registry.baidubce.com
+        echo ${DOCKER_REGISTRY_BAIDU_PASSWORD} | docker login -u ${DOCKER_REGISTRY_BAIDU_USERNAME} --password-stdin registry.baidubce.com
+        ;;
     'coding')
-        docker login -u -p pkgs-docker.pkg.coding.net
+        docker login -u ${DOCKER_REGISTRY_CODING_USERNAME} -p ${DOCKER_REGISTRY_CODING_PASSWORD} pkgs-docker.pkg.coding.net
+        ;;
+    # 阿里云杭州
+    'aliyun-hz')
+        docker login -u ${DOCKER_REGISTRY_ALIYUN_USERNAME} -p ${DOCKER_REGISTRY_ALIYUN_PASSWORD} registry.cn-hangzhou.aliyuncs.com
+        ;;
+    # 阿里云杭州
+    'aliyun-sg')
+        docker login -u ${DOCKER_REGISTRY_ALIYUN_USERNAME} -p ${DOCKER_REGISTRY_ALIYUN_PASSWORD} registry.ap-southeast-1.aliyuncs.com
+        ;;
+    # 阿里云硅谷 silicon valley
+    'aliyun-sv')
+        docker login -u ${DOCKER_REGISTRY_ALIYUN_USERNAME} -p ${DOCKER_REGISTRY_ALIYUN_PASSWORD} registry.us-west-1.aliyuncs.com
+        ;;
+    # 阿里云迪拜 Dubai
+    'aliyun-db')
+        docker login -u ${DOCKER_REGISTRY_ALIYUN_USERNAME} -p ${DOCKER_REGISTRY_ALIYUN_PASSWORD} registry.me-east-1.aliyuncs.com
+        ;;
+    # 阿里云杭州
+    'aliyun-kr')
+        docker login -u ${DOCKER_REGISTRY_ALIYUN_USERNAME} -p ${DOCKER_REGISTRY_ALIYUN_PASSWORD} registry.ap-northeast-2.aliyuncs.com
+        ;;
+    # 阿里云上海
+    'aliyun-sh')
+        docker login -u ${DOCKER_REGISTRY_ALIYUN_USERNAME} -p ${DOCKER_REGISTRY_ALIYUN_PASSWORD} registry.cn-shanghai.aliyuncs.com
+        ;;
+    # 阿里云 Japan
+    'aliyun-jp')
+        docker login -u ${DOCKER_REGISTRY_ALIYUN_USERNAME} -p ${DOCKER_REGISTRY_ALIYUN_PASSWORD} registry.ap-northeast-1.aliyuncs.com
         ;;
     # 阿里云香港
     'aliyun-hk')
-        docker login -u -p registry.cn-hongkong.aliyuncs.com
+        docker login -u ${DOCKER_REGISTRY_ALIYUN_USERNAME} -p ${DOCKER_REGISTRY_ALIYUN_PASSWORD} registry.cn-hongkong.aliyuncs.com
         ;;
     # 默认广州节点
     'tencent')
-        docker login -u -p ccr.ccs.tencentyun.com
+        docker login -u ${DOCKER_REGISTRY_TENCENT_USERNAME} -p ${DOCKER_REGISTRY_TENCENT_PASSWORD} ccr.ccs.tencentyun.com
         ;;
     'tencent-sg')
-        docker login -u -p sgccr.ccs.tencentyun.com
+        docker login -u ${DOCKER_REGISTRY_TENCENT_USERNAME} -p ${DOCKER_REGISTRY_TENCENT_PASSWORD} sgccr.ccs.tencentyun.com
         ;;
     'tencent-hk')
-        docker login -u -p hkccr.ccs.tencentyun.com
+        docker login -u ${DOCKER_REGISTRY_TENCENT_USERNAME} -p ${DOCKER_REGISTRY_TENCENT_PASSWORD} hkccr.ccs.tencentyun.com
         ;;
     'tencent-kr')
-        docker login -u -p krccr.ccs.tencentyun.com
+        docker login -u ${DOCKER_REGISTRY_TENCENT_USERNAME} -p ${DOCKER_REGISTRY_TENCENT_PASSWORD} krccr.ccs.tencentyun.com
         ;;
     'tencent-jp')
-        docker login -u -p jpccr.ccs.tencentyun.com
+        docker login -u ${DOCKER_REGISTRY_TENCENT_USERNAME} -p ${DOCKER_REGISTRY_TENCENT_PASSWORD} jpccr.ccs.tencentyun.com
         ;;
     # 美西硅谷
     'tencent-usw')
-        docker login -u -p uswccr.ccs.tencentyun.com
+        docker login -u ${DOCKER_REGISTRY_TENCENT_USERNAME} -p ${DOCKER_REGISTRY_TENCENT_PASSWORD} uswccr.ccs.tencentyun.com
         ;;
     *)
         echo 'Unknow Platform'

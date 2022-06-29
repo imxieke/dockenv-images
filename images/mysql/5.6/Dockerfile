@@ -1,6 +1,8 @@
 FROM mysql:5.6
 LABEL MAINTAINER="Cloudflying" \
-    MAIL="oss@live.hk"
+    MAIL="oss@live.hk" \
+    org.opencontainers.image.source=https://github.com/dockenv/dockenv \
+    org.opencontainers.image.description='MYSQL 5.6'
 
 VOLUME /var/lib/mysql
 

@@ -5,6 +5,30 @@ PAS_SECRET 自定义 secret 无效
 
 脚本一键更新 .env 内版本信息
 
+## Docker Compose
+- mongo
+- postgresql
+- Elastic
+- logstash
+- Kibana
+- Filebeat
+
+ ## Net Tools
+ - mtr
+ - traceroute
+ - traceroute6
+ - tracepath
+ - ping
+ - dig
+ - nslookup
+ - host
+ - whois
+ - netstat
+
+## Kali 安全工具
+- 网络安全
+- 信息安全
+
 php.ini
 - expose_php = On
 

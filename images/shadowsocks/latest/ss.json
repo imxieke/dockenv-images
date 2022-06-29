@@ -1,7 +1,7 @@
 {
     "server":"0.0.0.0",
     "server_port":6443,
-    "password":"xiaoke",
+    "password": "secret",
     "timeout":300,
     "user":"nobody",
     "method":"xchacha20-ietf-poly1305",

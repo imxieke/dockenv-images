@@ -1,6 +1,24 @@
-## Cloudflying Docker Images Repo!
+<p align="center"><img src="https://user-images.githubusercontent.com/6483352/175850848-799b1ea1-941c-4e7f-8378-4a0a64dcdad8.png" alt="Dockenv"></p>
 
-## Image list
+<p align="center">
+<!-- <a href="https://github.com/imxieke/dockenv/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/imxieke/dockenv"></a> -->
+<!-- <a href="https://github.com/imxieke/dockenv/issues"><img src="https://img.shields.io/github/issues/imxieke/dockenv" alt="Issue"></a> -->
+<!-- <a href="https://github.com/imxieke/dockenv"><img src="https://img.shields.io/github/license/imxieke/dockenv" alt="License"></a> -->
+<h1 style="text-align:center" >Cloudflying Docker Images Repo</h1>
+</p>
+
+## Directory or File Comments
+
+| Name | Note |
+|---|---|---|
+| conf | Docker Container Conf |
+| docs | Current Project Document |
+| images | Docker Images |
+| runtime | Docker runtime Attachment  |
+| scripts | Some Docker Tools Scripts |
+| dockenv | Docker Images Utils |
+
+## Docker Image
 #### OS
 - ALinux Aliyun Linux
 - Almalinux
@@ -42,7 +60,7 @@
 #### App image
 - inotify-tools
 - phpRedisAdmin
-- aerospike   高可用的 K-V类型的Nosql数据库
+- aerospike key-value
 
 ### WebDriver
 - chromedriver
@@ -54,24 +72,15 @@
 - Canddy2
 
 ## Docker Composer
-- 将程序数据 配置文件 日志等目录挂载出来
+- mount to local volume for data log etc...
 - varnish
 - haproxy
 - selenium
 - mailhog
 
-```
-$ run shadowsocks
-docker run -d -p 6443:6443 -e PASSWORD=passwd registry.cn-hongkong.aliyuncs.com/imxieke/shadowsocks
-```
+## Issues
 
-```
-docker run -d -p 3308:3306 -e MYSQL_ROOT_PASSWORD=19960318 registry.cn-hongkong.aliyuncs.com/imxieke/mysql:latest --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
-```
-
-## 常见问题
-
-- 加入`docker`用户组
+- add user to `docker` group
 `sudo usermod -aG ${USER} docker`
 
 ## Env
@@ -108,12 +117,10 @@ docker run -d -p 3308:3306 -e MYSQL_ROOT_PASSWORD=19960318 registry.cn-hongkong.
   - [BitBucket](https://bitbucket.org)
   - [Gitlab](https://about.gitlab.com)
   - [Azure](https://dev.azure.com)
-- 守护进程
+- Daemon
   - superviosr
 
-提供PHP CLI模式独立运行模式参考：`call-websockt` 与 `php-superviosr`。`call-websockt` 是基于[workman](http://www.workerman.net/) 的PHP Socket服务。`php-supervior` 实现基于Supervisor的队列服务。
-
-## 配置 Docker
+## Linux Config Docker Mirrors
 ```bash
 # macOS Docker
 $ mkdir -p ~/.docker
@@ -135,6 +142,6 @@ $ sudo systemctl restart docker
 
 [Docker 微服务教程](http://www.ruanyifeng.com/blog/2018/02/docker-wordpress-tutorial.html)
 
-### 协议
+### License
 
 The MIT License (MIT)

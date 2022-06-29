@@ -1,50 +1,10 @@
 #!/usr/bin/env bash
 
-## colors.sh ## a simple font colors include
-##
 e_error='\x1b[31;01m[error]:\x1b[0m';            # red
 e_warn='\x1b[33;01m[warning]:\x1b[0m';           # yellow
 e_success='\x1b[32;01m[success]:\x1b[0m';        # green
 e_info='\x1b[30;01m[inform]:\x1b[0m';            # black
 e_input='\x1b[34;01m[input required]:\x1b[0m';   # blue#!/bin/sh
-
-# Swarm Size. (default is 3)
-if [ -z "${SWARM_SIZE}" ]; then
-    SWARM_SIZE=3
-fi
-
-# By default, 'virtualbox' will be used, you can set 'MACHINE_DRIVER' to override it.
-if [ -z "${MACHINE_DRIVER}" ]; then
-    export MACHINE_DRIVER=virtualbox
-fi
-
-# REGISTRY_MIRROR_OPTS="--engine-registry-mirror https://jxus37ac.mirror.aliyuncs.com"
-INSECURE_OPTS="--engine-insecure-registry 192.168.99.0/24"
-# STORAGE_OPTS="--engine-storage-driver overlay2"
-
-MACHINE_OPTS="${STORAGE_OPTS} ${INSECURE_OPTS} ${REGISTRY_MIRROR_OPTS}"
-
-# 将逗号替换为空格
-# array=${value//,/ }
-
-# 将字符串转为数组,数组元素会以字符串中的空格作为分割
-# array=($value)
-
-# 定义一个关联数组,关联数组可以用字符串作为键名,bash版本需要升级,mac默认为3.x,早已过时
-declare -A env_config
-
-# 读取配置文件到变量中
-readEnvFile()
-{
-  # 获取文件内容,并将以"#"开头的行过滤掉
-  env_content=($(grep -v '^#' .env | xargs))
-
-  # 将.env配置文件内容读取到变量中
-  for line in ${env_content[*]}; do
-    cell=(${line//=/ })
-    env_config[${cell[0]}]=${cell[1]}
-  done
-}
 
 # 获取 env 内参数
 get_env()
@@ -143,15 +103,8 @@ display_options () {
 
 # Stop all running containers for services not defined in the Compose file
 
-stop_containers() {
-    docker-compose down --remove-orphans
-}
-
 import_db()
 {
-    source colors.sh;
-    ## selector-db.sh ## Select the db import files
-    ##
     echo -e "e_input where is your backup file?";
     read ": " sql_import # the selected import
     # sql_import="~/Desktop/jeremy/Documents/backup.sql"; # manual override
@@ -413,4 +366,21 @@ backup2()
     #写删除文件日志
     echo "delete $delfile" >> $backup_dir/log.txt
     fi
+}
+
+# 获取最新的 commit id
+get_latest_commit_id()
+{
+    [ ! -d .git ] && echo ".git dir is not found" && exit
+    git log | grep 'commit' | head -n 1 | awk -F ' ' '{print $2}'
+}
+
+# 获取最新一次提交改变的文件
+get_git_latest_diff_file()
+{
+    COMMIT_NEW=$(git log | grep 'commit' | awk -F ' ' '{print $2}' | head -n 2 | tail -n +1 | head -n 1)
+    COMMIT_OLD=$(git log | grep 'commit' | awk -F ' ' '{print $2}' | head -n 2 | tail -n +2 | head -n 1)
+    echo "${COMMIT_NEW}" "${COMMIT_OLD}"
+    git diff --name-only "${COMMIT_NEW}" "${COMMIT_OLD}" | grep images | grep Dockerfile
+    # echo "git diff --name-only ${COMMIT_NEW} ${COMMIT_OLD}"
 }

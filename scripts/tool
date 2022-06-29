@@ -1,0 +1,109 @@
+#!/usr/bin/env sh
+
+# Config
+PRIFIX="dockenv"
+
+action=$1
+image=$2
+tag=$3
+MYSQL_ROOT_PASSWORD=""
+
+# Config Volumes Directory
+MARIADB_VOLUME="/Volumes/Data/Volumes/mariadb"
+MYSQL_VOLUME="/Volumes/Data/Volumes/mysql"
+CODE_VOLUME="/Volumes/Data/Code"
+
+if [[ $1 == 'has' ]]; then
+
+	if [[ $2 != '' ]]; then
+		image=$2
+		if [[ $3 != '' ]]; then
+			tag=$3
+		fi
+	fi
+
+fi
+
+run()
+{
+	# echo $rootscr $action $image $tag
+	if [[ ${image} == 'cmdide' ]]; then
+		if [[ ${tag} == 'php' ]]; then
+			docker run -it \
+					--name ${image} \
+					--hostname ${image} \
+					-v ${CODE_VOLUME}:/code \
+					-p 10080:80 \
+					${PRIFIX}${image}:${tag} zsh
+		fi
+	elif [[ ${image} == 'mariadb' ]]; then
+		if [[ $tag != '' ]]; then
+			docker run -d \
+						--name=${image} \
+						--hostname=${image} \
+						-v ${MARIADB_VOLUME}:/var/lib/mysql \
+						-e MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD} \
+						-p 3306:3306 \
+						${PRIFIX}${image}:${tag}
+		else
+			docker run -d \
+						--name ${image} \
+						--hostname ${image} \
+						-v ${MARIADB_VOLUME}:/var/lib/mysql \
+						-e MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD} \
+						-p 3306:3306  \
+						${PRIFIX}${image}:latest
+		fi
+	elif [[ ${image} == 'mysql' ]]; then
+		if [[ $tag != '' ]]; then
+			docker run -d \
+						--name ${image} \
+						--hostname ${image} \
+						-v ${MYSQL_VOLUME}:/var/lib/mysql \
+						-e MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD} \
+						-p 3306:3306  \
+						${PRIFIX}${image}:${tag}
+		else
+			docker run -d \
+						--name ${image} \
+						--hostname ${image} \
+						-v ${MYSQL_VOLUME}:/var/lib/mysql \
+						-e MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD} \
+						-p 3306:3306  \
+						${PRIFIX}${image}:latest
+		fi
+	fi
+	# docker run -d --name="ubuntu" --hostname="ubuntu" -p 5901:5901 -p 6901:6901 registry.cn-hongkong.aliyuncs.com/imxieke/ubuntu:unity
+}
+
+has_exist()
+{
+	if [[ $image != '' ]]; then
+		if [[ $tag != '' ]]; then
+			docker images | grep $image | grep $tag
+		else
+			docker images | grep $image
+		fi
+	fi
+}
+
+function usage()
+{
+	echo "	Docker Running Tool
+/-----------------------------------\\
+|	run image name tag
+|	has name tag  : check image exist
+\\-----------------------------------/"
+}
+
+case $1 in
+	run )
+		run
+		;;
+	has )
+		has_exist
+		;;
+	* )
+		usage
+		;;
+esac

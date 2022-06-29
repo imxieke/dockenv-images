@@ -37,14 +37,16 @@ jobs:
         docker build . -f images/rockylinux/8/Dockerfile -t ${{ env.REGISTRY }}/dockenv/rockylinux:8
         docker build . -f images/scientificlinux/latest/Dockerfile -t ${{ env.REGISTRY }}/dockenv/scientificlinux:latest
         docker build . -f images/scientificlinux/7/Dockerfile -t ${{ env.REGISTRY }}/dockenv/scientificlinux:7
+        docker build . -f images/phpmyadmin/latest/Dockerfile -t ${{ env.REGISTRY }}/dockenv/phpmyadmin:latest
 
     - name: Login Github Package Registry
       run: |
-        docker login -u imxieke -p '${{ secrets.APIKEY }}' ${{ env.REGISTRY }}
+        docker login -u ${{secrets.USERNAME}} -p "${{ secrets.APIKEY }}" ${{ env.REGISTRY }}
 
     - name: Push Docker Image To Github Package
       run: |
         docker push ${{ env.REGISTRY }}/dockenv/rabbitmq:latest
+        docker push ${{ env.REGISTRY }}/dockenv/phpmyadmin:latest
         docker push ${{ env.REGISTRY }}/dockenv/memcached:latest
         docker push ${{ env.REGISTRY }}/dockenv/archlinux:latest
         docker push ${{ env.REGISTRY }}/dockenv/gentoo:latest

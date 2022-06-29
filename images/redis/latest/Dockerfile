@@ -1,4 +1,4 @@
-FROM redis:latest
+FROM redis:alpine
 LABEL MAINTAINER="Cloudflying" \
     MAIL="<oss@live.hk>" \
     org.opencontainers.image.source=https://github.com/dockenv/dockenv
