@@ -2,7 +2,7 @@
 ###
  # @Author: Cloudflying
  # @Date: 2022-06-27 16:54:27
- # @LastEditTime: 2022-06-30 00:47:27
+ # @LastEditTime: 2022-07-08 03:33:27
  # @LastEditors: Cloudflying
  # @Description:
  # @FilePath: /dockenv/scripts/runner.sh
@@ -11,14 +11,18 @@
 run_boxs()
 {
     docker run -d \
-		--name cmdide \
-		--hostname cmdide \
-		-p 30022:22 \
-		-p 30080:80 \
-		-e RUN_MODE="remote" \
-		-v /Volumes/MacData/Code:/data:rw \
-		-v /Volumes/MacData/Code/Devenv/Volumes/nginx:/etc/nginx/conf:rw \
-		imxieke/cmdide:latest
+		--name boxs \
+		--hostname boxs \
+        -v ~/Code/Project/dockenv:/data \
+        -e USER_PASSWD=boxs \
+        -e IDE_PASSWD=boxs \
+        -e SSH_PORT=22 \
+		-p 8818:8818 \
+		-p 10022:22 \
+		-p 16080:6080 \
+		-p 36800:6800 \
+		-p 15555:15555 \
+		ghcr.io/dockenv/boxs:latest
 }
 
 run_boxs_archlinux()
@@ -35,7 +39,7 @@ run_boxs_archlinux()
 		-p 15901:5901 \
 		-p 16080:6080 \
 		-p 16901:6901 \
-		registry.cn-hongkong.aliyuncs.com/boxs/boxs:xfce-arch
+		ghcr.io/dockenv/boxs:xfce-arch
 }
 
 run_xfce4()
@@ -52,7 +56,7 @@ run_xfce4()
 		-p 25901:5901 \
 		-p 26080:6080 \
 		-p 26901:6901 \
-		registry.cn-hongkong.aliyuncs.com/boxs/boxs:xfce
+		ghcr.io/dockenv/boxs:xfce
 }
 
 run_cmdide()
@@ -111,7 +115,31 @@ run_mysql()
         --name=mysql \
         -e MYSQL_ROOT_PASSWORD=${MYSQL_PASSWORD} \
         -v /Volumes/Data/Dev/mysql/docker:/var/lib/mysql \
-        registry.cn-hongkong.aliyuncs.com/imxieke/mysql:latest \
+        ghcr.io/dockenv/mysql:latest \
         --character-set-server=utf8mb4 \
         --collation-server=utf8mb4_unicode_ci
 }
+
+case "$1" in
+    rm)
+        if [[ -n "$(command -v run_${2})" ]]; then
+            docker stop "${2}"
+            docker rm "${2}"
+        fi
+        ;;
+    stop)
+        if [[ -n "$(command -v run_${2})" ]]; then
+            docker stop "${2}"
+        fi
+        ;;
+    *)
+        if [[ -n "$(command -v run_${1})" ]]; then
+            run_${1}
+        else
+            echo "    Docker Container Runner
+rm      stop and remove Container
+stop    stop Container
+"
+        fi
+    ;;
+esac

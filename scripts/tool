@@ -73,7 +73,7 @@ run()
 						${PRIFIX}${image}:latest
 		fi
 	fi
-	# docker run -d --name="ubuntu" --hostname="ubuntu" -p 5901:5901 -p 6901:6901 registry.cn-hongkong.aliyuncs.com/imxieke/ubuntu:unity
+	# docker run -d --name="ubuntu" --hostname="ubuntu" -p 5901:5901 -p 6901:6901 ghcr.io/dockenv/ubuntu:unity
 }
 
 has_exist()

@@ -1,4 +1,4 @@
-FROM registry.cn-hongkong.aliyuncs.com/boxs/boxs:xfce-arch-base
+FROM ghcr.io/dockenv/boxs:xfce-arch-base
 LABEL MAINTAINER="Cloudflying" \
     MAIL="oss@live.hk"
 

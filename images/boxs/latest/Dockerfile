@@ -1,38 +1,34 @@
-FROM ghcr.io/dockenv/archlinux:latest
+FROM ghcr.io/dockenv/debian:sid
 LABEL MAINTAINER="Cloudflying" \
-        MAIL="oss@live.hk"
+    MAIL="oss@live.hk" \
+    org.opencontainers.image.source=https://github.com/dockenv/dockenv
 
-ENV RUN_USER="boxs" \
-	PASSWD="boxs" \
+# PreDefine Variable
+ENV LANG='en_US.UTF-8' \
+    LANGUAGE='en_US.UTF-8' \
+    LC_ALL='en_US.UTF-8' \
+    LC_CTYPE='en_US.UTF-8' \
+    RUN_USER="boxs" \
+	USER_PASSWD="boxs" \
 	AUTHORIZED_KEYS='**None**' \
-	DEBIAN_FRONTEND=noninteractive
+	DEBIAN_FRONTEND=noninteractive \
+    SSH_PORT=22 \
+    IDE_PORT=8818 \
+    IDE_PASSWD=ideboxs
+
 
 ENV HOME_DIR=/home/$RUN_USER
+ADD conf /tmp/conf
 
-RUN pacman -Syy \
-    && pacman -S --noconfirm openssh git zsh neovim net-tools base-devel wget axel curl \
-    && useradd -d /home/${RUN_USER} -c "Packages Builder" -m -s /bin/zsh ${RUN_USER} \
-	&& echo "${RUN_USER}:${PASSWD}" | chpasswd \
-	&& echo "root:${PASSWD}" | chpasswd \
-    && echo "${RUN_USER} ALL=(ALL:ALL) NOPASSWD: ALL" >> /etc/sudoers \
-    && git clone --depth 1 https://github.com/ohmyzsh/ohmyzsh.git ${HOME_DIR}/.oh-my-zsh \
-    && cp ${HOME_DIR}/.oh-my-zsh/templates/zshrc.zsh-template ${HOME_DIR}/.zshrc \
-    && sed -i 's/ZSH_THEME.*/ZSH_THEME="strug"/g' ${HOME_DIR}/.zshrc \
-    && chown -R ${RUN_USER}:${RUN_USER} ${HOME_DIR} \
-    && ssh-keygen -A \
-    && sed -i 's/^#ClientAliveInterval.*/ClientAliveInterval 60/g' /etc/ssh/sshd_config \
-    && sed -i 's/^#PermitRootLogin.*/PermitRootLogin no/g' /etc/ssh/sshd_config \
-    && sed -i "s/^#ListenAddress 0.0.0.0/ListenAddress 0.0.0.0/g" /etc/ssh/sshd_config \
-    && ln -s /bin/nvim /bin/e \
-    && ln -s /bin/nvim /bin/vim \
-    && ln -s /bin/nvim /bin/vi \
-    && pacman -Scc --noconfirm \
-    && rm -fr /var/lib/pacman/* \
-    && rm -fr /var/cache/pacman/*
+RUN bash /tmp/conf/init.sh && rm -fr /tmp/*
 
 USER ${RUN_USER}
-WORKDIR ${HOME_DIR}
+WORKDIR $HOME_DIR
 
-EXPOSE 22 80
+# 5901 vnc port
+# 6901 novnc port
+# 8188 code-server default port
+# 15555 tabnine port
+EXPOSE 22 6080 6800 8188 15555
 
-CMD /usr/bin/bootstrap
+CMD ["/usr/bin/entrypoint"]

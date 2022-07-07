@@ -1,13 +1,13 @@
 ###
  # @Author: Cloudflying
  # @Date: 2021-10-25 11:08:11
- # @LastEditTime: 2021-10-25 14:47:42
+ # @LastEditTime: 2022-07-01 18:05:14
  # @LastEditors: Cloudflying
  # @Description:
  # @FilePath: /dockenv/images/boxs/xfce/conf/zshrc
 ###
 # If you come from bash you might have to change your $PATH.
-export PATH=$HOME/.bin:$PATH
+export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$HOME/.bin
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # Path to your oh-my-zsh installation.

@@ -1,39 +1,46 @@
-FROM registry.cn-hongkong.aliyuncs.com/boxs/ubuntu:21.04
+FROM ghcr.io/dockenv/debian:sid
 LABEL MAINTAINER="Cloudflying" \
-    MAIL="oss@live.hk"
+    MAIL="oss@live.hk" \
+    org.opencontainers.image.source=https://github.com/dockenv/dockenv
+
 ENV DEBIAN_FRONTEND=noninteractive
 
-RUN apt update -y \
-    && apt install -y --no-install-recommends python3 python3-pip python3-apt iso-codes ca-certificates locales supervisor sudo \
-    # ctags
-    lsb-release openssl apt-transport-https gnupg lsof universal-ctags strace psmisc file apt-utils psutils \
-    dnsutils expect \
+
+RUN echo "deb http://repo.huaweicloud.com/debian sid main" > /etc/apt/sources.list \
+    && echo "deb http://repo.huaweicloud.com/debian sid contrib" >> /etc/apt/sources.list \
+    && echo "deb http://repo.huaweicloud.com/debian sid non-free" >> /etc/apt/sources.list \
+    && apt update -y \
+    && apt upgrade -y \
+    && apt install -y xfce4 xfce4-terminal xfce4-whiskermenu-plugin xfce4-datetime-plugin xfce4-goodies \
+        xfce4-panel-profiles xfce4-screenshooter xfce4-systemload-plugin xfce4-taskmanager \
+    # System
+# for compile
+# apt_add build-essential
+    && apt install -y systemd init lsb-release apt-transport-https apt-utils software-properties-common \
+    && apt install -y --no-install-recommends locales supervisor sudo openssh-server \
+    && apt install -y --no-install-recommends python3 python3-pip python3-apt iso-codes openssl  gnupg lsof \
+        universal-ctags strace psmisc file psutils dnsutils expect \
     && apt install -y --no-install-recommends bat zsh git wget curl httpie axel neovim jq tree screen less iftop enca \
-    # Archive COmpress
-    && apt install -y --no-install-recommends rpm unar zip unzip bzip2 rar unrar zstd gzip p7zip p7zip-full p7zip-rar cabextract \
-    xz-utils \
-    && apt install -y --no-install-recommends net-tools procps htop netcat rsync iproute2 whois \
-    && apt install -y --no-install-recommends python3-software-properties software-properties-common python3-neovim \
-    && apt install -y --no-install-recommends openssh-server openssh-sftp-server \
+    # Archive Compress
+    && apt install -y --no-install-recommends 7zip brotli bzip2 lunzip lzip rpm rar unalz unar unrar unzip unrar-free zip zstd gzip \
+        p7zip p7zip-full p7zip-rar \
+    # cabextract xz-utils \
+    && apt install -y --no-install-recommends net-tools procps htop netcat-openbsd rsync iproute2 whois \
+    # Python Plguins
+    && apt install -y --no-install-recommends python3-software-properties python3-neovim \
     && apt install -y --no-install-recommends xinit xauth pkg-config yelp yelp-xsl zenity \
     # dialog Displays user-friendly dialog boxes from shell scripts
-    && apt install -y --no-install-recommends ubuntu-mono pavucontrol apulse dialog \
-    # 测试是否可以删除 libgl1-mesa-dri xvfb libnss-wrapper mesa-utils
+    && apt install -y --no-install-recommends pavucontrol apulse dialog xvfb alsamixergui alsa-utils alsa-oss alsa-tools alsa-tools-gui \
+    # 测试是否可以删除 libgl1-mesa-dri  libnss-wrapper mesa-utils
     # xserver-xorg-video-fbdev xserver-xorg-video-vesa xserver-xorg-input-evdev
-    && apt install -y --no-install-recommends xorg x11vnc x11-utils dbus dbus-x11  xdg-utils \
-    && apt install -y --no-install-recommends xfce4 xfce4-terminal  \
-    && apt install -y --no-install-recommends alsamixergui alsa-utils alsa-oss alsa-tools alsa-tools-gui \
-    && apt install -y --no-install-recommends xfce4-whiskermenu-plugin xfce4-datetime-plugin xfce4-goodies \
-    xfce4-panel-profiles xfce4-screenshooter xfce4-systemload-plugin xfce4-taskmanager  \
-    # && apt install -y --no-install-recommends fonts-noto-mono ttf-ubuntu-font-family ttf-wqy-zenhei xfonts-base xfonts-100dpi \
+    && apt install -y tigervnc-standalone-server xrdp xorgxrdp x11vnc dbus dbus-x11  xdg-utils openbox openbox-menu \
+    # && apt install -y --no-install-recommends fonts-ubuntu fonts-noto-mono ttf-ubuntu-font-family ttf-wqy-zenhei xfonts-base xfonts-100dpi \
     # xfonts-75dpi xfonts-scalable xfonts-cyrillic ttf-wqy-zenhei fonts-wqy-zenhei fonts-wqy-microhei xfonts-wqy fonts-mononoki \
     # fonts-noto-mono fonts-liberation \
-    && pip install numpy websockify -i https://repo.huaweicloud.com/pypi/simple/ \
-    # && apt install -y --no-install-recommends openbox openbox-menu \
+    && pip install websockify \
     # editor 考虑 sublime text 为替代品
     # && apt install -y --no-install-recommends gedit \
     # 暂时不考虑使用
-    # && apt install -y --no-install-recommends xrdp xorgxrdp \
     # for system service 17 MB
     # && apt install -y --no-install-recommends gvfs gvfs-backends gvfs-bin gvfs-fuse \
     # 139 MB
@@ -75,12 +82,13 @@ RUN apt update -y \
     # libreoffice
     # && apt install --no-install-recommends -y libreoffice libreoffice-help-zh-cn libreoffice-l10n-zh-cn \
     # File Manager
-    && apt install --no-install-recommends -y thunar thunar-archive-plugin thunar-gtkhash thunar-volman
-# && apt install -y --no-install-recommends chromium-browser chromium-browser-l10n chromium-bsu-data chromium-codecs-ffmpeg \
-# Editor && IDE
-# && apt install -y --no-install-recommends mousepad geany
-# Install sound dev 暂时用不到
-# && apt install -y --no-install-recommends libasound2-dev libwebkit2gtk-4.0-dev
-# && apt install -y --fix-missing
-
-CMD ["/bin/bash"]
+    # && apt install --no-install-recommends -y thunar thunar-archive-plugin thunar-gtkhash thunar-volman
+    # && apt install -y --no-install-recommends chromium-browser chromium-browser-l10n chromium-bsu-data chromium-codecs-ffmpeg \
+    # Editor && IDE
+    # && apt install -y --no-install-recommends mousepad geany
+    # Install sound dev 暂时用不到
+    # && apt install -y --no-install-recommends libasound2-dev libwebkit2gtk-4.0-dev
+    # && apt install -y --fix-missing \
+    && apt autoremove -y \
+    && apt-get autoclean -y \
+    && rm -fr /var/lib/apt/lists/*

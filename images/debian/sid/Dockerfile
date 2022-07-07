@@ -10,4 +10,4 @@ ENV DEBIAN_FRONTEND noninteractive \
 RUN sed -i 's/deb.debian.org/repo.huaweicloud.com/g' /etc/apt/sources.list \
   && sed -i 's/security.debian.org/repo.huaweicloud.com/g' /etc/apt/sources.list
 
-CMD ['/bin/bash']
+CMD ["/bin/bash"]

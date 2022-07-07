@@ -1,4 +1,4 @@
-FROM registry.cn-hongkong.aliyuncs.com/boxs/alpine:latest
+FROM ghcr.io/dockenv/alpine:latest
 
 LABEL MAINTAINER="Cloudflying" \
         MAIL="oss@live.hk" \

@@ -7,7 +7,7 @@ set background=dark
 " colorscheme hyper
 " colorscheme wombat
 " colorscheme zacks
-colorscheme Base4Tone_Classic_A_Dark
+"  colorscheme Base4Tone_Classic_A_Dark
 
 filetype plugin indent on                       " enable indentations
 set list

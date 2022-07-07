@@ -2,17 +2,18 @@
 ###
  # @Author: Cloudflying
  # @Date: 2021-10-18 22:48:51
- # @LastEditTime: 2021-12-07 00:10:26
+ # @LastEditTime: 2022-07-01 18:59:24
  # @LastEditors: Cloudflying
  # @Description:
  # @FilePath: /dockenv/images/boxs/xfce/conf/bootstrap.sh
 ###
-mv /tmp/conf/entrypoint.sh /usr/bin/entrypoint
+
+cp /tmp/conf/entrypoint.sh /usr/bin/entrypoint
 chmod +x /usr/bin/entrypoint
 
 echo "==> Fix local env"
 # rm -fr /etc/update-motd.d/*
-# mv /tmp/conf/00-motd /etc/update-motd.d/00-header
+# cp /tmp/conf/00-motd /etc/update-motd.d/00-header
 
 # sed -i 's/mirrors.aliyun.com/mirrors.tuna.tsinghua.edu.cn/g' /etc/apt/sources.list
 # sed -i 's/mirrors.aliyun.com/mirror.nju.edu.cn/g' /etc/apt/sources.list
@@ -32,17 +33,16 @@ trusted-host=mirrors.aliyun.com" > ${HOME_DIR}/.pip/pip.conf
 mkdir -p /tmp/.deps
 cd /tmp/.deps
 
-if [[ -z "$(command -v vncserver)" ]]; then
-    wget -qc https://cloudflying-generic.pkg.coding.net/storage/mirrors/pkgs/tigervnc/tigervnc-1.10.0.x86_64.tar.gz
-    tar -xf tigervnc-1.10.0.x86_64.tar.gz
-    cp -fr tigervnc-1.10.0.x86_64/* /
-fi
+# if [[ -z "$(command -v vncserver)" ]]; then
+#     wget -qc https://cloudflying-generic.pkg.coding.net/storage/mirrors/pkgs/tigervnc/tigervnc-1.10.0.x86_64.tar.gz
+#     tar -xf tigervnc-1.10.0.x86_64.tar.gz
+#     cp -fr tigervnc-1.10.0.x86_64/* /
+# fi
 
-if [[ ! -d '/opt/novnc' ]]; then
-    wget -qc https://cloudflying-generic.pkg.coding.net/storage/mirrors/pkgs/novnc/noVNC-1.2.0.tar.gz
-    tar -xf noVNC-1.2.0.tar.gz
-    mv noVNC-1.2.0 /opt/novnc
-    sed -i "#s#<title>noVNC</title>#<title>Docker Ubuntu Xfce4 Desktop</title>#g" /opt/novnc/vnc.html
+if [[ ! -d '/opt/noVNC' ]]; then
+    wget -qc https://github.com/novnc/noVNC/archive/refs/heads/master.zip -O /tmp/novnc.zip
+    unzip -q /tmp/novnc.zip -d /opt/ && mv /opt/noVNC-master /opt/noVNC
+    sed -i "s#<title>noVNC</title>#<title>Xfce4 Desktop Running in Debian on Docker</title>#g" /opt/noVNC/vnc.html
 fi
 
 cd && rm -fr /tmp/.deps
@@ -54,13 +54,13 @@ if [[ ! -f "${HOME_DIR}/.zshrc" ]]; then
     echo "${USER} ALL=(ALL:ALL) NOPASSWD: ALL" >> /etc/sudoers
     git clone --depth 1 https://e.coding.net/pkgs/oh-my-zsh/oh-my-zsh.git ${HOME_DIR}/.oh-my-zsh
     # cp ${HOME_DIR}/.oh-my-zsh/templates/zshrc.zsh-template ${HOME_DIR}/.zshrc
-    mv /tmp/conf/zshrc ${HOME_DIR}/.zshrc
-    sed -i 's/ZSH_THEME.*/ZSH_THEME="strug"/g' ${HOME_DIR}/.zshrc
+    cp /tmp/conf/zshrc ${HOME_DIR}/.zshrc
+    # sed -i 's/ZSH_THEME.*/ZSH_THEME="strug"/g' ${HOME_DIR}/.zshrc
 fi
 
 [ ! -d '/run/sshd' ] && mkdir -p /run/sshd
 [ ! -d '/etc/supervisor/conf.d' ] && mkdir -p /etc/supervisor/conf.d
-[ -f '/tmp/conf/supervisord.conf' ] && mv /tmp/conf/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+[ -f '/tmp/conf/supervisord.conf' ] && cp /tmp/conf/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 #  程序启动文件 快捷方式
 mkdir -p ${HOME_DIR}/.local/share/applications/desktop
@@ -116,6 +116,9 @@ rm -fr /usr/share/themes/Default-hdpi
 
 # neovim
 mkdir -p ${HOME_DIR}/.config/nvim
-mv /tmp/conf/init.vim ${HOME_DIR}/.config/nvim/init.vim
+cp /tmp/conf/init.vim ${HOME_DIR}/.config/nvim/init.vim
 
-rm -fr /tmp/conf
+chmod -R 755 ${HOME_DIR}
+chown -R ${USER}:${USER} ${HOME_DIR}
+
+rm -fr /tmp/*

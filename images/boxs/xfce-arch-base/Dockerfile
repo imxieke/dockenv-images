@@ -1,4 +1,4 @@
-FROM registry.cn-hongkong.aliyuncs.com/imxieke/archlinux:latest
+FROM ghcr.io/dockenv/archlinux:latest
 LABEL MAINTAINER="Cloudflying" \
     MAIL="oss@live.hk"
 ENV DEBIAN_FRONTEND=noninteractive

@@ -1,6 +1,7 @@
-FROM registry.cn-hongkong.aliyuncs.com/boxs/boxs:xfce-base
+FROM ghcr.io/dockenv/boxs:xfce-base
 LABEL MAINTAINER="Cloudflying" \
-    MAIL="oss@live.hk"
+    MAIL="oss@live.hk" \
+    org.opencontainers.image.source=https://github.com/dockenv/dockenv
 
 COPY conf /tmp/conf
 
@@ -12,7 +13,7 @@ ENV USER="boxs" \
     NO_VNC_HOME=/opt/noVNC \
     VNC_COL_DEPTH=24 \
     VNC_RESOLUTION=1920x1080 \
-    VNC_PASSWD=boxsvnc \
+    VNC_PASSWD=vncboxs \
     DISPLAY=:1 \
     VNC_PORT=5901 \
     NO_VNC_PORT=6901 \

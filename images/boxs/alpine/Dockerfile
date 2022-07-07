@@ -10,7 +10,7 @@ ENV RUN_USER="boxs" \
 ENV HOME_DIR=/home/$RUN_USER
 
 RUN apk add --no-cache sudo git zsh neovim net-tools wget curl axel aria2 shadow openssh util-linux-misc \
-    binutils file openrc procps htop neofetch gawk sed jq \
+        binutils file openrc procps htop neofetch gawk sed jq tar \
     && useradd -d /home/${RUN_USER} -c "Packages Builder" -m -s /bin/zsh ${RUN_USER} \
 	&& echo "${RUN_USER}:${PASSWD}" | chpasswd \
 	&& echo "root:${PASSWD}" | chpasswd \
@@ -31,3 +31,5 @@ USER ${RUN_USER}
 WORKDIR ${HOME_DIR}
 
 EXPOSE 22 80
+
+CMD ["zsh"]

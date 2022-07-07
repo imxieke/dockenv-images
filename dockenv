@@ -88,9 +88,9 @@ do_build()
 
         # --no-cache
         if [[ -n "${DOCKER_REGISTRY_PREFIX}" ]]; then
-            docker build --progress auto --no-cache -t ${DOCKER_REGISTRY_PREFIX}/${NAME}:$VERSION .
+            docker build --progress plain --no-cache -t ${DOCKER_REGISTRY_PREFIX}/${NAME}:$VERSION .
         else
-            docker build --progress auto --no-cache -t ${NAME}:$VERSION .
+            docker build --progress plain --no-cache -t ${NAME}:$VERSION .
         fi
 
         [[ -n "${ENABLE_GITHUB_REGISTRY}" ]] && docker tag ${DOCKER_REGISTRY_PREFIX}/${NAME}:$VERSION ${DOCKER_REGISTRY_GITHUB}/${NAME}:$VERSION

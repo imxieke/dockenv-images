@@ -6,16 +6,16 @@
 
 * Ubuntu xfce4
 
-`docker run -d -p 10022:22 -p 5901:5901 -p 6901:6901 registry.cn-hongkong.aliyuncs.com/boxs/boxs:xfce`
+`docker run -d -p 10022:22 -p 5901:5901 -p 6901:6901 ghcr.io/dockenv/boxs:xfce`
 
 * Archlinux
 * archlinux 需要添加 `-it` 指令 否则桌面无法正常运行
 *
-`docker run -d -it -p 10022:22 -p 5901:5901 -p 6901:6901 registry.cn-hongkong.aliyuncs.com/boxs/boxs:xfce-arch`
+`docker run -d -it -p 10022:22 -p 5901:5901 -p 6901:6901 ghcr.io/dockenv/boxs:xfce-arch`
 
 ## Unity
 
-`docker run -d --name="ubuntu" --hostname="ubuntu" -p 5901:5901 -p 6901:6901 registry.cn-hongkong.aliyuncs.com/imxieke/ubuntu:unity`
+`docker run -d --name="ubuntu" --hostname="ubuntu" -p 5901:5901 -p 6901:6901 ghcr.io/dockenv/ubuntu:unity`
 
 4.10 Warty Warthog
 5.04 Hoary Hedgehog

@@ -1,4 +1,4 @@
-FROM registry.cn-hongkong.aliyuncs.com/imxieke/ubuntu:20.04
+FROM ghcr.io/dockenv/ubuntu:20.04
 LABEL MAINTAINER="Cloudflying" \
         MAIL="oss@live.hk"
 
