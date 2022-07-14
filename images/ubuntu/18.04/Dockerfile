@@ -4,10 +4,14 @@ FROM ubuntu:bionic
 LABEL MAINTAINER="Cloudflying" \
     MAIL="oss@live.hk"
 
-ENV PATH="/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin" \
-    DEBIAN_FRONTEND=noninteractive
+ENV PATH="/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin"
+ENV DEBIAN_FRONTEND=noninteractive
 
-RUN sed -i 's#archive.ubuntu.com#repo.huaweicloud.com/oldubuntu-releases#g' /etc/apt/sources.list \
-    && sed -i 's/deb\ http:\/\/security/#deb\ http:\/\/security/g' /etc/apt/sources.list
+RUN . /etc/os-release \
+    && echo "deb http://repo.huaweicloud.com/${ID} ${VERSION_CODENAME} main restricted multiverse universe" > /etc/apt/sources.list \
+    && echo "deb http://repo.huaweicloud.com/${ID} ${VERSION_CODENAME}-backports main restricted multiverse universe" >> /etc/apt/sources.list \
+    && echo "deb http://repo.huaweicloud.com/${ID} ${VERSION_CODENAME}-proposed main restricted multiverse universe" >> /etc/apt/sources.list \
+    && echo "deb http://repo.huaweicloud.com/${ID} ${VERSION_CODENAME}-security main restricted multiverse universe" >> /etc/apt/sources.list \
+    && echo "deb http://repo.huaweicloud.com/${ID} ${VERSION_CODENAME}-updates main restricted multiverse universe" >> /etc/apt/sources.list
 
-CMD ['bash']
+CMD ["/usr/bin/bash"]

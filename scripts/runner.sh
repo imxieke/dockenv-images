@@ -2,11 +2,17 @@
 ###
  # @Author: Cloudflying
  # @Date: 2022-06-27 16:54:27
- # @LastEditTime: 2022-07-08 03:33:27
+ # @LastEditTime: 2022-07-13 18:51:05
  # @LastEditors: Cloudflying
  # @Description:
  # @FilePath: /dockenv/scripts/runner.sh
 ###
+
+ROOT_PATH=$(dirname $(dirname $(realpath $0)))
+
+CONF_PATH=${ROOT_PATH}/runtime/conf
+DATA_PATH=${ROOT_PATH}/runtime/data
+LOGS_PATH=${ROOT_PATH}/runtime/logs
 
 run_boxs()
 {
@@ -120,7 +126,24 @@ run_mysql()
         --collation-server=utf8mb4_unicode_ci
 }
 
+run_redis()
+{
+    docker run --rm -d \
+        --hostname=redis \
+        --name=redis \
+        -p 6379:6379 \
+        -v ${CONF_PATH}/redis:/etc/redis \
+        -v ${DATA_PATH}/redis:/data \
+        -v ${LOGS_PATH}/redis:/var/log/redis \
+        ghcr.io/dockenv/redis:latest redis-server /etc/redis/redis.conf
+}
+
 case "$1" in
+    run)
+        if [[ -n "$(command -v run_${2})" ]]; then
+            run_${2}
+        fi
+        ;;
     rm)
         if [[ -n "$(command -v run_${2})" ]]; then
             docker stop "${2}"

@@ -4,10 +4,13 @@ LABEL MAINTAINER="Cloudflying" \
         MAIL="oss@live.hk" \
         org.opencontainers.image.source=https://github.com/dockenv/dockenv
 
-ENV DEBIAN_FRONTEND noninteractive \
-	PATH="/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin"
+ENV DEBIAN_FRONTEND=noninteractive
+ENV PATH="/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin"
+ENV VERSION_CODENAME=wheezy
 
-RUN sed -i 's/deb.debian.org/repo.huaweicloud.com/g' /etc/apt/sources.list \
-	&& sed -i 's/security.debian.org/repo.huaweicloud.com/g' /etc/apt/sources.list
+RUN . /etc/os-release \
+    && echo "deb http://archive.debian.org/debian-archive/${ID} ${VERSION_CODENAME} main" > /etc/apt/sources.list \
+    && echo "deb http://archive.debian.org/debian-archive/${ID} ${VERSION_CODENAME} contrib" >> /etc/apt/sources.list \
+    && echo "deb http://archive.debian.org/debian-archive/${ID} ${VERSION_CODENAME} non-free" >> /etc/apt/sources.list
 
 CMD ["/bin/bash"]

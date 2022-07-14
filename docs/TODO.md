@@ -5,6 +5,9 @@ PAS_SECRET 自定义 secret 无效
 
 脚本一键更新 .env 内版本信息
 
+- 自动更新镜像
+- curl -sL https://github.com/docker-library/kibana/raw/master/6/Dockerfile | grep 'Kibana'| cut -d ' ' -f 3
+
 ## Docker Compose
 - mongo
 - postgresql
@@ -89,3 +92,9 @@ ukui-themes
 - ttyd
 - vscode-remote
 - xcloud
+
+## Docker
+- https://github.com/sonatype/docker-nexus-iq-server
+- https://github.com/sonatype/docker-nexus
+- https://github.com/sonatype/docker-nexus3
+- docker pull sonatype/nexus:oss

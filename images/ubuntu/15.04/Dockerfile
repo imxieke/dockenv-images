@@ -1,4 +1,4 @@
-# Ubuntu 15.04 
+# Ubuntu 15.04
 FROM ubuntu:vivid
 
 LABEL MAINTAINER="Cloudflying" \
@@ -10,4 +10,4 @@ ENV PATH="/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin" \
 RUN sed -i 's/archive.ubuntu.com/repo.huaweicloud.com/g' /etc/apt/sources.list \
 	&& sed -i 's/deb\ http:\/\/security/#deb\ http:\/\/security/g' /etc/apt/sources.list
 
-CMD ['bash']
+CMD ["/usr/bin/bash"]

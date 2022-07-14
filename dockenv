@@ -96,7 +96,7 @@ do_build()
         [[ -n "${ENABLE_GITHUB_REGISTRY}" ]] && docker tag ${DOCKER_REGISTRY_PREFIX}/${NAME}:$VERSION ${DOCKER_REGISTRY_GITHUB}/${NAME}:$VERSION
         [[ -n "${ENABLE_CODING_REGISTRY}" ]] && docker tag ${DOCKER_REGISTRY_PREFIX}/${NAME}:$VERSION ${DOCKER_REGISTRY_CODING}/${NAME}:$VERSION
         [[ -n "${ENABLE_BAIDU_REGISTRY}" ]] && docker tag ${DOCKER_REGISTRY_PREFIX}/${NAME}:$VERSION ${DOCKER_REGISTRY_BAIDU}/${NAME}:$VERSION
-        [[ -n "${ENABLE_HUAWEI_REGISTRY}" ]] && docker tag ${DOCKER_REGISTRY_PREFIX}/${NAME}:$VERSION ${DOCKER_REGISTRY_HUAWEI}/${NAME}:$VERSION
+        [[ -n "${ENABLE_HUAWEI_REGISTRY}" ]] && docker tag ${DOCKER_REGISTRY_PREFIX}/${NAME}:$VERSION ${DOCKER_REGISTRY_HK_HUAWEI}/${NAME}:$VERSION
 
         [[ -n "${ENABLE_ALIYUN_SH_REGISTRY}" ]] && docker tag ${DOCKER_REGISTRY_PREFIX}/${NAME}:$VERSION ${DOCKER_REGISTRY_ALIYUN_SH}/${NAME}:$VERSION
         [[ -n "${ENABLE_ALIYUN_HK_REGISTRY}" ]] && docker tag ${DOCKER_REGISTRY_PREFIX}/${NAME}:$VERSION ${DOCKER_REGISTRY_ALIYUN_HK}/${NAME}:$VERSION
@@ -273,6 +273,9 @@ do_login()
         ;;
     'tencent-jp')
         docker login -u ${DOCKER_REGISTRY_TENCENT_USERNAME} -p ${DOCKER_REGISTRY_TENCENT_PASSWORD} jpccr.ccs.tencentyun.com
+        ;;
+    'huawei-hk')
+        docker login -u ${DOCKER_REGISTRY_HUAWEI_USERNAME} -p ${DOCKER_REGISTRY_HUAWEI_PASSWORD} swr.ap-southeast-1.myhuaweicloud.com
         ;;
     # 美西硅谷
     'tencent-usw')

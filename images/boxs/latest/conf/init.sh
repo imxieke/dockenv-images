@@ -2,16 +2,12 @@
 ###
  # @Author: Cloudflying
  # @Date: 2022-07-01 12:36:33
- # @LastEditTime: 2022-07-05 17:44:31
+ # @LastEditTime: 2022-07-11 19:24:20
  # @LastEditors: Cloudflying
  # @Description: Init Docker Images
  # @FilePath: /dockenv/images/boxs/latest/conf/init.sh
 ###
 [ -f '/tmp/conf/entrypoint.sh' ] && cp /tmp/conf/entrypoint.sh /usr/bin/entrypoint && chmod +x /usr/bin/entrypoint
-
-echo "deb http://repo.huaweicloud.com/debian sid main" > /etc/apt/sources.list
-echo "deb http://repo.huaweicloud.com/debian sid contrib" >> /etc/apt/sources.list
-echo "deb http://repo.huaweicloud.com/debian sid non-free" >> /etc/apt/sources.list
 
 # short package install command
 pkg_add()

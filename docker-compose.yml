@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 
 services:
   nginx:
@@ -43,19 +43,23 @@ services:
       - 223.5.5.5
       - 8.8.8.8
 
+  hhvm:
+    image: cloudflying-docker.pkg.coding.net/storage/docker/hhvm:latest
+    expose:
+      - "9000"
+
   mysql57:
     image: ghcr.io/dockenv/mysql:5.7
     hostname: mysql57
     container_name: mysql57
     restart: always
-    # Only for Container
     expose:
       - "3306"
     ports:
-      - "${MYSQL57_PORT}:${MYSQL57_PORT}"
+      - "${MYSQL57_PORT}:3306"
     volumes:
-      - ./runtime/data/mysql:/var/lib/mysql
-      - ./runtime/logs/mysql/:/var/log/mysql
+      - ./runtime/data/mysql57:/var/lib/mysql
+      - ./runtime/logs/mysql57/:/var/log/mysql
     environment:
       - TZ=${TIMEZONE}
       - MYSQL_ROOT_PASSWORD=${MYSQL57_ROOT_PASSWORD}
@@ -68,6 +72,20 @@ services:
       boxs:
         ipv4_address: ${MYSQL57_IP}
 
+  postgres15:
+    image: ${DOCKER_REGISTRY_COMPOSE}/postgres:15
+    hostname: postgres15
+    container_name: postgres15
+    restart: always
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./runtime/data/postgres15/:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=default
+      - POSTGRES_USER=dockenv
+      - POSTGRES_PASSWORD=dockenv
+
   mysql80:
     image: ghcr.io/dockenv/mysql:8.0
     hostname: mysql80
@@ -77,7 +95,7 @@ services:
     expose:
       - "3306"
     ports:
-      - "${MYSQL80_PORT}:${MYSQL80_PORT}"
+      - "${MYSQL80_PORT}:3306"
     volumes:
       - ./runtime/data/mysql80:/var/lib/mysql
       - ./runtime/logs/mysql80/:/var/log/mysql
@@ -98,11 +116,10 @@ services:
     hostname: mariadb
     container_name: mariadb
     restart: always
-    # Only for Container
     expose:
       - "3306"
     ports:
-      - "${MARIADB_PORT}:${MARIADB_PORT}"
+      - "${MARIADB_PORT}:3306"
     volumes:
       - ./runtime/data/mariadb:/var/lib/mysql
       - ./runtime/logs/mariadb/:/var/log/mysql
@@ -187,14 +204,14 @@ services:
         soft: -1
         hard: -1
       nofile:
-          soft: 65536
-          hard: 65536
+        soft: 65536
+        hard: 65536
     volumes:
       - ./runtime/data/elasticsearch:/usr/share/elasticsearch/data
       # - ${ELASTICSEARCH_CONF_FILE}:/usr/share/elasticsearch/config/elasticsearch.yml
     ports:
-     - "9200:9200"
-     - "9300:9300"
+      - "9200:9200"
+      - "9300:9300"
     networks:
       boxs:
         ipv4_address: ${ELASTICSEARCH_IP}
@@ -208,7 +225,7 @@ services:
       - SERVER_NAME=kibana
       - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
     ports:
-     - "5601:5601"
+      - "5601:5601"
     networks:
       boxs:
         ipv4_address: ${KIBANA_IP}
@@ -219,8 +236,8 @@ services:
     container_name: logstash
     restart: always
     ports:
-     - "9600:9600"
-     - "5044:5044"
+      - "9600:9600"
+      - "5044:5044"
     networks:
       boxs:
         ipv4_address: ${LOGSTASH_IP}
@@ -248,6 +265,17 @@ services:
     networks:
       boxs:
         ipv4_address: ${RBMQ_IP}
+
+  portainer:
+    image: ${DOCKER_REGISTRY_COMPOSE}/portainer:latest
+    hostname: portainer
+    container_name: portainer
+    restart: always
+    ports:
+      - "9000:9000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:cached
+      - ./runtime/data/portainer/:/data:cached
 
 networks:
   boxs:

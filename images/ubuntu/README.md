@@ -1,22 +1,13 @@
-## Connection ports for controlling the UI:
-## VNC port:5901
-## noVNC webport, connect via http://IP:6901/?password=vncpassword
+## 已停止软件源的版本
+- groovy 20.10
+- 19.10
+- 19.04
+- 18.10
+- 17.10
+- 17.04
+- 16.10 -14.10
 
-## xfce4
-
-* Ubuntu xfce4
-
-`docker run -d -p 10022:22 -p 5901:5901 -p 6901:6901 ghcr.io/dockenv/boxs:xfce`
-
-* Archlinux
-* archlinux 需要添加 `-it` 指令 否则桌面无法正常运行
-*
-`docker run -d -it -p 10022:22 -p 5901:5901 -p 6901:6901 ghcr.io/dockenv/boxs:xfce-arch`
-
-## Unity
-
-`docker run -d --name="ubuntu" --hostname="ubuntu" -p 5901:5901 -p 6901:6901 ghcr.io/dockenv/ubuntu:unity`
-
+## Ubuntu 版本信息
 4.10 Warty Warthog
 5.04 Hoary Hedgehog
 5.10 Breezy Badger
@@ -36,31 +27,24 @@
 12.10 			Quantal Quetzal
 13.04 			Raring Ringtail
 13.10 saucy		Saucy Salamander
-14.04 trusty 	Trusty Tahr
+14.04 trusty 	Trusty Tahr lts
 14.10 utopic 	Utopic Unicorn
 15.04 vivid 	Vivid Vervet
 15.10 wily 		Wily Werewolf
-16.04 xenial 	Xenial Xerus
+16.04 xenial 	Xenial Xerus lts
 16.10 yakkety	Yakkety Yak
 17.04 zesty		Zesty Zapus
 17.10 artful	Artful Aardvark
-18.04 bionic 	Bionic Beaver
+18.04 bionic 	Bionic Beaver lts
 18.10 cosmic 	Cosmic Cuttlefish
 19.04 disco 	Disco Dingo
 19.10 eoan		Eoan Ermine
 20.04 focal  	Focal Fossa
-20.10 groovy 	Groovy Gorilla
+20.10 groovy 	Groovy Gorilla lts
 21.04 hirsute Hirsute Hippo
 21.10 impish Impish Indri
-22.04 vjammy
-
-```
-noVNC: 		ip:6901
-VNC: 		ip:5901
-User: 		ubuntu
-Pass: 		ubuntu
-VNC Pass: 	ubuntu
-```
+22.04 jammy  Jammy Jellyfish lts
+22.10 kinetic Kinetic Kudu
 
 ### PS: if want to run Chrome , need add param `--privileged`
 ### Ubuntu Unity Desktop not work please wait a while or run ` docker restart container-id ` or `docker exec container-id unity > /tmp/unity.log & `

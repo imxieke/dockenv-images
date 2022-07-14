@@ -1,4 +1,4 @@
-FROM postgres:alpine
+FROM postgres:10-alpine
 LABEL MAINTAINER="Cloudflying" \
         MAIL="<oss@live.hk>"
 
