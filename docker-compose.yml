@@ -2,7 +2,7 @@ version: "3"
 
 services:
   nginx:
-    image: ghcr.io/dockenv/nginx:latest
+    image: ${DOCKER_REGISTRY_COMPOSE}/nginx:latest
     container_name: nginx
     restart: always
     deploy:
@@ -27,7 +27,7 @@ services:
       - boxs
 
   php74:
-    image: ghcr.io/dockenv/php:74
+    image: ${DOCKER_REGISTRY_COMPOSE}/php:74
     container_name: php74
     restart: always
     privileged: true
@@ -44,12 +44,12 @@ services:
       - 8.8.8.8
 
   hhvm:
-    image: cloudflying-docker.pkg.coding.net/storage/docker/hhvm:latest
+    image: ${DOCKER_REGISTRY_COMPOSE}/hhvm:latest
     expose:
       - "9000"
 
   mysql57:
-    image: ghcr.io/dockenv/mysql:5.7
+    image: ${DOCKER_REGISTRY_COMPOSE}/mysql:5.7
     hostname: mysql57
     container_name: mysql57
     restart: always
@@ -58,7 +58,8 @@ services:
     ports:
       - "${MYSQL57_PORT}:3306"
     volumes:
-      - ./runtime/data/mysql57:/var/lib/mysql
+      # - ./runtime/data/mysql57:/var/lib/mysql
+      - mysql57:/var/lib/mysql
       - ./runtime/logs/mysql57/:/var/log/mysql
     environment:
       - TZ=${TIMEZONE}
@@ -80,14 +81,14 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - ./runtime/data/postgres15/:/var/lib/postgresql/data
+      - postgres15:/var/lib/postgresql/data
     environment:
       - POSTGRES_DB=default
       - POSTGRES_USER=dockenv
       - POSTGRES_PASSWORD=dockenv
 
   mysql80:
-    image: ghcr.io/dockenv/mysql:8.0
+    image: ${DOCKER_REGISTRY_COMPOSE}/mysql:8.0
     hostname: mysql80
     container_name: mysql80
     restart: always
@@ -97,7 +98,7 @@ services:
     ports:
       - "${MYSQL80_PORT}:3306"
     volumes:
-      - ./runtime/data/mysql80:/var/lib/mysql
+      - mysql80:/var/lib/mysql
       - ./runtime/logs/mysql80/:/var/log/mysql
     environment:
       - TZ=${TIMEZONE}
@@ -112,7 +113,7 @@ services:
         ipv4_address: ${MYSQL80_IP}
 
   mariadb:
-    image: ghcr.io/dockenv/mariadb:latest
+    image: ${DOCKER_REGISTRY_COMPOSE}/mariadb:latest
     hostname: mariadb
     container_name: mariadb
     restart: always
@@ -121,7 +122,7 @@ services:
     ports:
       - "${MARIADB_PORT}:3306"
     volumes:
-      - ./runtime/data/mariadb:/var/lib/mysql
+      - mariadb:/var/lib/mysql
       - ./runtime/logs/mariadb/:/var/log/mysql
     environment:
       - TZ=${TIMEZONE}
@@ -136,7 +137,7 @@ services:
         ipv4_address: ${MARIADB_IP}
 
   redis:
-    image: ghcr.io/dockenv/redis:latest
+    image: ${DOCKER_REGISTRY_COMPOSE}/redis:latest
     container_name: redis
     hostname: redis
     ports:
@@ -147,19 +148,36 @@ services:
     restart: always
     volumes:
       - ./runtime/conf/redis:/etc/redis
-      - ./runtime/data/redis:/data
+      - redis:/data
       - ./runtime/logs/redis:/var/log/redis
     command: redis-server /etc/redis/redis.conf
 
   memcached:
-    image: ghcr.io/dockenv/memcached:latest
+    image: ${DOCKER_REGISTRY_COMPOSE}/memcached:latest
     hostname: memcached
     container_name: memcached
     ports:
       - ${MEMCACHED_PORT}:11211
 
+  mongo:
+    image: ${DOCKER_REGISTRY_COMPOSE}/mongo:latest
+    ports:
+      - ${MONGO_PORT}:27017
+    restart: always
+    volumes:
+      - mongo:/data/db
+      - mongo-conf:/data/configdb
+      - ./runtime/logs/mongo:/var/log/mongo
+    environment:
+      TZ: ${TIMEZONE}
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD}
+    # command: mongod --config /etc/mongod.conf
+    networks:
+      - boxs
+
   boxs:
-    image: ghcr.io/dockenv/boxs:latest
+    image: ${DOCKER_REGISTRY_COMPOSE}/boxs:latest
     hostname: boxs
     container_name: boxs
     volumes:
@@ -173,7 +191,7 @@ services:
       - "16901:6901"
 
   xfce4:
-    image: ghcr.io/dockenv/boxs:xfce
+    image: ${DOCKER_REGISTRY_COMPOSE}/boxs:xfce
     hostname: xfce4
     container_name: xfce4
     privileged: true
@@ -185,7 +203,7 @@ services:
       - "16901:6901"
 
   elasticsearch:
-    image: ghcr.io/dockenv/elastic:latest
+    image: ${DOCKER_REGISTRY_COMPOSE}/elastic:latest
     hostname: elasticsearch
     container_name: elasticsearch
     restart: always
@@ -217,7 +235,7 @@ services:
         ipv4_address: ${ELASTICSEARCH_IP}
 
   kibana:
-    image: ghcr.io/dockenv/kibana:latest
+    image: ${DOCKER_REGISTRY_COMPOSE}/kibana:latest
     hostname: kibana
     container_name: kibana
     restart: always
@@ -231,7 +249,7 @@ services:
         ipv4_address: ${KIBANA_IP}
 
   logstash:
-    image: ghcr.io/dockenv/logstash:latest
+    image: ${DOCKER_REGISTRY_COMPOSE}/logstash:latest
     hostname: logstash
     container_name: logstash
     restart: always
@@ -243,7 +261,7 @@ services:
         ipv4_address: ${LOGSTASH_IP}
 
   rabbitmq:
-    image: ghcr.io/dockenv/rabbitmq:latest
+    image: ${DOCKER_REGISTRY_COMPOSE}/rabbitmq:latest
     hostname: rabbitmq
     container_name: rabbitmq
     restart: always
@@ -276,6 +294,32 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:cached
       - ./runtime/data/portainer/:/data:cached
+
+  aria2:
+    image: ${DOCKER_REGISTRY_COMPOSE}/aria2:latest
+    hostname: aria2
+    container_name: aria2
+    ports:
+      - "6800:6800"
+      - "6801:6801"
+      - "6802-6999:6802-6999"
+    volumes:
+      - $HOME/Downloads:/data/downloads:rw
+      # - /Users/imxieke/Code/Project/dockenv/images/aria2/conf:/etc/aria2c
+    environment:
+      RPC_SECRET: dockenv
+      ARIA2_PORT: 6800
+      WEBUI_PORT: 6801
+      DHT_PORT: "6802-6999"
+
+volumes:
+  redis:
+  mariadb:
+  mongo:
+  mongo-conf:
+  mysql57:
+  mysql80:
+  postgres15:
 
 networks:
   boxs:

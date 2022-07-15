@@ -1,4 +1,4 @@
-FROM ghcr.io/dockenv/alpine:edge
+FROM ghcr.io/dockenv/alpine:3.16
 LABEL MAINTAINER="Cloudflying" \
         MAIL="oss@live.hk"
 
@@ -18,6 +18,7 @@ RUN sed -i 's/dl-cdn.alpinelinux.org/repo.huaweicloud.com/g' /etc/apk/repositori
 
 # 6080 Aria2
 # 6081 Aria2 WebUI
-EXPOSE 6080 6081
+# 6802-6999 DOT Port
+EXPOSE 6080 6081 6802-6999
 
 CMD ["/usr/bin/entrypoint.sh"]

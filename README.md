@@ -7,6 +7,12 @@
 <h1 style="text-align:center" >Cloudflying Docker Images Repo</h1>
 </p>
 
+## Docker Registry Address
+### China Shanghai
+- registry.cn-shanghai.aliyuncs.com/dockenv
+## Oversea
+- ghcr.io/dockenv
+
 ## Directory or File Comments
 
 
