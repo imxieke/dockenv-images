@@ -14,7 +14,7 @@ export LC_CTYPE=en_US.UTF-8
 CUR_PATH=$(cd $(dirname "${BASH_SOURCE[0]}") && pwd)
 IMAGE_PATH=${CUR_PATH}/images
 
-source .env
+source ${CUR_PATH}/.env
 
 if [[ -z "$(command -v docker)" ]]; then
     function docker() {
@@ -287,6 +287,28 @@ do_login()
   esac
 }
 
+_run_compose()
+{
+    if [[ -f "${CUR_PATH}/docker-compose.yml" ]]; then
+        docker-compose up $@
+    fi
+}
+
+_stop_compose()
+{
+    if [[ -f "${CUR_PATH}/docker-compose.yml" ]]; then
+        docker-compose stop $@
+    fi
+}
+
+_rm_compose()
+{
+    if [[ -f "${CUR_PATH}/docker-compose.yml" ]]; then
+        docker-compose stop $@
+        docker-compose rm $@
+    fi
+}
+
 usage()
 {
 	echo "	Docker Env Build Tool
@@ -307,6 +329,27 @@ case $1 in
         ;;
     builds)
         do_builds $*
+        ;;
+    compose)
+        arg=$@
+        arg=$(echo $arg | sed "s#${1}##g")
+        arg=$(echo $arg | sed "s#${2}##g")
+        case "$2" in
+            run)
+                _run_compose $arg
+                ;;
+            stop)
+                _stop_compose $arg
+                ;;
+            rm)
+                _rm_compose $arg
+                ;;
+            *)
+                echo "Unknow Options $2"
+                exit 1
+            ;;
+        esac
+
         ;;
     run)
         do_run $*

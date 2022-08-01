@@ -9,8 +9,20 @@ ENV RUN_USER="boxs" \
 
 ENV HOME_DIR=/home/$RUN_USER
 
+COPY conf/makepkg.conf /etc/makepkg.conf
+
 RUN pacman -Syy \
-    && pacman -S --noconfirm openssh git zsh neovim net-tools base-devel wget axel curl \
+    && pacman -S --noconfirm --overwrite \* \
+        openssh git zsh neovim net-tools wget axel curl axel namcap \
+        file tree which \
+        base-devel dpkg \
+        unarchiver unzip unrar p7zip \
+        go python python2 python-pip \
+        nodejs npm \
+        nss alsa-lib libsecret \
+        asar electron electron12 electron13 electron16 electron18 \
+        gtk2 xdg-utils \
+        squashfs-tools \
     && useradd -d /home/${RUN_USER} -c "Packages Builder" -m -s /bin/zsh ${RUN_USER} \
 	&& echo "${RUN_USER}:${PASSWD}" | chpasswd \
 	&& echo "root:${PASSWD}" | chpasswd \
@@ -35,5 +47,5 @@ WORKDIR ${HOME_DIR}
 
 EXPOSE 22 80
 
-CMD [ "/bin/bash" ]
+CMD ["/bin/zsh"]
 #sudo service ssh start

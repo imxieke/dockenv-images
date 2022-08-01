@@ -1,5 +1,3 @@
-version: "3"
-
 services:
   nginx:
     image: ${DOCKER_REGISTRY_COMPOSE}/nginx:latest
@@ -202,18 +200,24 @@ services:
       - "15901:5901"
       - "16901:6901"
 
-  elasticsearch:
+  elastic:
     image: ${DOCKER_REGISTRY_COMPOSE}/elastic:latest
-    hostname: elasticsearch
-    container_name: elasticsearch
+    hostname: elastic
+    container_name: elastic
     restart: always
     environment:
-      - cluster.name=docker-elasticsearch
-      - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - ELASTIC_PASSWORD=dockenv
+      # - ENROLLMENT_TOKEN=dockenv
+      - cluster.name=dockenv
       - discovery.type=single-node
-      # - "discovery.zen.ping.unicast.hosts=elasticsearch2, elasticsearch"
-      - script.painless.regex.enabled=true
+      # 默认禁用 elasticsearch https 和登陆账号密码 仅适用于 Docker 测试环境
+      - xpack.security.enabled=false
+      - xpack.security.enrollment.enabled=false
+      - xpack.security.http.ssl.enabled=false
+      - xpack.security.transport.ssl.enabled=false
+      # - bootstrap.memory_lock=true
+      # - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      # - script.painless.regex.enabled=true
       # - node.master=false
       # - node.data=true
       - TZ=${TIMEZONE}
@@ -225,7 +229,7 @@ services:
         soft: 65536
         hard: 65536
     volumes:
-      - ./runtime/data/elasticsearch:/usr/share/elasticsearch/data
+      - elastic:/usr/share/elasticsearch/data
       # - ${ELASTICSEARCH_CONF_FILE}:/usr/share/elasticsearch/config/elasticsearch.yml
     ports:
       - "9200:9200"
@@ -241,9 +245,14 @@ services:
     restart: always
     environment:
       - SERVER_NAME=kibana
-      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+      - ELASTICSEARCH_HOSTS=["http://${ELASTICSEARCH_IP}:9200"]
+      # - ELASTICSEARCH_HOSTS=https://elastic:9200
     ports:
       - "5601:5601"
+    depends_on:
+      - elastic
+    links:
+      - elastic:elastic
     networks:
       boxs:
         ipv4_address: ${KIBANA_IP}
@@ -294,6 +303,8 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:cached
       - ./runtime/data/portainer/:/data:cached
+    networks:
+      boxs:
 
   aria2:
     image: ${DOCKER_REGISTRY_COMPOSE}/aria2:latest
@@ -311,8 +322,61 @@ services:
       ARIA2_PORT: 6800
       WEBUI_PORT: 6801
       DHT_PORT: "6802-6999"
+    networks:
+      boxs:
+
+  gitea:
+    image: ${DOCKER_REGISTRY_COMPOSE}/gitea:latest
+    hostname: gitea
+    container_name: gitea
+    restart: always
+    environment:
+      - USER_UID=1000
+      - USER_GID=1000
+      # - GITEA_CUSTOM=/etc/gitea
+    ports:
+      - "3000:3000"
+      - "3022:22"
+    depends_on:
+      - mysql80
+    links:
+      - mysql80:mysql80
+    volumes:
+      - gitea:/data
+      # - ./runtime/conf/gitea:/etc/gitea
+    networks:
+      boxs:
+
+  # default password ,default user: root
+  # grep 'Password:' /etc/gitlab/initial_root_password
+  gitlab:
+    # image: ${DOCKER_REGISTRY_COMPOSE}/gitea:latest
+    image: registry.gitlab.cn/omnibus/gitlab-jh:latest
+    hostname: gitlab
+    container_name: gitlab
+    restart: always
+    shm_size: 256mb
+    environment:
+      - GITLAB_ROOT_PASSWORD=dockenv@gitlab
+    ports:
+      - "2022:22"
+      - "2080:80"
+      - "2443:443"
+    volumes:
+      # - gitlabconf:/etc/gitlab
+      - ./runtime/conf/gitlab:/etc/gitlab
+      # - gitlablogs:/var/log/gitlab
+      - ./runtime/logs/gitlab:/var/log/gitlab
+      - gitlabdata:/var/opt/gitlab
+    networks:
+      boxs:
 
 volumes:
+  elastic:
+  gitea:
+  gitlabconf:
+  gitlablogs:
+  gitlabdata:
   redis:
   mariadb:
   mongo:

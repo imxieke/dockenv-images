@@ -3,13 +3,15 @@
 /*
  * @Author: Cloudflying
  * @Date: 2022-07-13 21:10:15
- * @LastEditTime: 2022-07-13 22:17:39
+ * @LastEditTime: 2022-07-23 19:53:45
  * @LastEditors: Cloudflying
  * @Description:
  * @FilePath: /dockenv/scripts/env.php
  */
 
 print_r(get_loaded_extensions());
+
+
 
 $host = '172.16.3.4';
 $memcache_port = 11211;

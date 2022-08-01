@@ -23,7 +23,7 @@ jobs:
         docker build . -f images/geckodriver/latest/Dockerfile -t ${{ env.REGISTRY }}/dockenv/geckodriver:latest
         docker build . -f images/chromedriver/latest/Dockerfile -t ${{ env.REGISTRY }}/dockenv/chromedriver:latest
         docker build . -f images/rsync/latest/Dockerfile -t ${{ env.REGISTRY }}/dockenv/rsync:latest
-        docker build . -f images/acme.sh/latest/Dockerfile -t ${{ env.REGISTRY }}/dockenv/acme.sh:latest
+        docker build . -f images/acme/latest/Dockerfile -t ${{ env.REGISTRY }}/dockenv/acme:latest
         docker build . -f images/beanstalkd/latest/Dockerfile -t ${{ env.REGISTRY }}/dockenv/beanstalkd:latest
         docker build . -f images/beanstalkd/1.12/Dockerfile -t ${{ env.REGISTRY }}/dockenv/beanstalkd:1.12
         docker build . -f images/haproxy/latest/Dockerfile -t ${{ env.REGISTRY }}/dockenv/haproxy:latest
@@ -42,7 +42,7 @@ jobs:
         docker push ${{ env.REGISTRY }}/dockenv/geckodriver:latest
         docker push ${{ env.REGISTRY }}/dockenv/chromedriver:latest
         docker push ${{ env.REGISTRY }}/dockenv/rsync:latest
-        docker push ${{ env.REGISTRY }}/dockenv/acme.sh:latest
+        docker push ${{ env.REGISTRY }}/dockenv/acme:latest
         docker push ${{ env.REGISTRY }}/dockenv/beanstalkd:latest
         docker push ${{ env.REGISTRY }}/dockenv/beanstalkd:1.12
         docker push ${{ env.REGISTRY }}/dockenv/haproxy:latest

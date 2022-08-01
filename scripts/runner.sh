@@ -2,7 +2,7 @@
 ###
  # @Author: Cloudflying
  # @Date: 2022-06-27 16:54:27
- # @LastEditTime: 2022-07-13 18:51:05
+ # @LastEditTime: 2022-07-16 22:33:03
  # @LastEditors: Cloudflying
  # @Description:
  # @FilePath: /dockenv/scripts/runner.sh
@@ -136,6 +136,18 @@ run_redis()
         -v ${DATA_PATH}/redis:/data \
         -v ${LOGS_PATH}/redis:/var/log/redis \
         ghcr.io/dockenv/redis:latest redis-server /etc/redis/redis.conf
+}
+
+run_jihu()
+{
+    docker run --rm \
+        --name=jihu \
+        --hostname gitlab.example.com \
+        -p 20022:22 \
+        -p 20080:80 \
+        -p 20443:443 \
+        --shm-size 256m \
+        registry.gitlab.cn/omnibus/gitlab-jh:latest
 }
 
 case "$1" in

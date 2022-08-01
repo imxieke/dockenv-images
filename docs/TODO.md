@@ -7,6 +7,7 @@ PAS_SECRET 自定义 secret 无效
 
 - 自动更新镜像
 - curl -sL https://github.com/docker-library/kibana/raw/master/6/Dockerfile | grep 'Kibana'| cut -d ' ' -f 3
+- https://www.docker.elastic.co
 
 ## Docker Compose
 - mongo
@@ -98,3 +99,8 @@ ukui-themes
 - https://github.com/sonatype/docker-nexus
 - https://github.com/sonatype/docker-nexus3
 - docker pull sonatype/nexus:oss
+- https://developer.confluent.io/quickstart/kafka-docker/
+- zookeeper
+- kafka
+- minio
+- rockylinux 9

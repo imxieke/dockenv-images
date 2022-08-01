@@ -1,9 +1,11 @@
-FROM elasticsearch:6.8.23
-
+FROM gitea/gitea:dev
 LABEL MAINTAINER="Cloudflying" \
     MAIL="oss@live.hk" \
     org.opencontainers.image.source=https://github.com/dockenv/dockenv
 
-EXPOSE 9200 9300
-ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
-CMD ["eswrapper"]
+VOLUME ["/data"]
+
+EXPOSE 22 3000
+
+ENTRYPOINT ["/usr/bin/entrypoint"]
+CMD ["/bin/s6-svscan", "/etc/s6"]
