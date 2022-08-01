@@ -1,4 +1,4 @@
-FROM ghcr.io/dockenv/ubuntu:22.04
+FROM ghcr.io/dockenv/ubuntu:20.04
 
 LABEL MAINTAINER="Cloudflying" \
   MAIL="oss@live.hk" \
@@ -6,7 +6,7 @@ LABEL MAINTAINER="Cloudflying" \
 
 RUN apt update -y \
     && apt install -y --no-install-recommends wget ca-certificates openssl \
-    && wget --no-check-certificate https://packages.microsoft.com/config/ubuntu/22.04/packages-microsoft-prod.deb -O dotnet.deb \
+    && wget --no-check-certificate https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -O dotnet.deb \
     && dpkg -i dotnet.deb \
     && rm -fr dotnet.deb \
     && apt update -y \
