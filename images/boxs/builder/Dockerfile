@@ -11,17 +11,19 @@ ENV HOME_DIR=/home/$RUN_USER
 
 COPY conf/makepkg.conf /etc/makepkg.conf
 
+# electron12 electron13 electron16 is abandoned
+# asar electron electron17 electron18 electron19
+# gtk2 xdg-utils
+# nodejs npm \
 RUN pacman -Syy \
+    && pacman -S --noconfirm --overwrite \* glibc \
     && pacman -S --noconfirm --overwrite \* \
         openssh git zsh neovim net-tools wget axel curl axel namcap \
+        base-devel dpkg cmake \
         file tree which \
-        base-devel dpkg \
         unarchiver unzip unrar p7zip \
+        meson nss alsa-lib libsecret \
         go python python2 python-pip \
-        nodejs npm \
-        nss alsa-lib libsecret \
-        asar electron electron12 electron13 electron16 electron18 \
-        gtk2 xdg-utils \
         squashfs-tools \
     && useradd -d /home/${RUN_USER} -c "Packages Builder" -m -s /bin/zsh ${RUN_USER} \
 	&& echo "${RUN_USER}:${PASSWD}" | chpasswd \
@@ -39,7 +41,6 @@ RUN pacman -Syy \
     && ln -s /bin/nvim /bin/vim \
     && ln -s /bin/nvim /bin/vi \
     && pacman -Scc --noconfirm \
-    && rm -fr /var/lib/pacman/* \
     && rm -fr /var/cache/pacman/*
 
 USER ${RUN_USER}

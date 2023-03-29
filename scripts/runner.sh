@@ -2,7 +2,7 @@
 ###
  # @Author: Cloudflying
  # @Date: 2022-06-27 16:54:27
- # @LastEditTime: 2022-07-16 22:33:03
+ # @LastEditTime: 2022-08-25 23:25:53
  # @LastEditors: Cloudflying
  # @Description:
  # @FilePath: /dockenv/scripts/runner.sh
@@ -48,6 +48,7 @@ run_boxs_archlinux()
 		ghcr.io/dockenv/boxs:xfce-arch
 }
 
+# 挂载可选 -v ~/Code:/data:/data
 run_xfce4()
 {
     docker run -d \
@@ -62,7 +63,7 @@ run_xfce4()
 		-p 25901:5901 \
 		-p 26080:6080 \
 		-p 26901:6901 \
-		ghcr.io/dockenv/boxs:xfce
+		${DOCKER_REGISTRY_COMPOSE}/boxs:xfce
 }
 
 run_cmdide()

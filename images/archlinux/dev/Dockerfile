@@ -4,8 +4,7 @@ LABEL MAINTAINER="Cloudflying" \
 
 RUN pacman -Syy \
     && pacman -S --noconfirm base-devel neovim git \
-    && rm -fr /var/cache/pacman/pkg/* \
     && pacman -Scc --noconfirm \
-    && rm -fr /var/lib/pacman/*
+    && rm -fr /var/cache/pacman/pkg/*
 
 CMD /bin/bash

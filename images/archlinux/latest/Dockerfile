@@ -1,18 +1,15 @@
-FROM archlinux/archlinux:latest
+FROM ghcr.io/dockenv/archlinux:base
 LABEL MAINTAINER="Cloudflying" \
         MAIL="<oss@live.hk>"
 
-ENV PATH="/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin" \
-  LANG='en_US.UTF-8' \
-  LANGUAGE='en_US:en' \
-  LC_TIME='en_US.UTF-8' \
-  LC_PAPER='en_US.UTF-8' \
-  LC_MEASUREMENT='en_US.UTF-8' \
-  TZ='Asia/Shanghai'
-
-RUN echo "Server = https://repo.huaweicloud.com/archlinux/\$repo/os/\$arch" > /etc/pacman.d/mirrorlist \
-    && rm -fr /etc/localtime \
-    && ln --symbolic "/usr/share/zoneinfo/${TZ}" /etc/localtime \
-    && echo "Asia/Shanghai" > /etc/timezone
+RUN ln -sf /proc/self/mounts /etc/mtab \
+    && pacman -Syy \
+    # Init keyring
+    && pacman-key --init \
+    && pacman -S --noconfirm archlinux-keyring \
+    # && pacman -Su --noconfirm \
+    && pacman -Scc --noconfirm \
+    && rm -fr /var/cache/pacman/pkg/* \
+    && rm -fr /var/lib/pacman/sync/*.db
 
 CMD /bin/bash

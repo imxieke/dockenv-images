@@ -5,10 +5,10 @@
         "Dockerfile.*": "dockerfile",
         "*.ign": "json",
         "*.fcc": "yaml",
-        ".ini*": "ini",
+        ".ini*": "ini"
     },
     "files.autoSave": "onFocusChange",
-    "editor.fontSize": 18,
+    "editor.fontSize": 16,
     "gitlens.advanced.fileHistoryFollowsRenames": true,
     "gitlens.advanced.fileHistoryShowAllBranches": true,
     "gitlens.blame.heatmap.location": "left"

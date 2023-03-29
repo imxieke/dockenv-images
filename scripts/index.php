@@ -5,8 +5,14 @@
  * 识别系统信息
  */
 
-error_reporting(0); // 抑制所有错误信息
-ini_set('display_errors','Off');
+if (isset($GET['debug']) && $GET['debug'] == 'true') {
+    error_reporting(-1); // 抑制所有错误信息
+    ini_set('display_errors','On');
+}else{
+    error_reporting(0); // 抑制所有错误信息
+    ini_set('display_errors','Off');
+}
+
 @header("content-Type: text/html; charset=utf-8"); //语言强制
 ob_start();
 date_default_timezone_set('Asia/Shanghai');//时区设置
@@ -42,7 +48,6 @@ function get_os()
  */
 function is_ext($ext,$ver = '')
 {
-    var_dump(extension_loaded('curl'));exit;
     if((phpversion($ext)) != false){
         echo "<font color=green><i class=\"fa fa-check\"></i></font> ";
         if(function_exists($ver))
@@ -1003,7 +1008,8 @@ foreach ($exts as $key=>$ext) {
     <td>VMailMgr 邮件处理</td>
     <td><?php echo isfun("vm_adduser");?></td>
     <td>Curl</td>
-    <td><?php echo is_ext("curl");?></td>
+    <td><?php //echo is_ext("curl");?></td>
+    <td><?php print_r(curl_version());?></td>
   </tr>
 
   <tr>

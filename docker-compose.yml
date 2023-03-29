@@ -4,23 +4,21 @@ services:
     container_name: nginx
     restart: always
     deploy:
-      mode: replicated
-      # replicas: 4
       resources:
         limits:
-          cpus: "0.5"
+          cpus: "1"
           memory: 512M
     ports:
-      - "80:80"
+      - "8080:80"
       - "443:443"
     volumes:
       - ./runtime/logs/nginx:/var/log/nginx
-      # - ./conf/nginx/conf.d:/etc/nginx/conf.d
+      - ./runtime/conf/nginx:/etc/nginx
+      - /Users/imxieke/Code/Project/boxs:/data
       # - ./conf/nginx/nginx.conf:/etc/nginx/nginx.conf
     links:
       # set php74 aliasor direct to use mysql57 no alias set
       - php74:php74
-      - mysql57:mysql57
     networks:
       - boxs
 
@@ -28,23 +26,78 @@ services:
     image: ${DOCKER_REGISTRY_COMPOSE}/php:74
     container_name: php74
     restart: always
-    privileged: true
     depends_on:
       - mysql57
     ports:
-      - "9000:9000"
+      - "19000:9000"
     volumes:
-      - ./runtime/logs/php74/:/var/log/php-fpm/
+      - ./runtime/logs/php74:/var/log/php-fpm
+      - /Users/imxieke/Code/Project/boxs:/data
     networks:
       - boxs
     dns:
       - 223.5.5.5
       - 8.8.8.8
 
-  hhvm:
-    image: ${DOCKER_REGISTRY_COMPOSE}/hhvm:latest
-    expose:
-      - "9000"
+  php80:
+    image: ${DOCKER_REGISTRY_COMPOSE}/php:80
+    container_name: php80
+    restart: always
+    depends_on:
+      - mysql57
+      - redis
+      - memcached
+    links:
+      - mysql57:mysql57
+      - redis:redis
+      - memcached:memcached
+    ports:
+      - "29000:9000"
+    volumes:
+      - /Users/imxieke/Code/Project/boxs:/data
+      - ./runtime/logs/php80/:/var/log/php-fpm/
+    networks:
+      - boxs
+    dns:
+      - 223.5.5.5
+      - 8.8.8.8
+
+  php81:
+    image: ${DOCKER_REGISTRY_COMPOSE}/php:81
+    container_name: php81
+    restart: always
+    depends_on:
+      - mysql57
+    ports:
+      - "39000:9000"
+    volumes:
+      - ./runtime/logs/php81/:/var/log/php-fpm/
+    networks:
+      - boxs
+    dns:
+      - 223.5.5.5
+      - 8.8.8.8
+
+  php82:
+    image: ${DOCKER_REGISTRY_COMPOSE}/php:82
+    container_name: php82
+    restart: always
+    depends_on:
+      - mysql57
+    ports:
+      - "49000:9000"
+    volumes:
+      - ./runtime/logs/php82/:/var/log/php-fpm/
+    networks:
+      - boxs
+    dns:
+      - 223.5.5.5
+      - 8.8.8.8
+
+  # hhvm:
+    # image: ${DOCKER_REGISTRY_COMPOSE}/hhvm:latest
+    # expose:
+      # - "9000"
 
   mysql57:
     image: ${DOCKER_REGISTRY_COMPOSE}/mysql:5.7
@@ -68,8 +121,7 @@ services:
     command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     #only for container without host
     networks:
-      boxs:
-        ipv4_address: ${MYSQL57_IP}
+      - boxs
 
   postgres15:
     image: ${DOCKER_REGISTRY_COMPOSE}/postgres:15
@@ -164,7 +216,7 @@ services:
     restart: always
     volumes:
       - mongo:/data/db
-      - mongo-conf:/data/configdb
+      - ./runtime/conf/mongo:/data/configdb
       - ./runtime/logs/mongo:/var/log/mongo
     environment:
       TZ: ${TIMEZONE}
@@ -173,32 +225,6 @@ services:
     # command: mongod --config /etc/mongod.conf
     networks:
       - boxs
-
-  boxs:
-    image: ${DOCKER_REGISTRY_COMPOSE}/boxs:latest
-    hostname: boxs
-    container_name: boxs
-    volumes:
-      - ~/Code:/data
-    ports:
-      - "10022:22"
-      - "10080:80"
-      - "10443:443"
-      - "15901:5901"
-      - "16080:6080"
-      - "16901:6901"
-
-  xfce4:
-    image: ${DOCKER_REGISTRY_COMPOSE}/boxs:xfce
-    hostname: xfce4
-    container_name: xfce4
-    privileged: true
-    volumes:
-      - ~/Code:/data
-    ports:
-      - "10022:22"
-      - "15901:5901"
-      - "16901:6901"
 
   elastic:
     image: ${DOCKER_REGISTRY_COMPOSE}/elastic:latest
@@ -293,97 +319,94 @@ services:
       boxs:
         ipv4_address: ${RBMQ_IP}
 
-  portainer:
-    image: ${DOCKER_REGISTRY_COMPOSE}/portainer:latest
-    hostname: portainer
-    container_name: portainer
-    restart: always
-    ports:
-      - "9000:9000"
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:cached
-      - ./runtime/data/portainer/:/data:cached
-    networks:
-      boxs:
+  # portainer:
+  #   image: ${DOCKER_REGISTRY_COMPOSE}/portainer:latest
+  #   hostname: portainer
+  #   container_name: portainer
+  #   restart: always
+  #   ports:
+  #     - "9000:9000"
+  #   volumes:
+  #     - /var/run/docker.sock:/var/run/docker.sock:cached
+  #     - ./runtime/data/portainer/:/data:cached
+  #   networks:
+  #     boxs:
 
-  aria2:
-    image: ${DOCKER_REGISTRY_COMPOSE}/aria2:latest
-    hostname: aria2
-    container_name: aria2
-    ports:
-      - "6800:6800"
-      - "6801:6801"
-      - "6802-6999:6802-6999"
-    volumes:
-      - $HOME/Downloads:/data/downloads:rw
-      # - /Users/imxieke/Code/Project/dockenv/images/aria2/conf:/etc/aria2c
-    environment:
-      RPC_SECRET: dockenv
-      ARIA2_PORT: 6800
-      WEBUI_PORT: 6801
-      DHT_PORT: "6802-6999"
-    networks:
-      boxs:
+  # aria2:
+  #   image: ${DOCKER_REGISTRY_COMPOSE}/aria2:latest
+  #   hostname: aria2
+  #   container_name: aria2
+  #   ports:
+  #     - "6800:6800"
+  #     - "6801:6801"
+  #     - "6802-6999:6802-6999"
+  #   volumes:
+  #     - $HOME/Downloads:/data/downloads:rw
+  #     # - /Users/imxieke/Code/Project/dockenv/images/aria2/conf:/etc/aria2c
+  #   environment:
+  #     RPC_SECRET: dockenv
+  #     ARIA2_PORT: 6800
+  #     WEBUI_PORT: 6801
+  #     DHT_PORT: "6802-6999"
+  #   networks:
+  #     boxs:
 
-  gitea:
-    image: ${DOCKER_REGISTRY_COMPOSE}/gitea:latest
-    hostname: gitea
-    container_name: gitea
-    restart: always
-    environment:
-      - USER_UID=1000
-      - USER_GID=1000
-      # - GITEA_CUSTOM=/etc/gitea
-    ports:
-      - "3000:3000"
-      - "3022:22"
-    depends_on:
-      - mysql80
-    links:
-      - mysql80:mysql80
-    volumes:
-      - gitea:/data
-      # - ./runtime/conf/gitea:/etc/gitea
-    networks:
-      boxs:
+  # gitea:
+  #   image: ${DOCKER_REGISTRY_COMPOSE}/gitea:latest
+  #   hostname: gitea
+  #   container_name: gitea
+  #   restart: always
+  #   environment:
+  #     - USER_UID=1000
+  #     - USER_GID=1000
+  #     # - GITEA_CUSTOM=/etc/gitea
+  #   ports:
+  #     - "3000:3000"
+  #     - "3022:22"
+  #   depends_on:
+  #     - mysql80
+  #   links:
+  #     - mysql80:mysql80
+  #   volumes:
+  #     - gitea:/data
+  #     # - ./runtime/conf/gitea:/etc/gitea
+  #   networks:
+  #     boxs:
 
   # default password ,default user: root
   # grep 'Password:' /etc/gitlab/initial_root_password
-  gitlab:
-    # image: ${DOCKER_REGISTRY_COMPOSE}/gitea:latest
-    image: registry.gitlab.cn/omnibus/gitlab-jh:latest
-    hostname: gitlab
-    container_name: gitlab
-    restart: always
-    shm_size: 256mb
-    environment:
-      - GITLAB_ROOT_PASSWORD=dockenv@gitlab
-    ports:
-      - "2022:22"
-      - "2080:80"
-      - "2443:443"
-    volumes:
-      # - gitlabconf:/etc/gitlab
-      - ./runtime/conf/gitlab:/etc/gitlab
-      # - gitlablogs:/var/log/gitlab
-      - ./runtime/logs/gitlab:/var/log/gitlab
-      - gitlabdata:/var/opt/gitlab
-    networks:
-      boxs:
+  # gitlab:
+  #   # image: ${DOCKER_REGISTRY_COMPOSE}/gitea:latest
+  #   image: registry.gitlab.cn/omnibus/gitlab-jh:latest
+  #   hostname: gitlab
+  #   container_name: gitlab
+  #   restart: always
+  #   shm_size: 256mb
+  #   environment:
+  #     - GITLAB_ROOT_PASSWORD=dockenv@gitlab
+  #   ports:
+  #     - "2022:22"
+  #     - "2080:80"
+  #     - "2443:443"
+  #   volumes:
+  #     # - gitlabconf:/etc/gitlab
+  #     - ./runtime/conf/gitlab:/etc/gitlab
+  #     # - gitlablogs:/var/log/gitlab
+  #     - ./runtime/logs/gitlab:/var/log/gitlab
+  #     - gitlabdata:/var/opt/gitlab
+  #   networks:
+  #     boxs:
 
 volumes:
-  elastic:
-  gitea:
-  gitlabconf:
-  gitlablogs:
-  gitlabdata:
   redis:
-  mariadb:
   mongo:
+  mariadb:
   mongo-conf:
   mysql57:
   mysql80:
   postgres15:
+  elastic:
+  # gitea:
 
 networks:
   boxs:

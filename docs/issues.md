@@ -1,7 +1,13 @@
 ## add user to docker group
 
-- add user to `docker` group
+### add user to `docker` group
+
 `sudo usermod -aG ${USER} docker`
+
+## docker compose 修改后不生效
+> 重新创建容器即可
+
+`docker-compose up -d servie`
 
 ## Linux Config Docker Mirrors
 ```bash

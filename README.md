@@ -6,7 +6,7 @@
 <!-- <a href="https://github.com/imxieke/dockenv"><img src="https://img.shields.io/github/license/imxieke/dockenv" alt="License"></a> -->
 <h1 style="text-align:center" >Cloudflying Docker Images Repo</h1>
 </p>
-
+remove /var/lib/pacman folder will be loss package info
 ## Docker Registry Address
 ### China Shanghai
 - registry.cn-shanghai.aliyuncs.com/dockenv
