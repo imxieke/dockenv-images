@@ -8,9 +8,8 @@ on:
     - cron: '0 2 * * *'
 
 env:
-  REGISTRY: ghcr.io
   IMAGE_NAME: alpine
-  IMAGE_TAGS: "latest edge 3.16 3.15 3.14 3.13 3.12"
+  IMAGE_TAGS: "latest edge 3.17 3.16 3.15 3.14 3.13 3.12"
 
 jobs:
   build:
@@ -22,15 +21,15 @@ jobs:
     - name: Build the Docker Image
       run: |
         for tag in ${IMAGE_TAGS}; do
-          docker build . -f images/${{ env.IMAGE_NAME }}/${tag}/Dockerfile -t ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:${tag}
+          docker build . -f images/${{ env.IMAGE_NAME }}/${tag}/Dockerfile -t ${{ env.DOCKER_REGISTRY_GITHUB }}/dockenv/${{ env.IMAGE_NAME }}:${tag}
         done
 
-    - name: Login Github Package Registry
+    - name: Login to Github Package Registry
       run: |
-        docker login -u ${{secrets.USERNAME}} -p "${{ secrets.APIKEY }}" ${{ env.REGISTRY }}
+        docker login -u ${{secrets.USERNAME}} -p "${{ secrets.APIKEY }}" ${{ env.DOCKER_REGISTRY_GITHUB }}
 
     - name: Push Docker Image To Github Package
       run: |
         for tag in ${IMAGE_TAGS}; do
-          docker push ${{ env.REGISTRY }}/dockenv/${{ env.IMAGE_NAME }}:${tag}
+          docker push ${{ env.DOCKER_REGISTRY_GITHUB }}/dockenv/${{ env.IMAGE_NAME }}:${tag}
         done
